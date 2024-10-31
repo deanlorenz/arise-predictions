@@ -1,0 +1,29 @@
+estimators:
+  - name: LinearRegression
+    class_name: sklearn.linear_model.LinearRegression
+    linear: true
+    parameters:
+      estimator__fit_intercept: [False] # TODO for now need to have at least one candidate for parameter search
+  - name: RidgeRegression
+    class_name: sklearn.linear_model.Ridge
+    linear: true
+    parameters:
+      estimator__alpha: [0.001, 0.003, 0.1, 1.0, 10.0, 100.0, 1000.0]
+      estimator__max_iter: [100, 1000, 15000, 20000, 25000]
+      estimator__fit_intercept: [True, False]
+  - name: ElasticNet-Regression
+    class_name: sklearn.linear_model.ElasticNet
+    linear: true
+    parameters:
+      estimator__alpha: [1.0]
+      estimator__l1_ratio: [0.3]
+      estimator__max_iter: [1000]
+      estimator__selection: ['random']
+  - name: XGBoost-Regressor
+    class_name: xgboost.XGBRegressor
+    linear: false
+    parameters:
+      estimator__max_depth: [3]
+      estimator__eta: [0.01]
+      estimator__subsample: [0.5]
+      estimator__gamma: [0.1]

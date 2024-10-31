@@ -1,0 +1,11 @@
+estimators:
+  - name: CatBoost-Regressor
+    class_name: catboost.CatBoostRegressor
+    linear: false
+    parameters:
+#      estimator__iterations: [ 1000, 2000 ]
+      estimator__learning_rate: [ 1e-3, 0.1 ]
+      estimator__depth: [ 6, 8, 10 ]
+#      estimator__subsample: [ 0.05, 0.5, 1.0 ]
+      estimator__colsample_bylevel: [ 0.05, 0.5, 1.0 ]
+      estimator__min_data_in_leaf: [ 1, 50, 100 ]

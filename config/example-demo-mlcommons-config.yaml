@@ -1,0 +1,37 @@
+                     # Demo 2 Scenario 1 on Inference Latency Data
+# Given a fixed configuration and variable configuration, predict throughput and
+# latency for each combination. Use this to find optimal trade-offs.
+
+# Assisted by WCA@IBM
+# Latest GenAI contribution: ibm/granite-20b-code-instruct-v2
+
+estimators:
+  - target_variable: "tokens_per_second"
+    estimator_file: estimator-nonlinear-XGBoost-Regressor-tokens_per_second.pkl
+    greater_is_better: True
+
+# fixed configuration
+fixed_values:
+  - Accelerator: "NVIDIA H100-NVL-94GB"
+  - System Name: "ASUSTeK ESC4000A-E12 (4xH100-NVL-94GB)"
+  - Processor: "AMD EPYC 9654 96-Core Processor"
+  - "Model MLC": "gptj-99"
+  - Availability: "available"
+  - Organization: "ASUSTeK"
+  - "# of Nodes": 1
+
+# variable configuration
+variable_values:
+  - "# of Accelerators":
+    - 1
+    - 4
+    - 8
+  - "Host Processor Core Count":
+    - 32
+    - 48
+    - 64
+    - 96
+    - 120
+  - Scenario:
+    - Offline
+    - Server

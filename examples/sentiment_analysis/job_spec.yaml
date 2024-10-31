@@ -1,0 +1,14 @@
+job-metadata-inputs:
+  task_name: 0
+  input_size_bytes.max: 0
+ 
+job-metadata-outputs:
+  - duration
+  - output_size_bytes.max
+  - memory_usage_bytes.avg
+  - memory_usage_bytes.max
+ 
+start-time-field-name: iso_start_time
+end-time-field-name: iso_end_time
+
+job-parser-class-name: SAJsonJobParser
