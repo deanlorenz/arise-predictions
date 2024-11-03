@@ -41,6 +41,15 @@ class PredictUI:
                                                   "type": "multiselect"}
                 continue
 
+            # TODO: remove debug for slider
+            if input_field == "Processor":
+                self.input_fields[input_field] = {"name": input_field,
+                                                  "placeholder": input_field,
+                                                  "min_value": 5,
+                                                  "max_value": 145,
+                                                  "type": "slider"}
+                continue
+
             self.input_fields[input_field] = {"name": input_field,
                                               "placeholder": input_field,
                                               "type": "text_input"}
@@ -104,6 +113,9 @@ class PredictUI:
         elif element["type"] == "multiselect":
             st.multiselect(element["name"], key=element["name"], options=element["options"],
                            placeholder=element["placeholder"])
+        elif element["type"] == "slider":
+            st.slider(element["name"], key=element["name"],
+                      min_value=element["min_value"], max_value=element["max_value"])
         elif element["type"] == "toggle":
             st.toggle(element["name"], key=element["name"], value=element["value"])
         else:
