@@ -2,8 +2,12 @@ import argparse
 import os
 import yaml
 
+config = {"not_initialized": True}
+
 
 def load_config():
+    global config
+
     # Load from YAML file (the lowest priority)
     config = {}
     yaml_file_path = "config.yaml"
