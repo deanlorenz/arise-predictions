@@ -6,6 +6,7 @@ import pandas as pd
 import streamlit as st
 
 from tools.actuator import execute_command
+from tools.generate_files import generate_prediction_config_file
 
 logger = logging.getLogger(__name__)
 
@@ -13,20 +14,39 @@ logger = logging.getLogger(__name__)
 # class that represents the UI and the variables associated with the ui
 class PredictUI:
     def __init__(self):
+        self.config_output_fields = None
+        self.config_input_fields = None
         self.test = None
         self.title = "ARISE predictions"
         self.output_fields = None
         self.input_fields = None
 
     def set_input_fields(self, input_fields):
+        self.config_input_fields = input_fields
         self.input_fields = {}
         for input_field in input_fields:
+            # TODO: remove debug for multiselect
+            if input_field == "Availability":
+                self.input_fields[input_field] = {"name": input_field,
+                                                  "placeholder": input_field,
+                                                  "options": ["debug_Availability1", "debug_Availability2"],
+                                                  "type": "multiselect"}
+                continue
+
+            # TODO: remove debug for multiselect
+            if input_field == "System Name":
+                self.input_fields[input_field] = {"name": input_field,
+                                                  "placeholder": input_field,
+                                                  "options": ["debug_Name1", "debug_Name2"],
+                                                  "type": "multiselect"}
+                continue
+
             self.input_fields[input_field] = {"name": input_field,
                                               "placeholder": input_field,
                                               "type": "text_input"}
 
     def set_output_fields(self, output_fields):
-
+        self.config_output_fields = output_fields
         self.output_fields = {}
         for output_field in output_fields:
             self.output_fields[output_field] = {"name": output_field,
@@ -81,6 +101,9 @@ class PredictUI:
     def add_form_element(self, element):
         if element["type"] == "text_input":
             st.text_input(element["name"], key=element["name"], placeholder=element["placeholder"])
+        elif element["type"] == "multiselect":
+            st.multiselect(element["name"], key=element["name"], options=element["options"],
+                           placeholder=element["placeholder"])
         elif element["type"] == "toggle":
             st.toggle(element["name"], key=element["name"], value=element["value"])
         else:
@@ -110,6 +133,34 @@ class PredictUI:
                 st.toggle("compare with ground truth", key="compare_with_ground_truth", value=False,
                           help="Compare the results with the ground truth")
 
+    def get_prediction_configuration(self, config_input_fields, config_output_fields):
+        # generate the prediction config file
+        fixed_input_values = []
+        variable_input_values = {}
+        output_values = []
+
+        logger.debug(f"generate_prediction_config_file")
+        for config_input_field in config_input_fields:
+            if (st.session_state[config_input_field] and
+                    st.session_state[config_input_field] != "None"):
+                if isinstance(st.session_state[config_input_field], list):
+                    variable_input_values[config_input_field] = st.session_state[config_input_field]
+                else:
+                    fixed_input_values.append(config_input_field)
+
+        for config_output_field in config_output_fields:
+            if (st.session_state[config_output_field] and
+                    st.session_state[config_output_field] is True):
+                output_values.append(config_output_field)
+
+        logger.info("prediction config file")
+
+        logger.info(f"fixed_input_values: {fixed_input_values}")
+        logger.info(f"variable_input_values: {variable_input_values}")
+        logger.info(f"output_values: {output_values}")
+
+        return fixed_input_values, variable_input_values, output_values
+
     def on_predict(self):
         from config import config
 
@@ -120,6 +171,13 @@ class PredictUI:
             command_template = Template(config["actuation_templates"]["predict"])
         logger.debug(f"command_template: {command_template}")
 
+        # build the prediction configuration file based on customer inputs and outputs:
+        fixed_input_values, variable_input_values, output_values = (
+            self.get_prediction_configuration(self.config_input_fields, self.config_output_fields))
+        generate_prediction_config_file(fixed_input_values,
+                                        variable_input_values,
+                                        output_values)
+
         # Substitute values
         command = command_template.substitute(
             title=self.title,
@@ -127,12 +185,12 @@ class PredictUI:
             input_path=config["job"]["input_path"],
             python=config["job"]["python"],
             executable=config["job"]["executable"],
-            model_path=config["job"]["model_path"]
-            )
+            model_path=config["job"]["model_path"],
+            prediction_config_file=config["job"]["prediction"]["config_file"]
+        )
 
         result = execute_command(command)
         logger.debug(f"on_predict result: {result}")
-
 
         st.session_state['prediction_results'] = f"""
 ### Execution of `prediction` is completed!  
@@ -150,6 +208,3 @@ The results are:
         if os.path.exists("../examples/MLCommons/ARISE-predictions/predictions-with-ground-truth.csv"):
             csv = pd.read_csv("../examples/MLCommons/ARISE-predictions/predictions-with-ground-truth.csv")
             st.session_state['predictions-with-ground-truth.csv'] = csv
-
-
-

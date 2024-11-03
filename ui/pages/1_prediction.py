@@ -11,3 +11,4 @@ gui.set_output_fields(job_spec.job_metadata_outputs)
 
 # Show the UI
 gui.show()
+

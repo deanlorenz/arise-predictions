@@ -5,6 +5,10 @@ job:
   python: "python"
   executable: "../src/main.py"
   model_path: "../examples/MLCommons/ARISE-auto-models"
+  prediction:
+    config_file: "../config/generated-prediction-config-file.yaml"
+    estimator_file: "estimator-nonlinear-XGBoost-Regressor-tokens_per_second.pkl"
+    greater_is_better: True
 actuation_templates:
   analyze-jobs: >
     pip install -q -r ../requirements.txt;
@@ -18,9 +22,9 @@ actuation_templates:
     pip install -q -r ../requirements.txt;
     $python $executable predict --input-path $input_path 
     --model-path $model_path 
-    --config-file ../config/example-demo-mlcommons-config.yaml
+    --config-file $prediction_config_file
   demo-predict: >
     pip install -q -r ../requirements.txt;
     $python $executable demo-predict --input-path $input_path 
     --model-path $model_path 
-    --config-file ../config/example-demo-mlcommons-config.yaml
+    --config-file $prediction_config_file
