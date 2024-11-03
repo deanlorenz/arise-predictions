@@ -1,11 +1,7 @@
-import json
 import logging
-from string import Template
 
 import streamlit as st
 
-from config import config
-from tools.actuator import execute_command
 from config import config
 
 logger = logging.getLogger(__name__)

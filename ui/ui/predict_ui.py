@@ -1,4 +1,5 @@
 import logging
+import os
 from string import Template
 
 import pandas as pd
@@ -39,7 +40,7 @@ class PredictUI:
         self.show_sidebar()
 
     def set_page_layout(self):
-        st.set_page_config(page_icon="⌛️", layout="wide")
+        st.set_page_config(page_icon="⌛️", layout="wide", page_title="ARISE Prediction")
 
     def show_page_content(self):
         st.markdown("""
@@ -59,18 +60,23 @@ class PredictUI:
                     4. The results will be shown in the main page
 
                     > Note: Make sure to train the models before performing prediction, more info can be found on the   
-                    on the training page.  
+                    on the training page.
                     > Note: Be patient. The operations might take some time.    
                     """)
 
-        if 'prediction_csv' not in st.session_state:
-            st.session_state['prediction_csv'] = None
-        st.write(st.session_state.prediction_csv)
+        if 'all-predictions.csv' in st.session_state:
+            st.markdown("## Prediction result")
+            st.write(st.session_state['all-predictions.csv'])
 
-        if 'prediction_results' not in st.session_state:
-            st.session_state['prediction_results'] = ""
-        st.markdown(st.session_state.prediction_results)
+        if 'predictions-with-ground-truth.csv' in st.session_state:
+            st.markdown("## Ground-truth result")
+            st.write(st.session_state['predictions-with-ground-truth.csv'])
 
+        if 'prediction_results' in st.session_state:
+            st.divider
+            st.markdown("## Prediction command output")
+            st.divider
+            st.markdown(st.session_state.prediction_results)
 
     def add_form_element(self, element):
         if element["type"] == "text_input":
@@ -97,30 +103,53 @@ class PredictUI:
                 for output_field_value in self.output_fields.values():
                     self.add_form_element(output_field_value)
 
+                st.divider()
+
                 st.form_submit_button("Predict", on_click=self.on_predict)
+
+                st.toggle("compare with ground truth", key="compare_with_ground_truth", value=False,
+                          help="Compare the results with the ground truth")
 
     def on_predict(self):
         from config import config
 
         logger.debug(f"on_predict")
-        command_template = Template(config["actuation_templates"]["predict"])
+        if st.session_state['compare_with_ground_truth']:
+            command_template = Template(config["actuation_templates"]["demo-predict"])
+        else:
+            command_template = Template(config["actuation_templates"]["predict"])
         logger.debug(f"command_template: {command_template}")
 
         # Substitute values
-        command = command_template.substitute(title=self.title)
+        command = command_template.substitute(
+            title=self.title,
+            job_spec_file=config["job"]["job_spec_file"],
+            input_path=config["job"]["input_path"],
+            python=config["job"]["python"],
+            executable=config["job"]["executable"],
+            model_path=config["job"]["model_path"]
+            )
 
         result = execute_command(command)
         logger.debug(f"on_predict result: {result}")
 
 
         st.session_state['prediction_results'] = f"""
-            ## Execution of `prediction` is completed!  
+### Execution of `prediction` is completed!  
+The results are:
+```{result}
+```
+"""
 
-            The results are:
-            
-            {result}
-            """
+        # get the prediction file if exists
+        if os.path.exists("../examples/MLCommons/ARISE-predictions/all-predictions.csv"):
+            csv = pd.read_csv("../examples/MLCommons/ARISE-predictions/all-predictions.csv")
+            st.session_state['all-predictions.csv'] = csv
 
-        csv_result = pd.read_csv("../examples/MLCommons/ARISE-predictions/all-predictions.csv")
-        st.session_state['prediction_csv'] = csv_result
+        # get the ground-truth file if exists
+        if os.path.exists("../examples/MLCommons/ARISE-predictions/predictions-with-ground-truth.csv"):
+            csv = pd.read_csv("../examples/MLCommons/ARISE-predictions/predictions-with-ground-truth.csv")
+            st.session_state['predictions-with-ground-truth.csv'] = csv
+
+
 

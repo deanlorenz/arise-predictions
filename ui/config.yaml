@@ -1,18 +1,26 @@
 loglevel: DEBUG
 job:
   job_spec_file: "../examples/MLCommons/job_spec.yaml"
+  input_path: "../examples/MLCommons"
+  python: "python"
+  executable: "../src/main.py"
+  model_path: "../examples/MLCommons/ARISE-auto-models"
 actuation_templates:
   analyze-jobs: >
     pip install -q -r ../requirements.txt;
-    python ../src/main.py analyze-jobs --input-path ../examples/MLCommons 
+    $python $executable analyze-jobs --input-path $input_path 
     --job-spec-file-name job_spec.yaml
   auto-build-models: > 
     pip install -q -r ../requirements.txt;
-    python ../src/main.py auto-build-models --input-path ../examples/MLCommons 
+    $python $executable auto-build-models --input-path $input_path 
     --config-file ../config/small-auto-model-search-config.yaml
   predict: >
     pip install -q -r ../requirements.txt;
-    python ../src/main.py predict --input-path ../examples/MLCommons 
-    --model-path ../examples/MLCommons/ARISE-auto-models 
+    $python $executable predict --input-path $input_path 
+    --model-path $model_path 
     --config-file ../config/example-demo-mlcommons-config.yaml
-
+  demo-predict: >
+    pip install -q -r ../requirements.txt;
+    $python $executable demo-predict --input-path $input_path 
+    --model-path $model_path 
+    --config-file ../config/example-demo-mlcommons-config.yaml

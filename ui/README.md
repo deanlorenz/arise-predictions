@@ -12,5 +12,5 @@ Clone the repo and then run with:
 ```
 cd ui
 pip install -r requirements.txt
-streamlit run streamlit_app.py
+streamlit run main.py
 ```

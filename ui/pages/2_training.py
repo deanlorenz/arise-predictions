@@ -1,5 +1,3 @@
-import streamlit as st
-
 from ui.training_ui import TrainingUI
 
 # Show the UI

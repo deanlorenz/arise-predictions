@@ -1,5 +1,3 @@
-import streamlit as st
-
 from ui.config_ui import ConfigUI
 
 # Show the UI

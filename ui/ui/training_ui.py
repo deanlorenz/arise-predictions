@@ -39,10 +39,11 @@ class TrainingUI:
         st.button("analyze-jobs", on_click=self.on_analyze_jobs_clicked)
         st.button("auto-build-models", on_click=self.on_auto_build_models_clicked)
 
-        if 'execution_results' not in st.session_state:
-            st.session_state['execution_results'] = ""
-
-        st.markdown(st.session_state.execution_results)
+        if 'execution_results' in st.session_state:
+            st.divider
+            st.markdown("### Command output")
+            st.divider
+            st.markdown(st.session_state.execution_results)
 
     def on_analyze_jobs_clicked(self):
         logger.debug(f"on_analyze_jobs_clicked")
@@ -50,20 +51,25 @@ class TrainingUI:
         logger.debug(f"command_template: {command_template}")
 
         # Substitute values
-        command = command_template.substitute(title=self.title)
+        command = command_template.substitute(
+            title=self.title,
+            job_spec_file=config["job"]["job_spec_file"],
+            input_path=config["job"]["input_path"],
+            python=config["job"]["python"],
+            executable=config["job"]["executable"],
+            model_path=config["job"]["model_path"]
+            )
 
         # Execute the command
         result = execute_command(command)
         logger.debug(f"on_analyze_jobs_clicked result: {result}")
 
         st.session_state['execution_results'] = f"""
-            ## Execution of `analyze-jobs` is completed!  
-              
-            The results are:  
-            
-            {result}
-            
-            """
+### Execution of `analyze-jobs` is completed!  
+The results are:
+```{result}
+```
+"""
 
     def on_auto_build_models_clicked(self):
         logger.debug(f"on_auto_build_models_clicked")
@@ -71,18 +77,23 @@ class TrainingUI:
         logger.debug(f"command_template: {command_template}")
 
         # Substitute values
-        command = command_template.substitute(title=self.title)
+        command = command_template.substitute(
+            title=self.title,
+            job_spec_file=config["job"]["job_spec_file"],
+            input_path=config["job"]["input_path"],
+            python=config["job"]["python"],
+            executable=config["job"]["executable"],
+            model_path=config["job"]["model_path"]
+            )
 
         result = execute_command(command)
         logger.debug(f"on_auto_build_models_clicked result: {result}")
 
         st.session_state['execution_results'] = f"""
-            ## Execution of `auto_build_models` is completed!  
-
-            The results are:  
-
-            {result}
-
-            """
+### Execution of `auto_build_models` is completed!  
+The results are:
+```{result}
+```
+"""
 
 
