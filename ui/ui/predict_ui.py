@@ -41,13 +41,13 @@ class PredictUI:
                                                   "type": "multiselect"}
                 continue
 
-            # TODO: remove debug for slider
+            # TODO: remove debug for select_slider
             if input_field == "Processor":
                 self.input_fields[input_field] = {"name": input_field,
                                                   "placeholder": input_field,
                                                   "min_value": 5,
                                                   "max_value": 145,
-                                                  "type": "slider"}
+                                                  "type": "select_slider"}
                 continue
 
             self.input_fields[input_field] = {"name": input_field,
@@ -116,6 +116,10 @@ class PredictUI:
         elif element["type"] == "slider":
             st.slider(element["name"], key=element["name"],
                       min_value=element["min_value"], max_value=element["max_value"])
+        elif element["type"] == "select_slider":
+            st.select_slider(element["name"], key=element["name"],
+                             options=list(range(element["min_value"], element["max_value"]+1)),
+                             value=(element["min_value"], element["max_value"]))
         elif element["type"] == "toggle":
             st.toggle(element["name"], key=element["name"], value=element["value"])
         else:
@@ -156,9 +160,15 @@ class PredictUI:
             if (st.session_state[config_input_field] and
                     st.session_state[config_input_field] != "None"):
                 if isinstance(st.session_state[config_input_field], list):
-                    variable_input_values[config_input_field] = st.session_state[config_input_field]
+                    variable_input_values[config_input_field] = \
+                        st.session_state[config_input_field]
+                elif isinstance(st.session_state[config_input_field], tuple):
+                    variable_input_values[config_input_field] = \
+                        [i for i in range(*st.session_state[config_input_field])]
                 else:
-                    fixed_input_values.append(config_input_field)
+                    fixed_input_values.append(
+                        {config_input_field: st.session_state[config_input_field]}
+                    )
 
         for config_output_field in config_output_fields:
             if (st.session_state[config_output_field] and
