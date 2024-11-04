@@ -28,7 +28,7 @@ if __name__ == "__main__":
     logger.debug(f"Config: {config}")
     st.markdown(f"""
 
-# :laughing: Welcome to ARISE :laughing:
+# :sparkles: Welcome to ARISE :sparkles:
 ## AI Right Sizing Engine
 
 ---

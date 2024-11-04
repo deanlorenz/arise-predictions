@@ -11,7 +11,7 @@ the outputs in convenient and friendly fashion.
 Clone the repo and then run with:
 ```
 cd ui
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 streamlit run main.py
 ```
 
