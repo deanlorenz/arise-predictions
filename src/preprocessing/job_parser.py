@@ -2,12 +2,14 @@
 import yaml
 import os
 import pandas as pd
+import numpy as np
 
 from main import logger
 from utils.constants import *
 from utils import utils
 from preprocessing import custom_job_parser
 import logging
+from typing import List
 
 logger = logging.getLogger(__name__)
 
@@ -197,6 +199,8 @@ def collect_jobs_history(data_dir, output_path, job_inputs, job_outputs, start_t
                 df = df.drop(key, axis=1)
         logger.info("Found {:d} executions in history".format(len(df)))
 
+    collect_and_persist_data_metadata(df, job_inputs, job_outputs, output_path)
+
     if feature_engineering is not None:
         df = utils.add_feature_engineering(metadata_path, df, feature_engineering, metadata_parser_class_name)
 
@@ -206,3 +210,30 @@ def collect_jobs_history(data_dir, output_path, job_inputs, job_outputs, start_t
     return df, output_file
 
 
+def collect_and_persist_data_metadata(df: pd.DataFrame, inputs: List[str], outputs: List[str], output_path: str):
+
+    data_metadata = dict()
+
+    data_metadata['inputs'] = inputs
+    data_metadata['outputs'] = outputs
+
+    categorical_features = utils.get_categorical_features(df)
+
+    for job_input in inputs:
+
+        input_metadata = dict()
+        input_metadata['type'] = 'categorical' if job_input in categorical_features else 'numeric'
+        if input_metadata['type'] == 'categorical':
+            input_metadata['values'] = df[job_input].unique().tolist()
+        else:
+            input_min = df[job_input].min()
+            input_max = df[job_input].max()
+            input_metadata['min'] = float(input_min) if isinstance(input_min, np.floating) else int(input_min)
+            input_metadata['max'] = float(input_max) if isinstance(input_max, np.floating) else int(input_max)
+
+        data_metadata[job_input] = input_metadata
+
+    output_file = os.path.join(output_path, JOB_METADATA_FILE_NAME + ".yaml")
+
+    with open(output_file, 'w') as out:
+        yaml.dump(data_metadata, out)
