@@ -1,11 +1,21 @@
 # arise-insights: AI Right Sizing Engine
 
+
+1. [Overview](#overview)
+2. [Installing and running the CLI](#installing-and-running-the-cli)
+3. [ARISE in action on sample data](#arise-in-action-on-sample-data)
+4. [More on data requirements](#historical-data)
+5. [Known tool issues](#known-tool-issues)
+
+
+## Overview
+
 AI Right Sizing Engine (ARISE) is a tool for predicting required resources and execution time of an AI workload, based 
 on historical executions or performance benchmarks of similar workloads (a workload dataset). ARISE is intended to 
 support configuration decision-making for platform engineers or data scientists operating with AI stacks. 
 
 ARISE parses and preprocesses the given workloads dataset into a standard format, provides descriptive statistics, 
-trains predictive models, and performs predictions based on the models. See [Instructions for running the CLI](#running-the-cli-on-sample-data) for 
+trains predictive models, and performs predictions based on the models. See [Instructions for running the CLI](#installing-and-running-the-cli) for 
 details on the commands to invoke the above operations. To use these commands, in addition to the workload dataset, you 
 need to provide in your input path a `job_spec.yaml` file indicating the metadata inputs and outputs of your data.
 See [this example](examples/MLCommons/job_spec.yaml) of a job spec.
@@ -182,7 +192,11 @@ level as in the following example:
 python src/main.py --loglevel info analyze-jobs
 ```
 
-## Historical data
+## ARISE in Action on Sample Data
+
+To see ARISE in action on a sample dataset, go [here](doc/example.md).
+
+## Historical Data
 
 The data consists of historical workload executions and/or performance benchmarks. Examples of potential properties of 
 workloads that can be considered:
@@ -197,12 +211,22 @@ workloads that can be considered:
 8. Consumed resources: number of workers, CPU, GPU, and memory per worker
 9. Job status (success, fail/abort, etc.)
 
-The data is divided into 'job-metadata-inputs': the properties of the workload that are known before it starts running 
-(e.g., items 1-5 above), and 'job-metadata-outputs': properties of the workload execution and output that are known only 
-once the workload completes (e.g., items 6-9 above). Our goal is to use AI to learn from historical executions the 
-functions that describe the relations between the metadata inputs and metadata outputs, so that we can predict metadata 
-outputs based on metadata inputs.
+Example datasets can be found [here](examples/MLCommons/data) and [here](examples/sentiment_analysis/data).
 
-The above workload properties can be configured and extended per use case, using the `job_spec.yaml` file. 
-See [this example](examples/MLCommons/job_spec.yaml) of a job spec, and [Instructions for running the CLI](#running-the-cli-on-sample-data) 
-for more details.
+The data is divided into `job-metadata-inputs`: the properties of the workload that are known before it starts running 
+(e.g., items 1-5 above), and `job-metadata-outputs`: properties of the workload execution and output that are known only 
+once the workload completes (e.g., items 6-9 above). The inputs and outputs specification is provided in the 
+`job_spec.yaml` file. See [this example](examples/MLCommons/job_spec.yaml) of a job spec.
+
+If the format of your data requires special parsing to transform into a dataframe (i.e., beyond a simple csv file), you 
+can implement your own parser in [this class](src/preprocessing/custom_job_parser.py). For example, the sentiment 
+analysis example ([here](examples/sentiment_analysis/data)) uses `SAJsonJobParser` as its parser, since its original 
+data consists of a json file per workload execution. The name of your parser should be provided in the 
+`job-parser-class-name` optional field in `job_spec.yaml`, see [here](examples/sentiment_analysis/job_spec.yaml).
+
+## Known Tool Issues
+
+1. Currently, the tool uses exhaustive grid search for hyperparameter optimization (HPO). This may result in long run 
+time for large datasets. We plan to move to a sample-based HPO that will scale the model search phase.
+2. Extrapolation is still work in progress, hence currently we expect large errors when predicting outputs for input 
+values which are far beyond the range provided in the training dataset.
