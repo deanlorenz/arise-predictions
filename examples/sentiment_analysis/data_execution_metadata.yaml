@@ -1,0 +1,18 @@
+input_size_bytes.max:
+  max: 1040080
+  min: 146580
+  type: numeric
+inputs:
+- input_size_bytes.max
+- task_name
+outputs:
+- duration
+- memory_usage_bytes.avg
+- memory_usage_bytes.max
+- output_size_bytes.max
+task_name:
+  type: categorical
+  values:
+  - load_data
+  - remove_pii
+  - sentiment_analysis
