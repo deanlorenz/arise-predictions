@@ -8,13 +8,16 @@ logger = logging.getLogger(__name__)
 
 def generate_prediction_config_file(fixed_input_values, variable_input_values, output_values):
     # generate the prediction configuration file
+    output_values_enriched = []
+    for output_value in output_values:
+        output_values_enriched.append({"target_variable": output_value,
+                                       "estimator_file": config["job"]["prediction"]["estimator_file"], # TODO: automation?
+                                       "greater_is_better": config["job"]["prediction"]["greater_is_better"]  # TODO: automation?
+                                       })
     prediction_config = {
         "fixed_values": fixed_input_values,
         "variable_values": variable_input_values,
-        "estimators": {"target_variable": output_values[0],  # TODO: output_values[0] is only the first --- what about others?
-                       "estimator_file": config["job"]["prediction"]["estimator_file"], # TODO: automation?
-                       "greater_is_better": config["job"]["prediction"]["greater_is_better"]}  # TODO: automation?
-
+        "estimators": output_values_enriched
     }
 
     # Write the prediction configuration file

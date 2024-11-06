@@ -1,5 +1,6 @@
 loglevel: DEBUG
 job:
+  data_execution_metadata_file: "../examples/MLCommons/data_execution_metadata.yaml"
   job_spec_file: "../examples/MLCommons/job_spec.yaml"
   input_path: "../examples/MLCommons"
   python: "python"

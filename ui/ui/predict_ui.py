@@ -21,38 +21,29 @@ class PredictUI:
         self.output_fields = None
         self.input_fields = None
 
-    def set_input_fields(self, input_fields):
+    def set_input_fields(self, input_fields, input_fields_details):
         self.config_input_fields = input_fields
         self.input_fields = {}
         for input_field in input_fields:
-            # TODO: remove debug for multiselect
-            if input_field == "Availability":
+            # handle categorical fields
+            field_details = input_fields_details[input_field]
+            if field_details["type"] == "categorical":
                 self.input_fields[input_field] = {"name": input_field,
                                                   "placeholder": input_field,
-                                                  "options": ["debug_Availability1", "debug_Availability2"],
+                                                  "options": field_details["values"],
                                                   "type": "multiselect"}
-                continue
-
-            # TODO: remove debug for multiselect
-            if input_field == "System Name":
+            # handle numeric fields
+            elif field_details["type"] == "numeric":
                 self.input_fields[input_field] = {"name": input_field,
                                                   "placeholder": input_field,
-                                                  "options": ["debug_Name1", "debug_Name2"],
-                                                  "type": "multiselect"}
-                continue
-
-            # TODO: remove debug for select_slider
-            if input_field == "Processor":
-                self.input_fields[input_field] = {"name": input_field,
-                                                  "placeholder": input_field,
-                                                  "min_value": 5,
-                                                  "max_value": 145,
+                                                  "min_value": field_details["min"],
+                                                  "max_value": field_details["max"],
                                                   "type": "select_slider"}
-                continue
-
-            self.input_fields[input_field] = {"name": input_field,
-                                              "placeholder": input_field,
-                                              "type": "text_input"}
+            # handle any other unknown fields as text
+            else:
+                self.input_fields[input_field] = {"name": input_field,
+                                                  "placeholder": input_field,
+                                                  "type": "text_input"}
 
     def set_output_fields(self, output_fields):
         self.config_output_fields = output_fields
@@ -111,14 +102,21 @@ class PredictUI:
         if element["type"] == "text_input":
             st.text_input(element["name"], key=element["name"], placeholder=element["placeholder"])
         elif element["type"] == "multiselect":
-            st.multiselect(element["name"], key=element["name"], options=element["options"],
-                           placeholder=element["placeholder"])
+            container = st.container(border=True)
+            if container.checkbox("Select all", key=f'{element["name"]}_select_all'):
+                container.multiselect(element["name"], key=element["name"], options=element["options"],
+                                      default=element["options"],
+                                      placeholder=element["placeholder"])
+            else:
+                container.multiselect(element["name"], key=element["name"], options=element["options"],
+                                      placeholder=element["placeholder"])
+
         elif element["type"] == "slider":
             st.slider(element["name"], key=element["name"],
                       min_value=element["min_value"], max_value=element["max_value"])
         elif element["type"] == "select_slider":
             st.select_slider(element["name"], key=element["name"],
-                             options=list(range(element["min_value"], element["max_value"]+1)),
+                             options=list(range(element["min_value"], element["max_value"] + 1)),
                              value=(element["min_value"], element["max_value"]))
         elif element["type"] == "toggle":
             st.toggle(element["name"], key=element["name"], value=element["value"])
@@ -152,23 +150,39 @@ class PredictUI:
     def get_prediction_configuration(self, config_input_fields, config_output_fields):
         # generate the prediction config file
         fixed_input_values = []
-        variable_input_values = {}
+        variable_input_values = []
         output_values = []
 
         logger.debug(f"generate_prediction_config_file")
         for config_input_field in config_input_fields:
             if (st.session_state[config_input_field] and
                     st.session_state[config_input_field] != "None"):
+                # handle categorical
                 if isinstance(st.session_state[config_input_field], list):
-                    variable_input_values[config_input_field] = \
-                        st.session_state[config_input_field]
+                    if len(st.session_state[config_input_field]) > 1:
+                        variable_input_values.append(
+                            {config_input_field : st.session_state[config_input_field]})
+                    else:
+                        fixed_input_values.append(
+                            {config_input_field: st.session_state[config_input_field][0]})
+                # handle numerical
                 elif isinstance(st.session_state[config_input_field], tuple):
-                    variable_input_values[config_input_field] = \
-                        [i for i in range(*st.session_state[config_input_field])]
+                    if st.session_state[config_input_field][0] is not st.session_state[config_input_field][1]:
+                        variable_input_values.append(
+                            {config_input_field: [i for i in range(st.session_state[config_input_field][0],
+                                                                   st.session_state[config_input_field][1] + 1)]
+                             }
+                        )
+                    else:
+                        fixed_input_values.append(
+                            {config_input_field: st.session_state[config_input_field][0]})
+                # handle all other fields
                 else:
                     fixed_input_values.append(
-                        {config_input_field: st.session_state[config_input_field]}
-                    )
+                        {config_input_field: st.session_state[config_input_field]})
+            else:
+                st.toast("Make sure to fill all input and output fields! Submit again", icon=":material/error:")
+                return False, [], [], []
 
         for config_output_field in config_output_fields:
             if (st.session_state[config_output_field] and
@@ -181,7 +195,7 @@ class PredictUI:
         logger.info(f"variable_input_values: {variable_input_values}")
         logger.info(f"output_values: {output_values}")
 
-        return fixed_input_values, variable_input_values, output_values
+        return True, fixed_input_values, variable_input_values, output_values
 
     def on_predict(self):
         from config import config
@@ -194,8 +208,12 @@ class PredictUI:
         logger.debug(f"command_template: {command_template}")
 
         # build the prediction configuration file based on customer inputs and outputs:
-        fixed_input_values, variable_input_values, output_values = (
+        success, fixed_input_values, variable_input_values, output_values = (
             self.get_prediction_configuration(self.config_input_fields, self.config_output_fields))
+        if not success:
+            logger.debug(f"get_prediction_configuration failed")
+            return
+
         generate_prediction_config_file(fixed_input_values,
                                         variable_input_values,
                                         output_values)
