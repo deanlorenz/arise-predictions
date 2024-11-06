@@ -116,6 +116,13 @@ time. You can make use of it like this:
 python src/main.py auto-build-models --input-path examples/MLCommons --reread-history --config-file config/small-auto-model-search-config.yaml
 ```
 
+If you are running on your local machine, it is advised to limit the number of processors used. However, this will result
+in a much longer run. To build models using 2 processors only, use this command: 
+
+```bash
+python src/main.py --num-jobs 2 auto-build-models --input-path examples/MLCommons --reread-history --config-file config/small-auto-model-search-config.yaml
+```
+
 By default, `auto-build-models` performs 10-fold cross validation. If you want to perform instead `leave-one-group-out (logo)`
 cross validation, add the cflag `--leave-one-out-cv`, which takes as an argument a list of one or more feature names to 
 group py, separated by commas.
