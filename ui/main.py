@@ -1,4 +1,5 @@
 import logging
+import os
 
 import streamlit as st
 
@@ -24,6 +25,12 @@ def init_logging():
 if __name__ == "__main__":
     config = load_config()
     init_logging()
+
+    # delete prediction files if exists
+    if os.path.exists(config["job"]["prediction"]["all_predictions_file"]):
+        os.remove(config["job"]["prediction"]["all_predictions_file"])
+    if os.path.exists(config["job"]["prediction"]["predictions_with_ground_truth_file"]):
+        os.remove(config["job"]["prediction"]["predictions_with_ground_truth_file"])
 
     logger.debug(f"Config: {config}")
     st.markdown(f"""

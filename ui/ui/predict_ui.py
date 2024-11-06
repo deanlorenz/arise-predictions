@@ -1,14 +1,28 @@
+import json
 import logging
 import os
 from string import Template
 
 import pandas as pd
 import streamlit as st
+import yaml
 
 from tools.actuator import execute_command
 from tools.generate_files import generate_prediction_config_file
 
 logger = logging.getLogger(__name__)
+
+
+def tuple_constructor(loader, node):
+    # Load the sequence of values from the YAML node
+    values = loader.construct_sequence(node)
+    # Return a tuple constructed from the sequence
+    return tuple(values)
+
+
+# Register the constructor with PyYAML
+yaml.SafeLoader.add_constructor('tag:yaml.org,2002:python/tuple',
+                                tuple_constructor)
 
 
 # class that represents the UI and the variables associated with the ui
@@ -102,24 +116,21 @@ class PredictUI:
         if element["type"] == "text_input":
             st.text_input(element["name"], key=element["name"], placeholder=element["placeholder"])
         elif element["type"] == "multiselect":
-            container = st.container(border=True)
-            if container.checkbox("Select all", key=f'{element["name"]}_select_all'):
-                container.multiselect(element["name"], key=element["name"], options=element["options"],
-                                      default=element["options"],
-                                      placeholder=element["placeholder"])
-            else:
-                container.multiselect(element["name"], key=element["name"], options=element["options"],
-                                      placeholder=element["placeholder"])
-
-        elif element["type"] == "slider":
-            st.slider(element["name"], key=element["name"],
-                      min_value=element["min_value"], max_value=element["max_value"])
+            st.multiselect(element["name"], key=element["name"], options=element["options"],
+                           placeholder=element["placeholder"])
         elif element["type"] == "select_slider":
+            if element["name"] in st.session_state:
+                if isinstance(st.session_state[element["name"]], int):
+                    st.session_state[element["name"]] = (st.session_state[element["name"]],
+                                                         st.session_state[element["name"]])
             st.select_slider(element["name"], key=element["name"],
-                             options=list(range(element["min_value"], element["max_value"] + 1)),
-                             value=(element["min_value"], element["max_value"]))
+                             value=(element["min_value"], element["min_value"])
+                             if element["name"] not in st.session_state else st.session_state[element["name"]],
+                             options=list(range(element["min_value"], element["max_value"] + 1)))
         elif element["type"] == "toggle":
-            st.toggle(element["name"], key=element["name"], value=element["value"])
+            if element["name"] not in st.session_state:
+                st.session_state[element["name"]] = True
+            st.toggle(element["name"], key=element["name"])
         else:
             st.text(f"Unknown element type {element}")
 
@@ -147,21 +158,57 @@ class PredictUI:
                 st.toggle("compare with ground truth", key="compare_with_ground_truth", value=False,
                           help="Compare the results with the ground truth")
 
-    def get_prediction_configuration(self, config_input_fields, config_output_fields):
+    def persist_session_state(self, file):
+        """ saves the input and output session_state fields to a file """
+        logger.debug(f"persist_session_state: {file}")
+
+        dic_to_save = {"config_input_field": {},
+                       "config_output_field": {}}
+        for config_input_field in self.config_input_fields:
+            if (st.session_state[config_input_field] and
+                    st.session_state[config_input_field] != "None"):
+                dic_to_save["config_input_field"][config_input_field] = st.session_state[config_input_field]
+
+        for config_output_fields in self.config_output_fields:
+            if (st.session_state[config_output_fields] and
+                    st.session_state[config_output_fields] is True):
+                dic_to_save["config_output_field"][config_output_fields] = st.session_state[config_output_fields]
+
+        with open(file, "w") as f:
+            yaml.dump(dic_to_save, f)
+
+    def load_session_state(self, file):
+        """ loads the input and output session_state fields from a file """
+        logger.debug(f"load_session_state: {file}")
+        if os.path.exists(file):
+            with open(file) as f:
+                dic_to_load = yaml.load(f, Loader=yaml.SafeLoader)
+        else:
+            return
+
+        for config_input_field in self.config_input_fields:
+            if config_input_field not in st.session_state and dic_to_load["config_input_field"][config_input_field]:
+                st.session_state[config_input_field] = dic_to_load["config_input_field"][config_input_field]
+
+        for config_output_field in self.config_output_fields:
+            if config_output_field not in st.session_state and dic_to_load["config_output_field"][config_output_field]:
+                st.session_state[config_output_field] = dic_to_load["config_output_field"][config_output_field]
+
+    def get_prediction_configuration(self):
         # generate the prediction config file
         fixed_input_values = []
         variable_input_values = []
         output_values = []
 
         logger.debug(f"generate_prediction_config_file")
-        for config_input_field in config_input_fields:
+        for config_input_field in self.config_input_fields:
             if (st.session_state[config_input_field] and
                     st.session_state[config_input_field] != "None"):
                 # handle categorical
                 if isinstance(st.session_state[config_input_field], list):
                     if len(st.session_state[config_input_field]) > 1:
                         variable_input_values.append(
-                            {config_input_field : st.session_state[config_input_field]})
+                            {config_input_field: st.session_state[config_input_field]})
                     else:
                         fixed_input_values.append(
                             {config_input_field: st.session_state[config_input_field][0]})
@@ -184,7 +231,7 @@ class PredictUI:
                 st.toast("Make sure to fill all input and output fields! Submit again", icon=":material/error:")
                 return False, [], [], []
 
-        for config_output_field in config_output_fields:
+        for config_output_field in self.config_output_fields:
             if (st.session_state[config_output_field] and
                     st.session_state[config_output_field] is True):
                 output_values.append(config_output_field)
@@ -209,10 +256,12 @@ class PredictUI:
 
         # build the prediction configuration file based on customer inputs and outputs:
         success, fixed_input_values, variable_input_values, output_values = (
-            self.get_prediction_configuration(self.config_input_fields, self.config_output_fields))
+            self.get_prediction_configuration())
         if not success:
             logger.debug(f"get_prediction_configuration failed")
             return
+
+        self.persist_session_state(config["job"]["prediction_save_state_file"])
 
         generate_prediction_config_file(fixed_input_values,
                                         variable_input_values,
@@ -240,11 +289,11 @@ The results are:
 """
 
         # get the prediction file if exists
-        if os.path.exists("../examples/MLCommons/ARISE-predictions/all-predictions.csv"):
-            csv = pd.read_csv("../examples/MLCommons/ARISE-predictions/all-predictions.csv")
+        if os.path.exists(config["job"]["prediction"]["all_predictions_file"]):
+            csv = pd.read_csv(config["job"]["prediction"]["all_predictions_file"])
             st.session_state['all-predictions.csv'] = csv
 
         # get the ground-truth file if exists
-        if os.path.exists("../examples/MLCommons/ARISE-predictions/predictions-with-ground-truth.csv"):
-            csv = pd.read_csv("../examples/MLCommons/ARISE-predictions/predictions-with-ground-truth.csv")
+        if os.path.exists(config["job"]["prediction"]["predictions_with_ground_truth_file"]):
+            csv = pd.read_csv(config["job"]["prediction"]["predictions_with_ground_truth_file"])
             st.session_state['predictions-with-ground-truth.csv'] = csv

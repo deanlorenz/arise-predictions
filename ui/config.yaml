@@ -1,5 +1,6 @@
 loglevel: DEBUG
 job:
+  prediction_save_state_file: "/tmp/prediction_save_state_file.yaml"
   data_execution_metadata_file: "../examples/MLCommons/data_execution_metadata.yaml"
   job_spec_file: "../examples/MLCommons/job_spec.yaml"
   input_path: "../examples/MLCommons"
@@ -10,6 +11,8 @@ job:
     config_file: "../config/generated-prediction-config-file.yaml"
     estimator_file: "estimator-nonlinear-XGBoost-Regressor-tokens_per_second.pkl"
     greater_is_better: True
+    all_predictions_file: "../examples/MLCommons/ARISE-predictions/all-predictions.csv"
+    predictions_with_ground_truth_file: "../examples/MLCommons/ARISE-predictions/predictions-with-ground-truth.csv"
 actuation_templates:
   analyze-jobs: >
     pip install -q -r ../requirements.txt;
