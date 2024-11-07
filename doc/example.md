@@ -10,8 +10,8 @@ benchmark data.
 
 For example, we want to ask the following:
 
-GGiven I am running on `gptj-99` with CPU `AMD EPYC 9654` in an `Offline` scenario, how many cores and what accelerator 
-type and count do I need to achieve the best throughput for my workload?
+Given I am running on `gptj-99` with CPU `AMD EPYC 9654` in an `Offline` scenario, how many cores and what accelerator 
+type and count do I need to use in order to achieve the best throughput for my workload?
 
 ## Generating descriptive statistics of the dataset
 
@@ -40,7 +40,7 @@ output `tokens_per_second` is moderately correlated (0.66) with the input `# of 
 After getting a glimpse into the dataset characteristics, we can get back to the question we started with: 
 
 Given I am running on `gptj-99` with CPU `AMD EPYC 9654` in an `Offline` scenario, how many cores and what accelerator 
-type and count do I need to achieve the best throughput for my workload?
+type and count do I need to use in order to achieve the best throughput for my workload?
 
 Answering this question requires the existence of a predictive model trained on the dataset. We will show 
 [here](#building-predictive-models-from-the-dataset) how to build such a model. For now, we will use the model 
