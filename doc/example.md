@@ -63,13 +63,13 @@ config/example-demo-mlcommons-config.yaml --model-path examples/MLCommons/ARISE-
 The prediction results are generated in `ARISE-predictions/all-predictions.csv` in the provided input path. The file can
 be sorted according to `tokens_per_second` column, and configurations with less than `20,000` tokens per second can
 be filtered out. In the future, filtering and applying queries to the predictions will be supported via the ARISE UI, 
-but currently we can perform these via Excel. First, we filter configurations with less than `20K` tokens per second:
+but currently we can perform these via Excel. First, we filter configurations with less than `20,000` tokens per second:
 
-<img src="filter-predictions.png"  width="25%" height="25%">
+<img src="filter-predictions.png"  width="50%" height="50%">
 
 After filtering, we can see that only 10 configurations match our criterion:
 
-<img src="best-configurations.png"  width="25%" height="25%">
+<img src="best-configurations.png"  width="50%" height="50%">
 
 Out of these 10 configurations, the ones with the least number of cores and accelerators are listed in the table below.
 
