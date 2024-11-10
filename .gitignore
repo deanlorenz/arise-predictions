@@ -1,0 +1,6 @@
+__pycache__/
+*.py[cod]
+.idea/
+ARISE-auto-models/
+job-analysis/
+ARISE-predictions/
