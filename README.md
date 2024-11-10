@@ -4,8 +4,9 @@
 1. [Overview](#overview)
 2. [Installing and running the CLI](#installing-and-running-the-cli)
 3. [ARISE in action on sample data](#arise-in-action-on-sample-data)
-4. [More on data requirements](#historical-data)
-5. [Known tool issues](#known-tool-issues)
+4. [Running ARISE from the UI - Work in Progress](#running-arise-from-the-ui)
+5. [More on data requirements](#historical-data)
+6. [Known tool issues](#known-tool-issues)
 
 
 ## Overview
@@ -198,6 +199,11 @@ level as in the following example:
 ```bash
 python src/main.py --loglevel info analyze-jobs
 ```
+
+## Running ARISE from the UI
+
+To run ARISE from the UI, see documentation [here](ui/README.md). Note that the UI is still work in progress and missing
+many features that are available from the CLI.
 
 ## ARISE in Action on Sample Data
 
