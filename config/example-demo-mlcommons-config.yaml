@@ -12,12 +12,7 @@ estimators:
 
 # fixed configuration
 fixed_values:
-#  - Accelerator: "NVIDIA H100-NVL-94GB"
-#  - System Name: "ASUSTeK ESC4000A-E12 (4xH100-NVL-94GB)"
-#  - Processor: "AMD EPYC 9654 96-Core Processor"
   - "Model MLC": "gptj-99"
-#  - Availability: "available"
-#  - Organization: "ASUSTeK"
   - "# of Nodes": 1
   - Processor: "AMD EPYC 9654"
   - Scenario: "Offline"
