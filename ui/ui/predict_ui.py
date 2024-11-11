@@ -1,3 +1,4 @@
+import copy
 import logging
 import os
 from string import Template
@@ -100,7 +101,7 @@ class PredictUI:
 
         if 'all-predictions.csv' in st.session_state:
             st.markdown("## Prediction result")
-            st.write(st.session_state['all-predictions.csv'])
+            st.dataframe(st.session_state['all-predictions.csv'])
 
         if 'predictions-with-ground-truth.csv' in st.session_state:
             st.markdown("## Ground-truth result")
@@ -290,8 +291,28 @@ The results are:
 """
 
         # get the prediction file if exists
-        if os.path.exists(get_config("job", "prediction","all_predictions_file")):
+        if os.path.exists(get_config("job", "prediction", "all_predictions_file")):
             csv = pd.read_csv(get_config("job", "prediction", "all_predictions_file"))
+
+            # Move the output columns to the beginning of the table
+            csv_columns = csv.columns.tolist()
+            columns = copy.deepcopy(csv_columns)
+            columns_to_highlight = []
+            for column in columns:
+                try:
+                    if st.session_state[column] is True:
+                        csv_columns = [column] + [col for col in csv_columns if col != column]
+                        columns_to_highlight.append(column)
+                except Exception as e:
+                    pass
+
+            def highlight_columns(x, _columns_to_highlight):
+                styles = pd.DataFrame('', index=x.index, columns=x.columns)
+                styles[_columns_to_highlight] = 'background-color: lightblue'
+                return styles
+
+            csv = csv[csv_columns]
+            csv = csv.style.apply(highlight_columns, axis=None, _columns_to_highlight=columns_to_highlight)
             st.session_state['all-predictions.csv'] = csv
 
         # get the ground-truth file if exists
