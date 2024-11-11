@@ -1,7 +1,4 @@
 job-metadata-inputs:
-  Organization: 0
-  Availability: 0
-  "System Name": 0
   "# of Nodes": 0
   Processor: 0
   Accelerator: 0

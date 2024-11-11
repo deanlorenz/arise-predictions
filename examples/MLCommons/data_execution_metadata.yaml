@@ -21,11 +21,6 @@ Accelerator:
   - NVIDIA H200-SXM-141GB-CTS
   - NVIDIA GH200 Grace Hopper Superchip 96GB
   - NVIDIA B200-SXM-180GB
-Availability:
-  type: categorical
-  values:
-  - available
-  - preview
 Host Processor Core Count:
   max: 128
   min: 0
@@ -38,27 +33,6 @@ Model MLC:
   - gptj-99
   - gptj-99.9
   - mixtral-8x7b
-Organization:
-  type: categorical
-  values:
-  - AMD
-  - ASUSTeK
-  - Cisco
-  - Dell
-  - Fujitsu
-  - GigaComputing
-  - Google
-  - HPE
-  - Intel
-  - JuniperNetworks
-  - Lenovo
-  - NVIDIA
-  - NeuralMagic
-  - Oracle
-  - Quanta_Cloud_Technology
-  - RedHat
-  - Supermicro
-  - Sustainable_Metal_Cloud
 Processor:
   type: categorical
   values:
@@ -100,70 +74,13 @@ Scenario:
   values:
   - Offline
   - Server
-System Name:
-  type: categorical
-  values:
-  - Supermicro AS-8125GS-TNMR2
-  - ASUSTeK ESC4000A-E12 (4xH100-NVL-94GB)
-  - ESC8000A-E12 (8x H100-PCIe-80GB TensorRT)
-  - ESC-N8-E11 (8x H100-SXM-80GB TensorRT)
-  - C240M7-1-node-2S-EMR-PyTorch
-  - Cisco UCS C240 M7 (2x L40S TensorRT)
-  - Cisco UCS C245 M8 (2x H100-PCIe-80GB TensorRT)
-  - Cisco UCS C245 M8 (2x L40S TensorRT)
-  - X210M7-1-node-2S-EMR-PyTorch
-  - Cisco UCS X210c M7 (2x L40S TensorRT)
-  - Dell PowerEdge R760
-  - Dell PowerEdge R760 (2xH100_PCIe_80GB TensorRT)
-  - Dell PowerEdge R760xa (4xH100 NVL TensorRT)
-  - Dell PowerEdge XE8640 (4x H100-SXM-80GB TensorRT)
-  - Dell PowerEdge XE9640 (4x H100-SXM-80GB TensorRT)
-  - Dell PowerEdge XE9680 (8x H100-SXM-80GB TensorRT)
-  - Dell PowerEdge XE9680 (8x H200-SXM-141GB TensorRT)
-  - Dell PowerEdge XE9680 (8x MI300X_192GB vLLM)
-  - PRIMERGY CDI (8x L40S TensorRT)
-  - GX2560M7_H100_SXM_80GBx4 (4x H100-SXM-80GB TensorRT)
-  - GIGABYTE G593-SD1
-  - NVIDIA DGX H100 (8x H100-SXM-80GB TensorRT)
-  - HPE ProLiant DL380 Gen11
-  - HPE Cray XD670 (8x H100-SXM-80GB TensorRT)
-  - HPE ProLiant DL380a Gen11 (4x H100-NVL-94GB TensorRT)
-  - 1-node-2S-EMR-PyTorch
-  - 2x8xH100-SXM-80GB
-  - 4x8xH100-SXM-80GB
-  - ThinkSystem SR685a V3(8x H200-SXM-141GB TensorRT)
-  - ThinkSystem SR680a V3 (8x H200-SXM-141GB TensorRT)
-  - ThinkSystem SR650 V3 (3x NVIDIA L40S TensorRT)
-  - ThinkSystem SR675 V3 (8x H100-NVL-94GB TensorRT)
-  - NVIDIA GH200 NVL2 Platform (1x GH200-144GB_aarch64 TensorRT)
-  - NVIDIA H200 (1x H200-SXM-141GB-CTS TensorRT)
-  - NVIDIA H200 (8x H200-SXM-141GB-CTS TensorRT)
-  - NVIDIA H200 (1x H200-SXM-141GB TensorRT)
-  - NVIDIA H200 (8x H200-SXM-141GB TensorRT)
-  - NVIDIA H200 (8x H200-SXM-141GB TensorRT Triton)
-  - Crusoe Cloud L40S (8x L40S PCIe vLLM FP8)
-  - NVIDIA GH200-GraceHopper-Superchip (1x GH200-96GB_aarch64 TensorRT)
-  - D54U_3U_L40S_PCIe_48GBx4_TRT
-  - GH200-GraceHopper-Superchip_GH200-96GB_aarch64x1_TRT
-  - L40S-RedHat-OpenShift
-  - AS-4125GS-TNHR2-LCC (8x H100-SXM-80GB TensorRT)
-  - AS-8125GS-TNHR (8x H100-SXM-80GB TensorRT)
-  - SYS-421GE-TNHR2-LCC (8x H100-SXM-80GB TensorRT)
-  - SYS-821GE-TNHR (8x H100-SXM-80GB TensorRT)
-  - SMC H100 (8x H100-SXM-80GB TensorRT)
-  - HPE ProLiant Compute DL384 Gen12 (1x GH200-144GB_aarch64 TensorRT)
-  - 1-node-2S-GNR-PyTorch
-  - NVIDIA B200 (1x B200-SXM-180GB TensorRT)
 inputs:
 - '# of Accelerators'
 - '# of Nodes'
 - Accelerator
-- Availability
 - Host Processor Core Count
 - Model MLC
-- Organization
 - Processor
 - Scenario
-- System Name
 outputs:
 - tokens_per_second

@@ -12,16 +12,25 @@ estimators:
 
 # fixed configuration
 fixed_values:
-  - Accelerator: "NVIDIA H100-NVL-94GB"
-  - System Name: "ASUSTeK ESC4000A-E12 (4xH100-NVL-94GB)"
-  - Processor: "AMD EPYC 9654 96-Core Processor"
   - "Model MLC": "gptj-99"
-  - Availability: "available"
-  - Organization: "ASUSTeK"
   - "# of Nodes": 1
+  - Processor: "AMD EPYC 9654"
+  - Scenario: "Offline"
 
 # variable configuration
 variable_values:
+  - Accelerator:
+    - "AMD Instinct MI300X-NPS1-SPX-192GB-750W"
+    - "AMD MI300X-NPS1-SPX-192GB-750W"
+    - "NVIDIA H100-NVL-94GB"
+    - "NVIDIA H100-PCIe-80GB"
+    - "NVIDIA H100-SXM-80GB"
+    - "NVIDIA L40S"
+    - "NVIDIA GH200 Grace Hopper Superchip 96GB"
+    - "NVIDIA GH200 Grace Hopper Superchip 144GB"
+    - "NVIDIA H200-SXM-141GB-CTS"
+    - "NVIDIA H200-SXM-141GB"
+    - "NVIDIA B200-SXM-180GB"
   - "# of Accelerators":
     - 1
     - 4
@@ -32,6 +41,3 @@ variable_values:
     - 64
     - 96
     - 120
-  - Scenario:
-    - Offline
-    - Server

@@ -1,303 +1,303 @@
-# of Accelerators,# of Nodes,Accelerator,Availability,Host Processor Core Count,Model MLC,Organization,Processor,Scenario,System Name,tokens_per_second
-1,1,AMD Instinct MI300X-NPS1-SPX-192GB-750W,available,32,llama2-70b-99,AMD,2xAMD EPYC 9374F,Offline,Supermicro AS-8125GS-TNMR2,3062.72
-1,1,AMD Instinct MI300X-NPS1-SPX-192GB-750W,available,32,llama2-70b-99,AMD,2xAMD EPYC 9374F,Server,Supermicro AS-8125GS-TNMR2,2520.27
-1,1,AMD Instinct MI300X-NPS1-SPX-192GB-750W,available,32,llama2-70b-99.9,AMD,2xAMD EPYC 9374F,Offline,Supermicro AS-8125GS-TNMR2,3062.72
-1,1,AMD Instinct MI300X-NPS1-SPX-192GB-750W,available,32,llama2-70b-99.9,AMD,2xAMD EPYC 9374F,Server,Supermicro AS-8125GS-TNMR2,2520.27
-8,1,AMD Instinct MI300X-NPS1-SPX-192GB-750W,available,32,llama2-70b-99,AMD,2xAMD EPYC 9374F,Offline,Supermicro AS-8125GS-TNMR2,23514.8
-8,1,AMD Instinct MI300X-NPS1-SPX-192GB-750W,available,32,llama2-70b-99,AMD,2xAMD EPYC 9374F,Server,Supermicro AS-8125GS-TNMR2,21028.23
-8,1,AMD Instinct MI300X-NPS1-SPX-192GB-750W,available,32,llama2-70b-99.9,AMD,2xAMD EPYC 9374F,Offline,Supermicro AS-8125GS-TNMR2,23514.8
-8,1,AMD Instinct MI300X-NPS1-SPX-192GB-750W,available,32,llama2-70b-99.9,AMD,2xAMD EPYC 9374F,Server,Supermicro AS-8125GS-TNMR2,21028.23
-4,1,NVIDIA H100-NVL-94GB,available,96,gptj-99,ASUSTeK,AMD EPYC 9654 96-Core Processor,Offline,ASUSTeK ESC4000A-E12 (4xH100-NVL-94GB),6985.51
-4,1,NVIDIA H100-NVL-94GB,available,96,gptj-99,ASUSTeK,AMD EPYC 9654 96-Core Processor,Server,ASUSTeK ESC4000A-E12 (4xH100-NVL-94GB),6070.26
-4,1,NVIDIA H100-NVL-94GB,available,96,gptj-99.9,ASUSTeK,AMD EPYC 9654 96-Core Processor,Offline,ASUSTeK ESC4000A-E12 (4xH100-NVL-94GB),6985.51
-4,1,NVIDIA H100-NVL-94GB,available,96,gptj-99.9,ASUSTeK,AMD EPYC 9654 96-Core Processor,Server,ASUSTeK ESC4000A-E12 (4xH100-NVL-94GB),6070.26
-4,1,NVIDIA H100-NVL-94GB,available,96,llama2-70b-99,ASUSTeK,AMD EPYC 9654 96-Core Processor,Offline,ASUSTeK ESC4000A-E12 (4xH100-NVL-94GB),6673.95
-4,1,NVIDIA H100-NVL-94GB,available,96,llama2-70b-99,ASUSTeK,AMD EPYC 9654 96-Core Processor,Server,ASUSTeK ESC4000A-E12 (4xH100-NVL-94GB),5788.29
-4,1,NVIDIA H100-NVL-94GB,available,96,llama2-70b-99.9,ASUSTeK,AMD EPYC 9654 96-Core Processor,Offline,ASUSTeK ESC4000A-E12 (4xH100-NVL-94GB),6673.95
-4,1,NVIDIA H100-NVL-94GB,available,96,llama2-70b-99.9,ASUSTeK,AMD EPYC 9654 96-Core Processor,Server,ASUSTeK ESC4000A-E12 (4xH100-NVL-94GB),5788.29
-8,1,NVIDIA H100-PCIe-80GB,available,32,gptj-99,ASUSTeK,AMD EPYC 9374F 32-Core Processor,Offline,ESC8000A-E12 (8x H100-PCIe-80GB TensorRT),13078.5
-8,1,NVIDIA H100-PCIe-80GB,available,32,gptj-99,ASUSTeK,AMD EPYC 9374F 32-Core Processor,Server,ESC8000A-E12 (8x H100-PCIe-80GB TensorRT),7986.46
-8,1,NVIDIA H100-PCIe-80GB,available,32,gptj-99.9,ASUSTeK,AMD EPYC 9374F 32-Core Processor,Offline,ESC8000A-E12 (8x H100-PCIe-80GB TensorRT),13078.5
-8,1,NVIDIA H100-PCIe-80GB,available,32,gptj-99.9,ASUSTeK,AMD EPYC 9374F 32-Core Processor,Server,ESC8000A-E12 (8x H100-PCIe-80GB TensorRT),7986.46
-8,1,NVIDIA H100-PCIe-80GB,available,32,llama2-70b-99,ASUSTeK,AMD EPYC 9374F 32-Core Processor,Offline,ESC8000A-E12 (8x H100-PCIe-80GB TensorRT),9281.5
-8,1,NVIDIA H100-PCIe-80GB,available,32,llama2-70b-99,ASUSTeK,AMD EPYC 9374F 32-Core Processor,Server,ESC8000A-E12 (8x H100-PCIe-80GB TensorRT),8094.27
-8,1,NVIDIA H100-PCIe-80GB,available,32,llama2-70b-99.9,ASUSTeK,AMD EPYC 9374F 32-Core Processor,Offline,ESC8000A-E12 (8x H100-PCIe-80GB TensorRT),9281.5
-8,1,NVIDIA H100-PCIe-80GB,available,32,llama2-70b-99.9,ASUSTeK,AMD EPYC 9374F 32-Core Processor,Server,ESC8000A-E12 (8x H100-PCIe-80GB TensorRT),8094.27
-8,1,NVIDIA H100-SXM-80GB,available,64,gptj-99,ASUSTeK,INTEL(R) XEON(R) PLATINUM 8592+,Offline,ESC-N8-E11 (8x H100-SXM-80GB TensorRT),19877.6
-8,1,NVIDIA H100-SXM-80GB,available,64,gptj-99,ASUSTeK,INTEL(R) XEON(R) PLATINUM 8592+,Server,ESC-N8-E11 (8x H100-SXM-80GB TensorRT),19226.9
-8,1,NVIDIA H100-SXM-80GB,available,64,gptj-99.9,ASUSTeK,INTEL(R) XEON(R) PLATINUM 8592+,Offline,ESC-N8-E11 (8x H100-SXM-80GB TensorRT),19877.6
-8,1,NVIDIA H100-SXM-80GB,available,64,gptj-99.9,ASUSTeK,INTEL(R) XEON(R) PLATINUM 8592+,Server,ESC-N8-E11 (8x H100-SXM-80GB TensorRT),19226.9
-8,1,NVIDIA H100-SXM-80GB,available,64,llama2-70b-99,ASUSTeK,INTEL(R) XEON(R) PLATINUM 8592+,Offline,ESC-N8-E11 (8x H100-SXM-80GB TensorRT),24323.6
-8,1,NVIDIA H100-SXM-80GB,available,64,llama2-70b-99,ASUSTeK,INTEL(R) XEON(R) PLATINUM 8592+,Server,ESC-N8-E11 (8x H100-SXM-80GB TensorRT),20605.31
-8,1,NVIDIA H100-SXM-80GB,available,64,llama2-70b-99.9,ASUSTeK,INTEL(R) XEON(R) PLATINUM 8592+,Offline,ESC-N8-E11 (8x H100-SXM-80GB TensorRT),24323.6
-8,1,NVIDIA H100-SXM-80GB,available,64,llama2-70b-99.9,ASUSTeK,INTEL(R) XEON(R) PLATINUM 8592+,Server,ESC-N8-E11 (8x H100-SXM-80GB TensorRT),20605.31
-0,1,,available,64,gptj-99,Cisco,INTEL(R) XEON(R) PLATINUM 8592+,Offline,C240M7-1-node-2S-EMR-PyTorch,252.597
-0,1,,available,64,gptj-99,Cisco,INTEL(R) XEON(R) PLATINUM 8592+,Server,C240M7-1-node-2S-EMR-PyTorch,113.739
-2,1,NVIDIA L40S,available,32,gptj-99,Cisco,Intel Xeon Gold 6448H,Offline,Cisco UCS C240 M7 (2x L40S TensorRT),1747.67
-2,1,NVIDIA L40S,available,32,gptj-99,Cisco,Intel Xeon Gold 6448H,Server,Cisco UCS C240 M7 (2x L40S TensorRT),1734.03
-2,1,NVIDIA H100-PCIe-80GB,available,96,gptj-99,Cisco,AMD EPYC 9684X 96-Core Processor,Offline,Cisco UCS C245 M8 (2x H100-PCIe-80GB TensorRT),3268.94
-2,1,NVIDIA H100-PCIe-80GB,available,96,gptj-99,Cisco,AMD EPYC 9684X 96-Core Processor,Server,Cisco UCS C245 M8 (2x H100-PCIe-80GB TensorRT),3258.83
-2,1,NVIDIA L40S,available,96,gptj-99,Cisco,AMD EPYC 9684X 96-Core Processor,Offline,Cisco UCS C245 M8 (2x L40S TensorRT),1729.6
-2,1,NVIDIA L40S,available,96,gptj-99,Cisco,AMD EPYC 9684X 96-Core Processor,Server,Cisco UCS C245 M8 (2x L40S TensorRT),1725.54
-0,1,,available,64,gptj-99,Cisco,INTEL(R) XEON(R) PLATINUM 8592+,Offline,X210M7-1-node-2S-EMR-PyTorch,206.119
-0,1,,available,64,gptj-99,Cisco,INTEL(R) XEON(R) PLATINUM 8592+,Server,X210M7-1-node-2S-EMR-PyTorch,113.739
-2,1,NVIDIA L40S,available,32,gptj-99,Cisco,INTEL(R) XEON(R) PLATINUM 8562Y+,Offline,Cisco UCS X210c M7 (2x L40S TensorRT),1746.46
-2,1,NVIDIA L40S,available,32,gptj-99,Cisco,INTEL(R) XEON(R) PLATINUM 8562Y+,Server,Cisco UCS X210c M7 (2x L40S TensorRT),1725.98
-2,1,NVIDIA L40S,available,32,gptj-99.9,Cisco,INTEL(R) XEON(R) PLATINUM 8562Y+,Offline,Cisco UCS X210c M7 (2x L40S TensorRT),1746.46
-2,1,NVIDIA L40S,available,32,gptj-99.9,Cisco,INTEL(R) XEON(R) PLATINUM 8562Y+,Server,Cisco UCS X210c M7 (2x L40S TensorRT),1725.98
-0,1,,available,64,gptj-99,Dell,INTEL(R) XEON(R) PLATINUM 8592+,Offline,Dell PowerEdge R760,248.601
-0,1,,available,64,gptj-99,Dell,INTEL(R) XEON(R) PLATINUM 8592+,Server,Dell PowerEdge R760,113.715
-2,1,NVIDIA H100-PCIe-80GB,available,120,gptj-99,Dell,INTEL(R) XEON(R) PLATINUM 8580,Offline,Dell PowerEdge R760 (2xH100_PCIe_80GB TensorRT),3317.08
-2,1,NVIDIA H100-PCIe-80GB,available,120,gptj-99,Dell,INTEL(R) XEON(R) PLATINUM 8580,Server,Dell PowerEdge R760 (2xH100_PCIe_80GB TensorRT),2759.33
-2,1,NVIDIA H100-PCIe-80GB,available,120,gptj-99.9,Dell,INTEL(R) XEON(R) PLATINUM 8580,Offline,Dell PowerEdge R760 (2xH100_PCIe_80GB TensorRT),3317.08
-2,1,NVIDIA H100-PCIe-80GB,available,120,gptj-99.9,Dell,INTEL(R) XEON(R) PLATINUM 8580,Server,Dell PowerEdge R760 (2xH100_PCIe_80GB TensorRT),2759.33
-4,1,NVIDIA H100-NVL-94GB,available,120,gptj-99,Dell,INTEL(R) XEON(R) PLATINUM 8580,Offline,Dell PowerEdge R760xa (4xH100 NVL TensorRT),7191.41
-4,1,NVIDIA H100-NVL-94GB,available,120,gptj-99,Dell,INTEL(R) XEON(R) PLATINUM 8580,Server,Dell PowerEdge R760xa (4xH100 NVL TensorRT),6337.64
-4,1,NVIDIA H100-SXM-80GB,available,96,gptj-99,Dell,Intel(R) Xeon(R) Platinum 8468,Offline,Dell PowerEdge XE8640 (4x H100-SXM-80GB TensorRT),9966.79
-4,1,NVIDIA H100-SXM-80GB,available,96,gptj-99,Dell,Intel(R) Xeon(R) Platinum 8468,Server,Dell PowerEdge XE8640 (4x H100-SXM-80GB TensorRT),9990.24
-4,1,NVIDIA H100-SXM-80GB,available,96,gptj-99.9,Dell,Intel(R) Xeon(R) Platinum 8468,Offline,Dell PowerEdge XE8640 (4x H100-SXM-80GB TensorRT),9966.79
-4,1,NVIDIA H100-SXM-80GB,available,96,gptj-99.9,Dell,Intel(R) Xeon(R) Platinum 8468,Server,Dell PowerEdge XE8640 (4x H100-SXM-80GB TensorRT),9990.24
-4,1,NVIDIA H100-SXM-80GB,available,96,llama2-70b-99,Dell,Intel(R) Xeon(R) Platinum 8468,Offline,Dell PowerEdge XE8640 (4x H100-SXM-80GB TensorRT),10699.6
-4,1,NVIDIA H100-SXM-80GB,available,96,llama2-70b-99,Dell,Intel(R) Xeon(R) Platinum 8468,Server,Dell PowerEdge XE8640 (4x H100-SXM-80GB TensorRT),9522.2
-4,1,NVIDIA H100-SXM-80GB,available,96,llama2-70b-99.9,Dell,Intel(R) Xeon(R) Platinum 8468,Offline,Dell PowerEdge XE8640 (4x H100-SXM-80GB TensorRT),10699.6
-4,1,NVIDIA H100-SXM-80GB,available,96,llama2-70b-99.9,Dell,Intel(R) Xeon(R) Platinum 8468,Server,Dell PowerEdge XE8640 (4x H100-SXM-80GB TensorRT),9522.2
-4,1,NVIDIA H100-SXM-80GB,available,96,mixtral-8x7b,Dell,Intel(R) Xeon(R) Platinum 8468,Offline,Dell PowerEdge XE8640 (4x H100-SXM-80GB TensorRT),26824.4
-4,1,NVIDIA H100-SXM-80GB,available,96,mixtral-8x7b,Dell,Intel(R) Xeon(R) Platinum 8468,Server,Dell PowerEdge XE8640 (4x H100-SXM-80GB TensorRT),25707.0
-4,1,NVIDIA H100-SXM-80GB,available,96,llama2-70b-99,Dell,Intel(R) Xeon(R) Platinum 8468,Offline,Dell PowerEdge XE9640 (4x H100-SXM-80GB TensorRT),10594.1
-4,1,NVIDIA H100-SXM-80GB,available,96,llama2-70b-99,Dell,Intel(R) Xeon(R) Platinum 8468,Server,Dell PowerEdge XE9640 (4x H100-SXM-80GB TensorRT),8937.82
-4,1,NVIDIA H100-SXM-80GB,available,96,llama2-70b-99.9,Dell,Intel(R) Xeon(R) Platinum 8468,Offline,Dell PowerEdge XE9640 (4x H100-SXM-80GB TensorRT),10594.1
-4,1,NVIDIA H100-SXM-80GB,available,96,llama2-70b-99.9,Dell,Intel(R) Xeon(R) Platinum 8468,Server,Dell PowerEdge XE9640 (4x H100-SXM-80GB TensorRT),8937.82
-8,1,NVIDIA H100-SXM-80GB,available,48,llama2-70b-99,Dell,Intel(R) Xeon(R) Platinum 8468,Offline,Dell PowerEdge XE9680 (8x H100-SXM-80GB TensorRT),24086.7
-8,1,NVIDIA H100-SXM-80GB,available,48,llama2-70b-99,Dell,Intel(R) Xeon(R) Platinum 8468,Server,Dell PowerEdge XE9680 (8x H100-SXM-80GB TensorRT),21589.17
-8,1,NVIDIA H100-SXM-80GB,available,48,llama2-70b-99.9,Dell,Intel(R) Xeon(R) Platinum 8468,Offline,Dell PowerEdge XE9680 (8x H100-SXM-80GB TensorRT),24086.7
-8,1,NVIDIA H100-SXM-80GB,available,48,llama2-70b-99.9,Dell,Intel(R) Xeon(R) Platinum 8468,Server,Dell PowerEdge XE9680 (8x H100-SXM-80GB TensorRT),21589.17
-8,1,NVIDIA H200-SXM-141GB,available,52,gptj-99,Dell,Intel(R) Xeon(R) Platinum 8470,Offline,Dell PowerEdge XE9680 (8x H200-SXM-141GB TensorRT),20238.4
-8,1,NVIDIA H200-SXM-141GB,available,52,gptj-99,Dell,Intel(R) Xeon(R) Platinum 8470,Server,Dell PowerEdge XE9680 (8x H200-SXM-141GB TensorRT),20139.0
-8,1,NVIDIA H200-SXM-141GB,available,52,gptj-99.9,Dell,Intel(R) Xeon(R) Platinum 8470,Offline,Dell PowerEdge XE9680 (8x H200-SXM-141GB TensorRT),20238.4
-8,1,NVIDIA H200-SXM-141GB,available,52,gptj-99.9,Dell,Intel(R) Xeon(R) Platinum 8470,Server,Dell PowerEdge XE9680 (8x H200-SXM-141GB TensorRT),20139.0
-8,1,NVIDIA H200-SXM-141GB,available,52,llama2-70b-99,Dell,Intel(R) Xeon(R) Platinum 8470,Offline,Dell PowerEdge XE9680 (8x H200-SXM-141GB TensorRT),32124.3
-8,1,NVIDIA H200-SXM-141GB,available,52,llama2-70b-99,Dell,Intel(R) Xeon(R) Platinum 8470,Server,Dell PowerEdge XE9680 (8x H200-SXM-141GB TensorRT),29739.88
-8,1,NVIDIA H200-SXM-141GB,available,52,llama2-70b-99.9,Dell,Intel(R) Xeon(R) Platinum 8470,Offline,Dell PowerEdge XE9680 (8x H200-SXM-141GB TensorRT),32124.3
-8,1,NVIDIA H200-SXM-141GB,available,52,llama2-70b-99.9,Dell,Intel(R) Xeon(R) Platinum 8470,Server,Dell PowerEdge XE9680 (8x H200-SXM-141GB TensorRT),29739.88
-8,1,AMD MI300X-NPS1-SPX-192GB-750W,available,40,llama2-70b-99,Dell,Intel(R) Xeon(R) Platinum 8460Y+,Offline,Dell PowerEdge XE9680 (8x MI300X_192GB vLLM),22677.6
-8,1,AMD MI300X-NPS1-SPX-192GB-750W,available,40,llama2-70b-99,Dell,Intel(R) Xeon(R) Platinum 8460Y+,Server,Dell PowerEdge XE9680 (8x MI300X_192GB vLLM),19886.1
-8,1,AMD MI300X-NPS1-SPX-192GB-750W,available,40,llama2-70b-99.9,Dell,Intel(R) Xeon(R) Platinum 8460Y+,Offline,Dell PowerEdge XE9680 (8x MI300X_192GB vLLM),22677.6
-8,1,AMD MI300X-NPS1-SPX-192GB-750W,available,40,llama2-70b-99.9,Dell,Intel(R) Xeon(R) Platinum 8460Y+,Server,Dell PowerEdge XE9680 (8x MI300X_192GB vLLM),19886.1
-8,1,NVIDIA L40S,available,32,gptj-99,Fujitsu,Intel(R) Xeon(R) Gold 6454S,Offline,PRIMERGY CDI (8x L40S TensorRT),6911.78
-8,1,NVIDIA L40S,available,32,gptj-99,Fujitsu,Intel(R) Xeon(R) Gold 6454S,Server,PRIMERGY CDI (8x L40S TensorRT),6903.45
-8,1,NVIDIA L40S,available,32,gptj-99.9,Fujitsu,Intel(R) Xeon(R) Gold 6454S,Offline,PRIMERGY CDI (8x L40S TensorRT),6911.78
-8,1,NVIDIA L40S,available,32,gptj-99.9,Fujitsu,Intel(R) Xeon(R) Gold 6454S,Server,PRIMERGY CDI (8x L40S TensorRT),6903.45
-8,1,NVIDIA L40S,available,32,llama2-70b-99,Fujitsu,Intel(R) Xeon(R) Gold 6454S,Offline,PRIMERGY CDI (8x L40S TensorRT),3717.74
-8,1,NVIDIA L40S,available,32,llama2-70b-99,Fujitsu,Intel(R) Xeon(R) Gold 6454S,Server,PRIMERGY CDI (8x L40S TensorRT),3218.55
-8,1,NVIDIA L40S,available,32,llama2-70b-99.9,Fujitsu,Intel(R) Xeon(R) Gold 6454S,Offline,PRIMERGY CDI (8x L40S TensorRT),3717.74
-8,1,NVIDIA L40S,available,32,llama2-70b-99.9,Fujitsu,Intel(R) Xeon(R) Gold 6454S,Server,PRIMERGY CDI (8x L40S TensorRT),3218.55
-4,1,NVIDIA H100-SXM-80GB,available,48,gptj-99,Fujitsu,Intel(R) Xeon(R) Platinum 8468,Offline,GX2560M7_H100_SXM_80GBx4 (4x H100-SXM-80GB TensorRT),9960.74
-4,1,NVIDIA H100-SXM-80GB,available,48,gptj-99,Fujitsu,Intel(R) Xeon(R) Platinum 8468,Server,GX2560M7_H100_SXM_80GBx4 (4x H100-SXM-80GB TensorRT),9602.79
-4,1,NVIDIA H100-SXM-80GB,available,48,gptj-99.9,Fujitsu,Intel(R) Xeon(R) Platinum 8468,Offline,GX2560M7_H100_SXM_80GBx4 (4x H100-SXM-80GB TensorRT),9960.74
-4,1,NVIDIA H100-SXM-80GB,available,48,gptj-99.9,Fujitsu,Intel(R) Xeon(R) Platinum 8468,Server,GX2560M7_H100_SXM_80GBx4 (4x H100-SXM-80GB TensorRT),9602.79
-4,1,NVIDIA H100-SXM-80GB,available,48,llama2-70b-99,Fujitsu,Intel(R) Xeon(R) Platinum 8468,Offline,GX2560M7_H100_SXM_80GBx4 (4x H100-SXM-80GB TensorRT),10133.3
-4,1,NVIDIA H100-SXM-80GB,available,48,llama2-70b-99,Fujitsu,Intel(R) Xeon(R) Platinum 8468,Server,GX2560M7_H100_SXM_80GBx4 (4x H100-SXM-80GB TensorRT),9493.99
-4,1,NVIDIA H100-SXM-80GB,available,48,llama2-70b-99.9,Fujitsu,Intel(R) Xeon(R) Platinum 8468,Offline,GX2560M7_H100_SXM_80GBx4 (4x H100-SXM-80GB TensorRT),10133.3
-4,1,NVIDIA H100-SXM-80GB,available,48,llama2-70b-99.9,Fujitsu,Intel(R) Xeon(R) Platinum 8468,Server,GX2560M7_H100_SXM_80GBx4 (4x H100-SXM-80GB TensorRT),9493.99
-4,1,NVIDIA H100-SXM-80GB,available,48,mixtral-8x7b,Fujitsu,Intel(R) Xeon(R) Platinum 8468,Offline,GX2560M7_H100_SXM_80GBx4 (4x H100-SXM-80GB TensorRT),26641.6
-4,1,NVIDIA H100-SXM-80GB,available,48,mixtral-8x7b,Fujitsu,Intel(R) Xeon(R) Platinum 8468,Server,GX2560M7_H100_SXM_80GBx4 (4x H100-SXM-80GB TensorRT),25358.5
-8,1,NVIDIA H200-SXM-141GB,available,56,gptj-99,GigaComputing,Intel(R) Xeon(R) Platinum 8480+,Offline,GIGABYTE G593-SD1,20041.3
-8,1,NVIDIA H200-SXM-141GB,available,56,gptj-99,GigaComputing,Intel(R) Xeon(R) Platinum 8480+,Server,GIGABYTE G593-SD1,19250.4
-8,1,NVIDIA H200-SXM-141GB,available,56,gptj-99.9,GigaComputing,Intel(R) Xeon(R) Platinum 8480+,Offline,GIGABYTE G593-SD1,20041.3
-8,1,NVIDIA H200-SXM-141GB,available,56,gptj-99.9,GigaComputing,Intel(R) Xeon(R) Platinum 8480+,Server,GIGABYTE G593-SD1,19250.4
-8,1,NVIDIA H200-SXM-141GB,available,56,llama2-70b-99,GigaComputing,Intel(R) Xeon(R) Platinum 8480+,Offline,GIGABYTE G593-SD1,31263.8
-8,1,NVIDIA H200-SXM-141GB,available,56,llama2-70b-99,GigaComputing,Intel(R) Xeon(R) Platinum 8480+,Server,GIGABYTE G593-SD1,29715.28
-8,1,NVIDIA H200-SXM-141GB,available,56,llama2-70b-99.9,GigaComputing,Intel(R) Xeon(R) Platinum 8480+,Offline,GIGABYTE G593-SD1,31263.8
-8,1,NVIDIA H200-SXM-141GB,available,56,llama2-70b-99.9,GigaComputing,Intel(R) Xeon(R) Platinum 8480+,Server,GIGABYTE G593-SD1,29715.28
-8,1,NVIDIA H200-SXM-141GB,available,56,mixtral-8x7b,GigaComputing,Intel(R) Xeon(R) Platinum 8480+,Offline,GIGABYTE G593-SD1,59334.8
-8,1,NVIDIA H200-SXM-141GB,available,56,mixtral-8x7b,GigaComputing,Intel(R) Xeon(R) Platinum 8480+,Server,GIGABYTE G593-SD1,57174.1
-8,1,NVIDIA H100-SXM-80GB,available,56,llama2-70b-99,Google,Intel(R) Xeon(R) Platinum 8481C,Offline,NVIDIA DGX H100 (8x H100-SXM-80GB TensorRT),24133.7
-8,1,NVIDIA H100-SXM-80GB,available,56,llama2-70b-99,Google,Intel(R) Xeon(R) Platinum 8481C,Server,NVIDIA DGX H100 (8x H100-SXM-80GB TensorRT),21588.35
-8,1,NVIDIA H100-SXM-80GB,available,56,llama2-70b-99.9,Google,Intel(R) Xeon(R) Platinum 8481C,Offline,NVIDIA DGX H100 (8x H100-SXM-80GB TensorRT),24133.7
-8,1,NVIDIA H100-SXM-80GB,available,56,llama2-70b-99.9,Google,Intel(R) Xeon(R) Platinum 8481C,Server,NVIDIA DGX H100 (8x H100-SXM-80GB TensorRT),21588.35
-8,1,NVIDIA H100-SXM-80GB,available,56,mixtral-8x7b,Google,Intel(R) Xeon(R) Platinum 8481C,Offline,NVIDIA DGX H100 (8x H100-SXM-80GB TensorRT),52524.4
-8,1,NVIDIA H100-SXM-80GB,available,56,mixtral-8x7b,Google,Intel(R) Xeon(R) Platinum 8481C,Server,NVIDIA DGX H100 (8x H100-SXM-80GB TensorRT),50798.8
-0,1,,available,64,gptj-99,HPE,INTEL(R) XEON(R) PLATINUM 8592+,Offline,HPE ProLiant DL380 Gen11,251.298
-0,1,,available,64,gptj-99,HPE,INTEL(R) XEON(R) PLATINUM 8592+,Server,HPE ProLiant DL380 Gen11,113.735
-8,1,NVIDIA H100-SXM-80GB,available,48,gptj-99,HPE,Intel(R) Xeon(R) Platinum 8468,Offline,HPE Cray XD670 (8x H100-SXM-80GB TensorRT),19751.9
-8,1,NVIDIA H100-SXM-80GB,available,48,gptj-99,HPE,Intel(R) Xeon(R) Platinum 8468,Server,HPE Cray XD670 (8x H100-SXM-80GB TensorRT),19502.6
-8,1,NVIDIA H100-SXM-80GB,available,48,llama2-70b-99,HPE,Intel(R) Xeon(R) Platinum 8468,Offline,HPE Cray XD670 (8x H100-SXM-80GB TensorRT),24528.3
-8,1,NVIDIA H100-SXM-80GB,available,48,llama2-70b-99,HPE,Intel(R) Xeon(R) Platinum 8468,Server,HPE Cray XD670 (8x H100-SXM-80GB TensorRT),23132.81
-8,1,NVIDIA H100-SXM-80GB,available,48,llama2-70b-99.9,HPE,Intel(R) Xeon(R) Platinum 8468,Offline,HPE Cray XD670 (8x H100-SXM-80GB TensorRT),24424.7
-8,1,NVIDIA H100-SXM-80GB,available,48,llama2-70b-99.9,HPE,Intel(R) Xeon(R) Platinum 8468,Server,HPE Cray XD670 (8x H100-SXM-80GB TensorRT),23144.02
-8,1,NVIDIA H100-SXM-80GB,available,48,mixtral-8x7b,HPE,Intel(R) Xeon(R) Platinum 8468,Offline,HPE Cray XD670 (8x H100-SXM-80GB TensorRT),52395.1
-8,1,NVIDIA H100-SXM-80GB,available,48,mixtral-8x7b,HPE,Intel(R) Xeon(R) Platinum 8468,Server,HPE Cray XD670 (8x H100-SXM-80GB TensorRT),50798.5
-4,1,NVIDIA H100-NVL-94GB,available,32,llama2-70b-99,HPE,INTEL(R) XEON(R) GOLD 6530,Offline,HPE ProLiant DL380a Gen11 (4x H100-NVL-94GB TensorRT),8858.78
-4,1,NVIDIA H100-NVL-94GB,available,32,llama2-70b-99,HPE,INTEL(R) XEON(R) GOLD 6530,Server,HPE ProLiant DL380a Gen11 (4x H100-NVL-94GB TensorRT),6927.8
-4,1,NVIDIA H100-NVL-94GB,available,32,llama2-70b-99.9,HPE,INTEL(R) XEON(R) GOLD 6530,Offline,HPE ProLiant DL380a Gen11 (4x H100-NVL-94GB TensorRT),8858.78
-4,1,NVIDIA H100-NVL-94GB,available,32,llama2-70b-99.9,HPE,INTEL(R) XEON(R) GOLD 6530,Server,HPE ProLiant DL380a Gen11 (4x H100-NVL-94GB TensorRT),6927.8
-0,1,,available,64,gptj-99,Intel,INTEL(R) XEON(R) PLATINUM 8592+,Offline,1-node-2S-EMR-PyTorch,254.724
-0,1,,available,64,gptj-99,Intel,INTEL(R) XEON(R) PLATINUM 8592+,Server,1-node-2S-EMR-PyTorch,113.74
-8,2,NVIDIA H100-SXM-80GB,available,112,llama2-70b-99,JuniperNetworks,AMD EPYC 7763 64-Core Processor,Offline,2x8xH100-SXM-80GB,41672.4
-8,2,NVIDIA H100-SXM-80GB,available,112,llama2-70b-99,JuniperNetworks,AMD EPYC 7763 64-Core Processor,Server,2x8xH100-SXM-80GB,41091.6
-8,2,NVIDIA H100-SXM-80GB,available,112,llama2-70b-99.9,JuniperNetworks,AMD EPYC 7763 64-Core Processor,Offline,2x8xH100-SXM-80GB,41672.4
-8,2,NVIDIA H100-SXM-80GB,available,112,llama2-70b-99.9,JuniperNetworks,AMD EPYC 7763 64-Core Processor,Server,2x8xH100-SXM-80GB,41091.6
-8,4,NVIDIA H100-SXM-80GB,available,112,llama2-70b-99,JuniperNetworks,AMD EPYC 7763 64-Core Processor,Offline,4x8xH100-SXM-80GB,82749.6
-8,4,NVIDIA H100-SXM-80GB,available,112,llama2-70b-99,JuniperNetworks,AMD EPYC 7763 64-Core Processor,Server,4x8xH100-SXM-80GB,82273.2
-8,4,NVIDIA H100-SXM-80GB,available,112,llama2-70b-99.9,JuniperNetworks,AMD EPYC 7763 64-Core Processor,Offline,4x8xH100-SXM-80GB,82749.6
-8,4,NVIDIA H100-SXM-80GB,available,112,llama2-70b-99.9,JuniperNetworks,AMD EPYC 7763 64-Core Processor,Server,4x8xH100-SXM-80GB,82273.2
-8,1,NVIDIA H200-SXM-141GB,available,48,gptj-99,Lenovo,AMD EPYC 9454,Offline,ThinkSystem SR685a V3(8x H200-SXM-141GB TensorRT),19859.2
-8,1,NVIDIA H200-SXM-141GB,available,48,gptj-99,Lenovo,AMD EPYC 9454,Server,ThinkSystem SR685a V3(8x H200-SXM-141GB TensorRT),19716.0
-8,1,NVIDIA H200-SXM-141GB,available,48,llama2-70b-99,Lenovo,AMD EPYC 9454,Offline,ThinkSystem SR685a V3(8x H200-SXM-141GB TensorRT),31917.0
-8,1,NVIDIA H200-SXM-141GB,available,48,llama2-70b-99,Lenovo,AMD EPYC 9454,Server,ThinkSystem SR685a V3(8x H200-SXM-141GB TensorRT),30068.5
-8,1,NVIDIA H200-SXM-141GB,available,48,llama2-70b-99.9,Lenovo,AMD EPYC 9454,Offline,ThinkSystem SR685a V3(8x H200-SXM-141GB TensorRT),31917.0
-8,1,NVIDIA H200-SXM-141GB,available,48,llama2-70b-99.9,Lenovo,AMD EPYC 9454,Server,ThinkSystem SR685a V3(8x H200-SXM-141GB TensorRT),30068.5
-8,1,NVIDIA H200-SXM-141GB,available,48,gptj-99,Lenovo,Intel(R) Xeon(R) Platinum 8568Y+,Offline,ThinkSystem SR680a V3 (8x H200-SXM-141GB TensorRT),20552.1
-8,1,NVIDIA H200-SXM-141GB,available,48,gptj-99,Lenovo,Intel(R) Xeon(R) Platinum 8568Y+,Server,ThinkSystem SR680a V3 (8x H200-SXM-141GB TensorRT),19785.0
-8,1,NVIDIA H200-SXM-141GB,available,48,gptj-99.9,Lenovo,Intel(R) Xeon(R) Platinum 8568Y+,Offline,ThinkSystem SR680a V3 (8x H200-SXM-141GB TensorRT),20552.1
-8,1,NVIDIA H200-SXM-141GB,available,48,gptj-99.9,Lenovo,Intel(R) Xeon(R) Platinum 8568Y+,Server,ThinkSystem SR680a V3 (8x H200-SXM-141GB TensorRT),19785.0
-8,1,NVIDIA H200-SXM-141GB,available,48,llama2-70b-99,Lenovo,Intel(R) Xeon(R) Platinum 8568Y+,Offline,ThinkSystem SR680a V3 (8x H200-SXM-141GB TensorRT),31973.7
-8,1,NVIDIA H200-SXM-141GB,available,48,llama2-70b-99,Lenovo,Intel(R) Xeon(R) Platinum 8568Y+,Server,ThinkSystem SR680a V3 (8x H200-SXM-141GB TensorRT),30438.66
-8,1,NVIDIA H200-SXM-141GB,available,48,llama2-70b-99.9,Lenovo,Intel(R) Xeon(R) Platinum 8568Y+,Offline,ThinkSystem SR680a V3 (8x H200-SXM-141GB TensorRT),31973.7
-8,1,NVIDIA H200-SXM-141GB,available,48,llama2-70b-99.9,Lenovo,Intel(R) Xeon(R) Platinum 8568Y+,Server,ThinkSystem SR680a V3 (8x H200-SXM-141GB TensorRT),30438.66
-3,1,NVIDIA L40S,available,32,gptj-99,Lenovo,Intel(R) Xeon(R) Gold 6438N,Offline,ThinkSystem SR650 V3 (3x NVIDIA L40S TensorRT),2593.65
-3,1,NVIDIA L40S,available,32,gptj-99,Lenovo,Intel(R) Xeon(R) Gold 6438N,Server,ThinkSystem SR650 V3 (3x NVIDIA L40S TensorRT),2475.22
-8,1,NVIDIA H100-NVL-94GB,available,84,gptj-99,Lenovo,AMD EPYC 9634 84-Core Processor,Offline,ThinkSystem SR675 V3 (8x H100-NVL-94GB TensorRT),14073.6
-8,1,NVIDIA H100-NVL-94GB,available,84,gptj-99,Lenovo,AMD EPYC 9634 84-Core Processor,Server,ThinkSystem SR675 V3 (8x H100-NVL-94GB TensorRT),13083.5
-8,1,NVIDIA H100-NVL-94GB,available,84,llama2-70b-99,Lenovo,AMD EPYC 9634 84-Core Processor,Offline,ThinkSystem SR675 V3 (8x H100-NVL-94GB TensorRT),15875.8
-8,1,NVIDIA H100-NVL-94GB,available,84,llama2-70b-99,Lenovo,AMD EPYC 9634 84-Core Processor,Server,ThinkSystem SR675 V3 (8x H100-NVL-94GB TensorRT),13074.68
-8,1,NVIDIA H100-NVL-94GB,available,84,llama2-70b-99.9,Lenovo,AMD EPYC 9634 84-Core Processor,Offline,ThinkSystem SR675 V3 (8x H100-NVL-94GB TensorRT),15875.8
-8,1,NVIDIA H100-NVL-94GB,available,84,llama2-70b-99.9,Lenovo,AMD EPYC 9634 84-Core Processor,Server,ThinkSystem SR675 V3 (8x H100-NVL-94GB TensorRT),13074.68
-8,1,NVIDIA H100-SXM-80GB,available,56,gptj-99,NVIDIA,Intel(R) Xeon(R) Platinum 8480C,Offline,NVIDIA DGX H100 (8x H100-SXM-80GB TensorRT),19739.8
-8,1,NVIDIA H100-SXM-80GB,available,56,gptj-99,NVIDIA,Intel(R) Xeon(R) Platinum 8480C,Server,NVIDIA DGX H100 (8x H100-SXM-80GB TensorRT),19233.8
-8,1,NVIDIA H100-SXM-80GB,available,56,gptj-99.9,NVIDIA,Intel(R) Xeon(R) Platinum 8480C,Offline,NVIDIA DGX H100 (8x H100-SXM-80GB TensorRT),19739.8
-8,1,NVIDIA H100-SXM-80GB,available,56,gptj-99.9,NVIDIA,Intel(R) Xeon(R) Platinum 8480C,Server,NVIDIA DGX H100 (8x H100-SXM-80GB TensorRT),19233.8
-8,1,NVIDIA H100-SXM-80GB,available,56,llama2-70b-99,NVIDIA,Intel(R) Xeon(R) Platinum 8480C,Offline,NVIDIA DGX H100 (8x H100-SXM-80GB TensorRT),24524.9
-8,1,NVIDIA H100-SXM-80GB,available,56,llama2-70b-99,NVIDIA,Intel(R) Xeon(R) Platinum 8480C,Server,NVIDIA DGX H100 (8x H100-SXM-80GB TensorRT),21605.79
-8,1,NVIDIA H100-SXM-80GB,available,56,llama2-70b-99.9,NVIDIA,Intel(R) Xeon(R) Platinum 8480C,Offline,NVIDIA DGX H100 (8x H100-SXM-80GB TensorRT),24524.9
-8,1,NVIDIA H100-SXM-80GB,available,56,llama2-70b-99.9,NVIDIA,Intel(R) Xeon(R) Platinum 8480C,Server,NVIDIA DGX H100 (8x H100-SXM-80GB TensorRT),21605.79
-8,1,NVIDIA H100-SXM-80GB,available,56,mixtral-8x7b,NVIDIA,Intel(R) Xeon(R) Platinum 8480C,Offline,NVIDIA DGX H100 (8x H100-SXM-80GB TensorRT),52415.9
-8,1,NVIDIA H100-SXM-80GB,available,56,mixtral-8x7b,NVIDIA,Intel(R) Xeon(R) Platinum 8480C,Server,NVIDIA DGX H100 (8x H100-SXM-80GB TensorRT),50795.6
-1,1,NVIDIA GH200 Grace Hopper Superchip 144GB,available,72,gptj-99,NVIDIA,NVIDIA Grace CPU,Offline,NVIDIA GH200 NVL2 Platform (1x GH200-144GB_aarch64 TensorRT),2627.69
-1,1,NVIDIA GH200 Grace Hopper Superchip 144GB,available,72,gptj-99,NVIDIA,NVIDIA Grace CPU,Server,NVIDIA GH200 NVL2 Platform (1x GH200-144GB_aarch64 TensorRT),2513.38
-1,1,NVIDIA GH200 Grace Hopper Superchip 144GB,available,72,gptj-99.9,NVIDIA,NVIDIA Grace CPU,Offline,NVIDIA GH200 NVL2 Platform (1x GH200-144GB_aarch64 TensorRT),2627.69
-1,1,NVIDIA GH200 Grace Hopper Superchip 144GB,available,72,gptj-99.9,NVIDIA,NVIDIA Grace CPU,Server,NVIDIA GH200 NVL2 Platform (1x GH200-144GB_aarch64 TensorRT),2513.38
-1,1,NVIDIA GH200 Grace Hopper Superchip 144GB,available,72,llama2-70b-99,NVIDIA,NVIDIA Grace CPU,Offline,NVIDIA GH200 NVL2 Platform (1x GH200-144GB_aarch64 TensorRT),4067.52
-1,1,NVIDIA GH200 Grace Hopper Superchip 144GB,available,72,llama2-70b-99,NVIDIA,NVIDIA Grace CPU,Server,NVIDIA GH200 NVL2 Platform (1x GH200-144GB_aarch64 TensorRT),3883.67
-1,1,NVIDIA GH200 Grace Hopper Superchip 144GB,available,72,llama2-70b-99.9,NVIDIA,NVIDIA Grace CPU,Offline,NVIDIA GH200 NVL2 Platform (1x GH200-144GB_aarch64 TensorRT),4067.52
-1,1,NVIDIA GH200 Grace Hopper Superchip 144GB,available,72,llama2-70b-99.9,NVIDIA,NVIDIA Grace CPU,Server,NVIDIA GH200 NVL2 Platform (1x GH200-144GB_aarch64 TensorRT),3883.67
-1,1,NVIDIA GH200 Grace Hopper Superchip 144GB,available,72,mixtral-8x7b,NVIDIA,NVIDIA Grace CPU,Offline,NVIDIA GH200 NVL2 Platform (1x GH200-144GB_aarch64 TensorRT),8021.46
-1,1,NVIDIA GH200 Grace Hopper Superchip 144GB,available,72,mixtral-8x7b,NVIDIA,NVIDIA Grace CPU,Server,NVIDIA GH200 NVL2 Platform (1x GH200-144GB_aarch64 TensorRT),7450.27
-1,1,NVIDIA H200-SXM-141GB-CTS,available,56,llama2-70b-99,NVIDIA,Intel(R) Xeon(R) Platinum 8480C,Offline,NVIDIA H200 (1x H200-SXM-141GB-CTS TensorRT),4487.88
-1,1,NVIDIA H200-SXM-141GB-CTS,available,56,llama2-70b-99,NVIDIA,Intel(R) Xeon(R) Platinum 8480C,Server,NVIDIA H200 (1x H200-SXM-141GB-CTS TensorRT),4202.3
-1,1,NVIDIA H200-SXM-141GB-CTS,available,56,llama2-70b-99.9,NVIDIA,Intel(R) Xeon(R) Platinum 8480C,Offline,NVIDIA H200 (1x H200-SXM-141GB-CTS TensorRT),4487.88
-1,1,NVIDIA H200-SXM-141GB-CTS,available,56,llama2-70b-99.9,NVIDIA,Intel(R) Xeon(R) Platinum 8480C,Server,NVIDIA H200 (1x H200-SXM-141GB-CTS TensorRT),4202.3
-8,1,NVIDIA H200-SXM-141GB-CTS,available,56,llama2-70b-99,NVIDIA,Intel(R) Xeon(R) Platinum 8480C,Offline,NVIDIA H200 (8x H200-SXM-141GB-CTS TensorRT),34864.2
-8,1,NVIDIA H200-SXM-141GB-CTS,available,56,llama2-70b-99,NVIDIA,Intel(R) Xeon(R) Platinum 8480C,Server,NVIDIA H200 (8x H200-SXM-141GB-CTS TensorRT),32789.74
-8,1,NVIDIA H200-SXM-141GB-CTS,available,56,llama2-70b-99.9,NVIDIA,Intel(R) Xeon(R) Platinum 8480C,Offline,NVIDIA H200 (8x H200-SXM-141GB-CTS TensorRT),34864.2
-8,1,NVIDIA H200-SXM-141GB-CTS,available,56,llama2-70b-99.9,NVIDIA,Intel(R) Xeon(R) Platinum 8480C,Server,NVIDIA H200 (8x H200-SXM-141GB-CTS TensorRT),32789.74
-1,1,NVIDIA H200-SXM-141GB,available,56,gptj-99,NVIDIA,Intel(R) Xeon(R) Platinum 8480C,Offline,NVIDIA H200 (1x H200-SXM-141GB TensorRT),2579.51
-1,1,NVIDIA H200-SXM-141GB,available,56,gptj-99,NVIDIA,Intel(R) Xeon(R) Platinum 8480C,Server,NVIDIA H200 (1x H200-SXM-141GB TensorRT),2405.86
-1,1,NVIDIA H200-SXM-141GB,available,56,gptj-99.9,NVIDIA,Intel(R) Xeon(R) Platinum 8480C,Offline,NVIDIA H200 (1x H200-SXM-141GB TensorRT),2579.51
-1,1,NVIDIA H200-SXM-141GB,available,56,gptj-99.9,NVIDIA,Intel(R) Xeon(R) Platinum 8480C,Server,NVIDIA H200 (1x H200-SXM-141GB TensorRT),2405.86
-8,1,NVIDIA H200-SXM-141GB,available,56,gptj-99,NVIDIA,Intel(R) Xeon(R) Platinum 8480C,Offline,NVIDIA H200 (8x H200-SXM-141GB TensorRT),20086.1
-8,1,NVIDIA H200-SXM-141GB,available,56,gptj-99,NVIDIA,Intel(R) Xeon(R) Platinum 8480C,Server,NVIDIA H200 (8x H200-SXM-141GB TensorRT),19243.3
-8,1,NVIDIA H200-SXM-141GB,available,56,gptj-99.9,NVIDIA,Intel(R) Xeon(R) Platinum 8480C,Offline,NVIDIA H200 (8x H200-SXM-141GB TensorRT),20086.1
-8,1,NVIDIA H200-SXM-141GB,available,56,gptj-99.9,NVIDIA,Intel(R) Xeon(R) Platinum 8480C,Server,NVIDIA H200 (8x H200-SXM-141GB TensorRT),19243.3
-8,1,NVIDIA H200-SXM-141GB,available,56,llama2-70b-99,NVIDIA,Intel(R) Xeon(R) Platinum 8480C,Offline,NVIDIA H200 (8x H200-SXM-141GB TensorRT),31302.7
-8,1,NVIDIA H200-SXM-141GB,available,56,llama2-70b-99,NVIDIA,Intel(R) Xeon(R) Platinum 8480C,Server,NVIDIA H200 (8x H200-SXM-141GB TensorRT),29228.22
-8,1,NVIDIA H200-SXM-141GB,available,56,llama2-70b-99.9,NVIDIA,Intel(R) Xeon(R) Platinum 8480C,Offline,NVIDIA H200 (8x H200-SXM-141GB TensorRT),31302.7
-8,1,NVIDIA H200-SXM-141GB,available,56,llama2-70b-99.9,NVIDIA,Intel(R) Xeon(R) Platinum 8480C,Server,NVIDIA H200 (8x H200-SXM-141GB TensorRT),29228.22
-8,1,NVIDIA H200-SXM-141GB,available,56,mixtral-8x7b,NVIDIA,Intel(R) Xeon(R) Platinum 8480C,Offline,NVIDIA H200 (8x H200-SXM-141GB TensorRT),59022.3
-8,1,NVIDIA H200-SXM-141GB,available,56,mixtral-8x7b,NVIDIA,Intel(R) Xeon(R) Platinum 8480C,Server,NVIDIA H200 (8x H200-SXM-141GB TensorRT),57177.2
-8,1,NVIDIA H200-SXM-141GB,available,56,llama2-70b-99,NVIDIA,Intel(R) Xeon(R) Platinum 8480C,Offline,NVIDIA H200 (8x H200-SXM-141GB TensorRT Triton),31059.3
-8,1,NVIDIA H200-SXM-141GB,available,56,llama2-70b-99,NVIDIA,Intel(R) Xeon(R) Platinum 8480C,Server,NVIDIA H200 (8x H200-SXM-141GB TensorRT Triton),30128.44
-8,1,NVIDIA H200-SXM-141GB,available,56,llama2-70b-99.9,NVIDIA,Intel(R) Xeon(R) Platinum 8480C,Offline,NVIDIA H200 (8x H200-SXM-141GB TensorRT Triton),31059.3
-8,1,NVIDIA H200-SXM-141GB,available,56,llama2-70b-99.9,NVIDIA,Intel(R) Xeon(R) Platinum 8480C,Server,NVIDIA H200 (8x H200-SXM-141GB TensorRT Triton),30128.44
-8,1,NVIDIA L40S,available,4,llama2-70b-99,NeuralMagic,AMD EPYC 9254 24-Core Processor,Offline,Crusoe Cloud L40S (8x L40S PCIe vLLM FP8),948.198
-8,1,NVIDIA L40S,available,4,llama2-70b-99,NeuralMagic,AMD EPYC 9254 24-Core Processor,Server,Crusoe Cloud L40S (8x L40S PCIe vLLM FP8),592.26
-1,1,NVIDIA GH200 Grace Hopper Superchip 96GB,available,72,gptj-99,Oracle,NVIDIA Grace CPU,Offline,NVIDIA GH200-GraceHopper-Superchip (1x GH200-96GB_aarch64 TensorRT),2695.15
-1,1,NVIDIA GH200 Grace Hopper Superchip 96GB,available,72,gptj-99,Oracle,NVIDIA Grace CPU,Server,NVIDIA GH200-GraceHopper-Superchip (1x GH200-96GB_aarch64 TensorRT),2159.58
-1,1,NVIDIA GH200 Grace Hopper Superchip 96GB,available,72,gptj-99.9,Oracle,NVIDIA Grace CPU,Offline,NVIDIA GH200-GraceHopper-Superchip (1x GH200-96GB_aarch64 TensorRT),2695.15
-1,1,NVIDIA GH200 Grace Hopper Superchip 96GB,available,72,gptj-99.9,Oracle,NVIDIA Grace CPU,Server,NVIDIA GH200-GraceHopper-Superchip (1x GH200-96GB_aarch64 TensorRT),2159.58
-0,1,,available,64,gptj-99,Quanta_Cloud_Technology,Intel(R) Xeon(R) Platinum 8592+,Offline,1-node-2S-EMR-PyTorch,239.034
-0,1,,available,64,gptj-99,Quanta_Cloud_Technology,Intel(R) Xeon(R) Platinum 8592+,Server,1-node-2S-EMR-PyTorch,113.732
-4,1,NVIDIA L40S,available,44,gptj-99,Quanta_Cloud_Technology,Intel(R) Xeon(R) Platinum 8458P,Offline,D54U_3U_L40S_PCIe_48GBx4_TRT,3463.19
-4,1,NVIDIA L40S,available,44,gptj-99,Quanta_Cloud_Technology,Intel(R) Xeon(R) Platinum 8458P,Server,D54U_3U_L40S_PCIe_48GBx4_TRT,3096.45
-4,1,NVIDIA L40S,available,44,gptj-99.9,Quanta_Cloud_Technology,Intel(R) Xeon(R) Platinum 8458P,Offline,D54U_3U_L40S_PCIe_48GBx4_TRT,3463.19
-4,1,NVIDIA L40S,available,44,gptj-99.9,Quanta_Cloud_Technology,Intel(R) Xeon(R) Platinum 8458P,Server,D54U_3U_L40S_PCIe_48GBx4_TRT,3096.45
-1,1,NVIDIA GH200 Grace Hopper Superchip 96GB,available,72,gptj-99,Quanta_Cloud_Technology,NVIDIA Grace CPU,Offline,GH200-GraceHopper-Superchip_GH200-96GB_aarch64x1_TRT,2803.72
-1,1,NVIDIA GH200 Grace Hopper Superchip 96GB,available,72,gptj-99,Quanta_Cloud_Technology,NVIDIA Grace CPU,Server,GH200-GraceHopper-Superchip_GH200-96GB_aarch64x1_TRT,2160.12
-1,1,NVIDIA GH200 Grace Hopper Superchip 96GB,available,72,gptj-99.9,Quanta_Cloud_Technology,NVIDIA Grace CPU,Offline,GH200-GraceHopper-Superchip_GH200-96GB_aarch64x1_TRT,2803.72
-1,1,NVIDIA GH200 Grace Hopper Superchip 96GB,available,72,gptj-99.9,Quanta_Cloud_Technology,NVIDIA Grace CPU,Server,GH200-GraceHopper-Superchip_GH200-96GB_aarch64x1_TRT,2160.12
-1,1,NVIDIA GH200 Grace Hopper Superchip 96GB,available,72,llama2-70b-99.9,Quanta_Cloud_Technology,NVIDIA Grace CPU,Offline,GH200-GraceHopper-Superchip_GH200-96GB_aarch64x1_TRT,3114.03
-1,1,NVIDIA GH200 Grace Hopper Superchip 96GB,available,72,llama2-70b-99.9,Quanta_Cloud_Technology,NVIDIA Grace CPU,Server,GH200-GraceHopper-Superchip_GH200-96GB_aarch64x1_TRT,2619.09
-4,1,NVIDIA L40S,available,112,llama2-70b-99.9,RedHat,Intel(R) Xeon(R) Platinum 8480CL,Offline,L40S-RedHat-OpenShift,1717.77
-4,1,NVIDIA L40S,available,112,llama2-70b-99.9,RedHat,Intel(R) Xeon(R) Platinum 8480CL,Server,L40S-RedHat-OpenShift,1469.19
-8,1,NVIDIA H100-SXM-80GB,available,96,gptj-99,Supermicro,AMD EPYC 9654,Offline,AS-4125GS-TNHR2-LCC (8x H100-SXM-80GB TensorRT),19539.2
-8,1,NVIDIA H100-SXM-80GB,available,96,gptj-99,Supermicro,AMD EPYC 9654,Server,AS-4125GS-TNHR2-LCC (8x H100-SXM-80GB TensorRT),19810.7
-8,1,NVIDIA H100-SXM-80GB,available,96,gptj-99.9,Supermicro,AMD EPYC 9654,Offline,AS-4125GS-TNHR2-LCC (8x H100-SXM-80GB TensorRT),19539.2
-8,1,NVIDIA H100-SXM-80GB,available,96,gptj-99.9,Supermicro,AMD EPYC 9654,Server,AS-4125GS-TNHR2-LCC (8x H100-SXM-80GB TensorRT),19810.7
-8,1,NVIDIA H100-SXM-80GB,available,96,llama2-70b-99,Supermicro,AMD EPYC 9654,Offline,AS-4125GS-TNHR2-LCC (8x H100-SXM-80GB TensorRT),24216.8
-8,1,NVIDIA H100-SXM-80GB,available,96,llama2-70b-99,Supermicro,AMD EPYC 9654,Server,AS-4125GS-TNHR2-LCC (8x H100-SXM-80GB TensorRT),23699.66
-8,1,NVIDIA H100-SXM-80GB,available,96,llama2-70b-99.9,Supermicro,AMD EPYC 9654,Offline,AS-4125GS-TNHR2-LCC (8x H100-SXM-80GB TensorRT),24216.8
-8,1,NVIDIA H100-SXM-80GB,available,96,llama2-70b-99.9,Supermicro,AMD EPYC 9654,Server,AS-4125GS-TNHR2-LCC (8x H100-SXM-80GB TensorRT),23699.66
-8,1,NVIDIA H100-SXM-80GB,available,96,mixtral-8x7b,Supermicro,AMD EPYC 9654,Offline,AS-4125GS-TNHR2-LCC (8x H100-SXM-80GB TensorRT),51269.0
-8,1,NVIDIA H100-SXM-80GB,available,96,mixtral-8x7b,Supermicro,AMD EPYC 9654,Server,AS-4125GS-TNHR2-LCC (8x H100-SXM-80GB TensorRT),50099.5
-8,1,NVIDIA H100-SXM-80GB,available,48,gptj-99,Supermicro,AMD EPYC 9474F,Offline,AS-8125GS-TNHR (8x H100-SXM-80GB TensorRT),19418.9
-8,1,NVIDIA H100-SXM-80GB,available,48,gptj-99,Supermicro,AMD EPYC 9474F,Server,AS-8125GS-TNHR (8x H100-SXM-80GB TensorRT),19304.4
-8,1,NVIDIA H100-SXM-80GB,available,48,gptj-99.9,Supermicro,AMD EPYC 9474F,Offline,AS-8125GS-TNHR (8x H100-SXM-80GB TensorRT),19418.9
-8,1,NVIDIA H100-SXM-80GB,available,48,gptj-99.9,Supermicro,AMD EPYC 9474F,Server,AS-8125GS-TNHR (8x H100-SXM-80GB TensorRT),19304.4
-8,1,NVIDIA H100-SXM-80GB,available,48,llama2-70b-99,Supermicro,AMD EPYC 9474F,Offline,AS-8125GS-TNHR (8x H100-SXM-80GB TensorRT),24011.7
-8,1,NVIDIA H100-SXM-80GB,available,48,llama2-70b-99,Supermicro,AMD EPYC 9474F,Server,AS-8125GS-TNHR (8x H100-SXM-80GB TensorRT),21775.48
-8,1,NVIDIA H100-SXM-80GB,available,48,llama2-70b-99.9,Supermicro,AMD EPYC 9474F,Offline,AS-8125GS-TNHR (8x H100-SXM-80GB TensorRT),24011.7
-8,1,NVIDIA H100-SXM-80GB,available,48,llama2-70b-99.9,Supermicro,AMD EPYC 9474F,Server,AS-8125GS-TNHR (8x H100-SXM-80GB TensorRT),21775.48
-8,1,NVIDIA H100-SXM-80GB,available,48,mixtral-8x7b,Supermicro,AMD EPYC 9474F,Offline,AS-8125GS-TNHR (8x H100-SXM-80GB TensorRT),50970.6
-8,1,NVIDIA H100-SXM-80GB,available,48,mixtral-8x7b,Supermicro,AMD EPYC 9474F,Server,AS-8125GS-TNHR (8x H100-SXM-80GB TensorRT),49864.0
-1,1,NVIDIA GH200 Grace Hopper Superchip 96GB,available,72,gptj-99,Supermicro,NVIDIA Grace CPU,Offline,NVIDIA GH200-GraceHopper-Superchip (1x GH200-96GB_aarch64 TensorRT),2659.47
-1,1,NVIDIA GH200 Grace Hopper Superchip 96GB,available,72,gptj-99,Supermicro,NVIDIA Grace CPU,Server,NVIDIA GH200-GraceHopper-Superchip (1x GH200-96GB_aarch64 TensorRT),2159.89
-1,1,NVIDIA GH200 Grace Hopper Superchip 96GB,available,72,gptj-99.9,Supermicro,NVIDIA Grace CPU,Offline,NVIDIA GH200-GraceHopper-Superchip (1x GH200-96GB_aarch64 TensorRT),2659.47
-1,1,NVIDIA GH200 Grace Hopper Superchip 96GB,available,72,gptj-99.9,Supermicro,NVIDIA Grace CPU,Server,NVIDIA GH200-GraceHopper-Superchip (1x GH200-96GB_aarch64 TensorRT),2159.89
-8,1,NVIDIA H100-SXM-80GB,available,56,gptj-99,Supermicro,Intel(R) Xeon(R) Platinum 8570,Offline,SYS-421GE-TNHR2-LCC (8x H100-SXM-80GB TensorRT),19808.2
-8,1,NVIDIA H100-SXM-80GB,available,56,gptj-99,Supermicro,Intel(R) Xeon(R) Platinum 8570,Server,SYS-421GE-TNHR2-LCC (8x H100-SXM-80GB TensorRT),19725.6
-8,1,NVIDIA H100-SXM-80GB,available,56,gptj-99.9,Supermicro,Intel(R) Xeon(R) Platinum 8570,Offline,SYS-421GE-TNHR2-LCC (8x H100-SXM-80GB TensorRT),19808.2
-8,1,NVIDIA H100-SXM-80GB,available,56,gptj-99.9,Supermicro,Intel(R) Xeon(R) Platinum 8570,Server,SYS-421GE-TNHR2-LCC (8x H100-SXM-80GB TensorRT),19725.6
-8,1,NVIDIA H100-SXM-80GB,available,56,llama2-70b-99,Supermicro,Intel(R) Xeon(R) Platinum 8570,Offline,SYS-421GE-TNHR2-LCC (8x H100-SXM-80GB TensorRT),24180.6
-8,1,NVIDIA H100-SXM-80GB,available,56,llama2-70b-99,Supermicro,Intel(R) Xeon(R) Platinum 8570,Server,SYS-421GE-TNHR2-LCC (8x H100-SXM-80GB TensorRT),21888.6
-8,1,NVIDIA H100-SXM-80GB,available,56,llama2-70b-99.9,Supermicro,Intel(R) Xeon(R) Platinum 8570,Offline,SYS-421GE-TNHR2-LCC (8x H100-SXM-80GB TensorRT),24180.6
-8,1,NVIDIA H100-SXM-80GB,available,56,llama2-70b-99.9,Supermicro,Intel(R) Xeon(R) Platinum 8570,Server,SYS-421GE-TNHR2-LCC (8x H100-SXM-80GB TensorRT),21888.6
-8,1,NVIDIA H100-SXM-80GB,available,56,mixtral-8x7b,Supermicro,Intel(R) Xeon(R) Platinum 8570,Offline,SYS-421GE-TNHR2-LCC (8x H100-SXM-80GB TensorRT),52452.0
-8,1,NVIDIA H100-SXM-80GB,available,56,mixtral-8x7b,Supermicro,Intel(R) Xeon(R) Platinum 8570,Server,SYS-421GE-TNHR2-LCC (8x H100-SXM-80GB TensorRT),51028.4
-8,1,NVIDIA H100-SXM-80GB,available,48,gptj-99,Supermicro,Intel(R) Xeon(R) Platinum 8468,Offline,SYS-821GE-TNHR (8x H100-SXM-80GB TensorRT),19803.6
-8,1,NVIDIA H100-SXM-80GB,available,48,gptj-99,Supermicro,Intel(R) Xeon(R) Platinum 8468,Server,SYS-821GE-TNHR (8x H100-SXM-80GB TensorRT),19635.2
-8,1,NVIDIA H100-SXM-80GB,available,48,gptj-99.9,Supermicro,Intel(R) Xeon(R) Platinum 8468,Offline,SYS-821GE-TNHR (8x H100-SXM-80GB TensorRT),19803.6
-8,1,NVIDIA H100-SXM-80GB,available,48,gptj-99.9,Supermicro,Intel(R) Xeon(R) Platinum 8468,Server,SYS-821GE-TNHR (8x H100-SXM-80GB TensorRT),19635.2
-8,1,NVIDIA H100-SXM-80GB,available,48,llama2-70b-99,Supermicro,Intel(R) Xeon(R) Platinum 8468,Offline,SYS-821GE-TNHR (8x H100-SXM-80GB TensorRT),24140.1
-8,1,NVIDIA H100-SXM-80GB,available,48,llama2-70b-99,Supermicro,Intel(R) Xeon(R) Platinum 8468,Server,SYS-821GE-TNHR (8x H100-SXM-80GB TensorRT),21986.02
-8,1,NVIDIA H100-SXM-80GB,available,48,llama2-70b-99.9,Supermicro,Intel(R) Xeon(R) Platinum 8468,Offline,SYS-821GE-TNHR (8x H100-SXM-80GB TensorRT),24140.1
-8,1,NVIDIA H100-SXM-80GB,available,48,llama2-70b-99.9,Supermicro,Intel(R) Xeon(R) Platinum 8468,Server,SYS-821GE-TNHR (8x H100-SXM-80GB TensorRT),21986.02
-8,1,NVIDIA H100-SXM-80GB,available,48,mixtral-8x7b,Supermicro,Intel(R) Xeon(R) Platinum 8468,Offline,SYS-821GE-TNHR (8x H100-SXM-80GB TensorRT),52353.8
-8,1,NVIDIA H100-SXM-80GB,available,48,mixtral-8x7b,Supermicro,Intel(R) Xeon(R) Platinum 8468,Server,SYS-821GE-TNHR (8x H100-SXM-80GB TensorRT),50676.9
-8,1,NVIDIA H100-SXM-80GB,available,32,gptj-99,Sustainable_Metal_Cloud,Intel(R) Xeon(R) Platinum 8462Y+,Offline,SMC H100 (8x H100-SXM-80GB TensorRT),19711.1
-8,1,NVIDIA H100-SXM-80GB,available,32,gptj-99,Sustainable_Metal_Cloud,Intel(R) Xeon(R) Platinum 8462Y+,Server,SMC H100 (8x H100-SXM-80GB TensorRT),19233.8
-8,1,NVIDIA H100-SXM-80GB,available,32,llama2-70b-99,Sustainable_Metal_Cloud,Intel(R) Xeon(R) Platinum 8462Y+,Offline,SMC H100 (8x H100-SXM-80GB TensorRT),24459.6
-8,1,NVIDIA H100-SXM-80GB,available,32,llama2-70b-99,Sustainable_Metal_Cloud,Intel(R) Xeon(R) Platinum 8462Y+,Server,SMC H100 (8x H100-SXM-80GB TensorRT),21326.97
-8,1,NVIDIA H100-SXM-80GB,available,32,llama2-70b-99.9,Sustainable_Metal_Cloud,Intel(R) Xeon(R) Platinum 8462Y+,Offline,SMC H100 (8x H100-SXM-80GB TensorRT),24459.6
-8,1,NVIDIA H100-SXM-80GB,available,32,llama2-70b-99.9,Sustainable_Metal_Cloud,Intel(R) Xeon(R) Platinum 8462Y+,Server,SMC H100 (8x H100-SXM-80GB TensorRT),21326.97
-8,1,NVIDIA H100-SXM-80GB,available,32,mixtral-8x7b,Sustainable_Metal_Cloud,Intel(R) Xeon(R) Platinum 8462Y+,Offline,SMC H100 (8x H100-SXM-80GB TensorRT),52817.7
-8,1,NVIDIA H100-SXM-80GB,available,32,mixtral-8x7b,Sustainable_Metal_Cloud,Intel(R) Xeon(R) Platinum 8462Y+,Server,SMC H100 (8x H100-SXM-80GB TensorRT),50797.2
-8,1,AMD Instinct MI300X-NPS1-SPX-192GB-750W,preview,0,llama2-70b-99,AMD,2xAMD EPYC TURIN,Offline,Supermicro AS-8125GS-TNMR2,24109.8
-8,1,AMD Instinct MI300X-NPS1-SPX-192GB-750W,preview,0,llama2-70b-99,AMD,2xAMD EPYC TURIN,Server,Supermicro AS-8125GS-TNMR2,22020.92
-8,1,AMD Instinct MI300X-NPS1-SPX-192GB-750W,preview,0,llama2-70b-99.9,AMD,2xAMD EPYC TURIN,Offline,Supermicro AS-8125GS-TNMR2,24109.8
-8,1,AMD Instinct MI300X-NPS1-SPX-192GB-750W,preview,0,llama2-70b-99.9,AMD,2xAMD EPYC TURIN,Server,Supermicro AS-8125GS-TNMR2,22020.92
-1,1,NVIDIA GH200 Grace Hopper Superchip 144GB,preview,72,gptj-99,HPE,NVIDIA Grace CPU,Offline,HPE ProLiant Compute DL384 Gen12 (1x GH200-144GB_aarch64 TensorRT),2632.76
-1,1,NVIDIA GH200 Grace Hopper Superchip 144GB,preview,72,gptj-99,HPE,NVIDIA Grace CPU,Server,HPE ProLiant Compute DL384 Gen12 (1x GH200-144GB_aarch64 TensorRT),2512.89
-1,1,NVIDIA GH200 Grace Hopper Superchip 144GB,preview,72,gptj-99.9,HPE,NVIDIA Grace CPU,Offline,HPE ProLiant Compute DL384 Gen12 (1x GH200-144GB_aarch64 TensorRT),2632.76
-1,1,NVIDIA GH200 Grace Hopper Superchip 144GB,preview,72,gptj-99.9,HPE,NVIDIA Grace CPU,Server,HPE ProLiant Compute DL384 Gen12 (1x GH200-144GB_aarch64 TensorRT),2512.89
-1,1,NVIDIA GH200 Grace Hopper Superchip 144GB,preview,72,llama2-70b-99,HPE,NVIDIA Grace CPU,Offline,HPE ProLiant Compute DL384 Gen12 (1x GH200-144GB_aarch64 TensorRT),4084.3
-1,1,NVIDIA GH200 Grace Hopper Superchip 144GB,preview,72,llama2-70b-99,HPE,NVIDIA Grace CPU,Server,HPE ProLiant Compute DL384 Gen12 (1x GH200-144GB_aarch64 TensorRT),3884.16
-1,1,NVIDIA GH200 Grace Hopper Superchip 144GB,preview,72,llama2-70b-99.9,HPE,NVIDIA Grace CPU,Offline,HPE ProLiant Compute DL384 Gen12 (1x GH200-144GB_aarch64 TensorRT),4084.3
-1,1,NVIDIA GH200 Grace Hopper Superchip 144GB,preview,72,llama2-70b-99.9,HPE,NVIDIA Grace CPU,Server,HPE ProLiant Compute DL384 Gen12 (1x GH200-144GB_aarch64 TensorRT),3884.16
-1,1,NVIDIA GH200 Grace Hopper Superchip 144GB,preview,72,mixtral-8x7b,HPE,NVIDIA Grace CPU,Offline,HPE ProLiant Compute DL384 Gen12 (1x GH200-144GB_aarch64 TensorRT),8063.02
-1,1,NVIDIA GH200 Grace Hopper Superchip 144GB,preview,72,mixtral-8x7b,HPE,NVIDIA Grace CPU,Server,HPE ProLiant Compute DL384 Gen12 (1x GH200-144GB_aarch64 TensorRT),7450.72
-0,1,,preview,128,gptj-99,Intel,INTEL(R) XEON(R) 6980P,Offline,1-node-2S-GNR-PyTorch,498.316
-0,1,,preview,128,gptj-99,Intel,INTEL(R) XEON(R) 6980P,Server,1-node-2S-GNR-PyTorch,217.466
-1,1,NVIDIA B200-SXM-180GB,preview,12,llama2-70b-99,NVIDIA,Intel(R) Xeon(R) Silver 4410Y,Offline,NVIDIA B200 (1x B200-SXM-180GB TensorRT),11264.4
-1,1,NVIDIA B200-SXM-180GB,preview,12,llama2-70b-99,NVIDIA,Intel(R) Xeon(R) Silver 4410Y,Server,NVIDIA B200 (1x B200-SXM-180GB TensorRT),10755.59
-1,1,NVIDIA B200-SXM-180GB,preview,12,llama2-70b-99.9,NVIDIA,Intel(R) Xeon(R) Silver 4410Y,Offline,NVIDIA B200 (1x B200-SXM-180GB TensorRT),11264.4
-1,1,NVIDIA B200-SXM-180GB,preview,12,llama2-70b-99.9,NVIDIA,Intel(R) Xeon(R) Silver 4410Y,Server,NVIDIA B200 (1x B200-SXM-180GB TensorRT),10755.59
+# of Accelerators,# of Nodes,Accelerator,Host Processor Core Count,Model MLC,Processor,Scenario,tokens_per_second
+1,1,AMD Instinct MI300X-NPS1-SPX-192GB-750W,32,llama2-70b-99,2xAMD EPYC 9374F,Offline,3062.72
+1,1,AMD Instinct MI300X-NPS1-SPX-192GB-750W,32,llama2-70b-99,2xAMD EPYC 9374F,Server,2520.27
+1,1,AMD Instinct MI300X-NPS1-SPX-192GB-750W,32,llama2-70b-99.9,2xAMD EPYC 9374F,Offline,3062.72
+1,1,AMD Instinct MI300X-NPS1-SPX-192GB-750W,32,llama2-70b-99.9,2xAMD EPYC 9374F,Server,2520.27
+8,1,AMD Instinct MI300X-NPS1-SPX-192GB-750W,32,llama2-70b-99,2xAMD EPYC 9374F,Offline,23514.8
+8,1,AMD Instinct MI300X-NPS1-SPX-192GB-750W,32,llama2-70b-99,2xAMD EPYC 9374F,Server,21028.23
+8,1,AMD Instinct MI300X-NPS1-SPX-192GB-750W,32,llama2-70b-99.9,2xAMD EPYC 9374F,Offline,23514.8
+8,1,AMD Instinct MI300X-NPS1-SPX-192GB-750W,32,llama2-70b-99.9,2xAMD EPYC 9374F,Server,21028.23
+4,1,NVIDIA H100-NVL-94GB,96,gptj-99,AMD EPYC 9654 96-Core Processor,Offline,6985.51
+4,1,NVIDIA H100-NVL-94GB,96,gptj-99,AMD EPYC 9654 96-Core Processor,Server,6070.26
+4,1,NVIDIA H100-NVL-94GB,96,gptj-99.9,AMD EPYC 9654 96-Core Processor,Offline,6985.51
+4,1,NVIDIA H100-NVL-94GB,96,gptj-99.9,AMD EPYC 9654 96-Core Processor,Server,6070.26
+4,1,NVIDIA H100-NVL-94GB,96,llama2-70b-99,AMD EPYC 9654 96-Core Processor,Offline,6673.95
+4,1,NVIDIA H100-NVL-94GB,96,llama2-70b-99,AMD EPYC 9654 96-Core Processor,Server,5788.29
+4,1,NVIDIA H100-NVL-94GB,96,llama2-70b-99.9,AMD EPYC 9654 96-Core Processor,Offline,6673.95
+4,1,NVIDIA H100-NVL-94GB,96,llama2-70b-99.9,AMD EPYC 9654 96-Core Processor,Server,5788.29
+8,1,NVIDIA H100-PCIe-80GB,32,gptj-99,AMD EPYC 9374F 32-Core Processor,Offline,13078.5
+8,1,NVIDIA H100-PCIe-80GB,32,gptj-99,AMD EPYC 9374F 32-Core Processor,Server,7986.46
+8,1,NVIDIA H100-PCIe-80GB,32,gptj-99.9,AMD EPYC 9374F 32-Core Processor,Offline,13078.5
+8,1,NVIDIA H100-PCIe-80GB,32,gptj-99.9,AMD EPYC 9374F 32-Core Processor,Server,7986.46
+8,1,NVIDIA H100-PCIe-80GB,32,llama2-70b-99,AMD EPYC 9374F 32-Core Processor,Offline,9281.5
+8,1,NVIDIA H100-PCIe-80GB,32,llama2-70b-99,AMD EPYC 9374F 32-Core Processor,Server,8094.27
+8,1,NVIDIA H100-PCIe-80GB,32,llama2-70b-99.9,AMD EPYC 9374F 32-Core Processor,Offline,9281.5
+8,1,NVIDIA H100-PCIe-80GB,32,llama2-70b-99.9,AMD EPYC 9374F 32-Core Processor,Server,8094.27
+8,1,NVIDIA H100-SXM-80GB,64,gptj-99,INTEL(R) XEON(R) PLATINUM 8592+,Offline,19877.6
+8,1,NVIDIA H100-SXM-80GB,64,gptj-99,INTEL(R) XEON(R) PLATINUM 8592+,Server,19226.9
+8,1,NVIDIA H100-SXM-80GB,64,gptj-99.9,INTEL(R) XEON(R) PLATINUM 8592+,Offline,19877.6
+8,1,NVIDIA H100-SXM-80GB,64,gptj-99.9,INTEL(R) XEON(R) PLATINUM 8592+,Server,19226.9
+8,1,NVIDIA H100-SXM-80GB,64,llama2-70b-99,INTEL(R) XEON(R) PLATINUM 8592+,Offline,24323.6
+8,1,NVIDIA H100-SXM-80GB,64,llama2-70b-99,INTEL(R) XEON(R) PLATINUM 8592+,Server,20605.31
+8,1,NVIDIA H100-SXM-80GB,64,llama2-70b-99.9,INTEL(R) XEON(R) PLATINUM 8592+,Offline,24323.6
+8,1,NVIDIA H100-SXM-80GB,64,llama2-70b-99.9,INTEL(R) XEON(R) PLATINUM 8592+,Server,20605.31
+0,1,,64,gptj-99,INTEL(R) XEON(R) PLATINUM 8592+,Offline,252.597
+0,1,,64,gptj-99,INTEL(R) XEON(R) PLATINUM 8592+,Server,113.739
+2,1,NVIDIA L40S,32,gptj-99,Intel Xeon Gold 6448H,Offline,1747.67
+2,1,NVIDIA L40S,32,gptj-99,Intel Xeon Gold 6448H,Server,1734.03
+2,1,NVIDIA H100-PCIe-80GB,96,gptj-99,AMD EPYC 9684X 96-Core Processor,Offline,3268.94
+2,1,NVIDIA H100-PCIe-80GB,96,gptj-99,AMD EPYC 9684X 96-Core Processor,Server,3258.83
+2,1,NVIDIA L40S,96,gptj-99,AMD EPYC 9684X 96-Core Processor,Offline,1729.6
+2,1,NVIDIA L40S,96,gptj-99,AMD EPYC 9684X 96-Core Processor,Server,1725.54
+0,1,,64,gptj-99,INTEL(R) XEON(R) PLATINUM 8592+,Offline,206.119
+0,1,,64,gptj-99,INTEL(R) XEON(R) PLATINUM 8592+,Server,113.739
+2,1,NVIDIA L40S,32,gptj-99,INTEL(R) XEON(R) PLATINUM 8562Y+,Offline,1746.46
+2,1,NVIDIA L40S,32,gptj-99,INTEL(R) XEON(R) PLATINUM 8562Y+,Server,1725.98
+2,1,NVIDIA L40S,32,gptj-99.9,INTEL(R) XEON(R) PLATINUM 8562Y+,Offline,1746.46
+2,1,NVIDIA L40S,32,gptj-99.9,INTEL(R) XEON(R) PLATINUM 8562Y+,Server,1725.98
+0,1,,64,gptj-99,INTEL(R) XEON(R) PLATINUM 8592+,Offline,248.601
+0,1,,64,gptj-99,INTEL(R) XEON(R) PLATINUM 8592+,Server,113.715
+2,1,NVIDIA H100-PCIe-80GB,120,gptj-99,INTEL(R) XEON(R) PLATINUM 8580,Offline,3317.08
+2,1,NVIDIA H100-PCIe-80GB,120,gptj-99,INTEL(R) XEON(R) PLATINUM 8580,Server,2759.33
+2,1,NVIDIA H100-PCIe-80GB,120,gptj-99.9,INTEL(R) XEON(R) PLATINUM 8580,Offline,3317.08
+2,1,NVIDIA H100-PCIe-80GB,120,gptj-99.9,INTEL(R) XEON(R) PLATINUM 8580,Server,2759.33
+4,1,NVIDIA H100-NVL-94GB,120,gptj-99,INTEL(R) XEON(R) PLATINUM 8580,Offline,7191.41
+4,1,NVIDIA H100-NVL-94GB,120,gptj-99,INTEL(R) XEON(R) PLATINUM 8580,Server,6337.64
+4,1,NVIDIA H100-SXM-80GB,96,gptj-99,Intel(R) Xeon(R) Platinum 8468,Offline,9966.79
+4,1,NVIDIA H100-SXM-80GB,96,gptj-99,Intel(R) Xeon(R) Platinum 8468,Server,9990.24
+4,1,NVIDIA H100-SXM-80GB,96,gptj-99.9,Intel(R) Xeon(R) Platinum 8468,Offline,9966.79
+4,1,NVIDIA H100-SXM-80GB,96,gptj-99.9,Intel(R) Xeon(R) Platinum 8468,Server,9990.24
+4,1,NVIDIA H100-SXM-80GB,96,llama2-70b-99,Intel(R) Xeon(R) Platinum 8468,Offline,10699.6
+4,1,NVIDIA H100-SXM-80GB,96,llama2-70b-99,Intel(R) Xeon(R) Platinum 8468,Server,9522.2
+4,1,NVIDIA H100-SXM-80GB,96,llama2-70b-99.9,Intel(R) Xeon(R) Platinum 8468,Offline,10699.6
+4,1,NVIDIA H100-SXM-80GB,96,llama2-70b-99.9,Intel(R) Xeon(R) Platinum 8468,Server,9522.2
+4,1,NVIDIA H100-SXM-80GB,96,mixtral-8x7b,Intel(R) Xeon(R) Platinum 8468,Offline,26824.4
+4,1,NVIDIA H100-SXM-80GB,96,mixtral-8x7b,Intel(R) Xeon(R) Platinum 8468,Server,25707.0
+4,1,NVIDIA H100-SXM-80GB,96,llama2-70b-99,Intel(R) Xeon(R) Platinum 8468,Offline,10594.1
+4,1,NVIDIA H100-SXM-80GB,96,llama2-70b-99,Intel(R) Xeon(R) Platinum 8468,Server,8937.82
+4,1,NVIDIA H100-SXM-80GB,96,llama2-70b-99.9,Intel(R) Xeon(R) Platinum 8468,Offline,10594.1
+4,1,NVIDIA H100-SXM-80GB,96,llama2-70b-99.9,Intel(R) Xeon(R) Platinum 8468,Server,8937.82
+8,1,NVIDIA H100-SXM-80GB,48,llama2-70b-99,Intel(R) Xeon(R) Platinum 8468,Offline,24086.7
+8,1,NVIDIA H100-SXM-80GB,48,llama2-70b-99,Intel(R) Xeon(R) Platinum 8468,Server,21589.17
+8,1,NVIDIA H100-SXM-80GB,48,llama2-70b-99.9,Intel(R) Xeon(R) Platinum 8468,Offline,24086.7
+8,1,NVIDIA H100-SXM-80GB,48,llama2-70b-99.9,Intel(R) Xeon(R) Platinum 8468,Server,21589.17
+8,1,NVIDIA H200-SXM-141GB,52,gptj-99,Intel(R) Xeon(R) Platinum 8470,Offline,20238.4
+8,1,NVIDIA H200-SXM-141GB,52,gptj-99,Intel(R) Xeon(R) Platinum 8470,Server,20139.0
+8,1,NVIDIA H200-SXM-141GB,52,gptj-99.9,Intel(R) Xeon(R) Platinum 8470,Offline,20238.4
+8,1,NVIDIA H200-SXM-141GB,52,gptj-99.9,Intel(R) Xeon(R) Platinum 8470,Server,20139.0
+8,1,NVIDIA H200-SXM-141GB,52,llama2-70b-99,Intel(R) Xeon(R) Platinum 8470,Offline,32124.3
+8,1,NVIDIA H200-SXM-141GB,52,llama2-70b-99,Intel(R) Xeon(R) Platinum 8470,Server,29739.88
+8,1,NVIDIA H200-SXM-141GB,52,llama2-70b-99.9,Intel(R) Xeon(R) Platinum 8470,Offline,32124.3
+8,1,NVIDIA H200-SXM-141GB,52,llama2-70b-99.9,Intel(R) Xeon(R) Platinum 8470,Server,29739.88
+8,1,AMD MI300X-NPS1-SPX-192GB-750W,40,llama2-70b-99,Intel(R) Xeon(R) Platinum 8460Y+,Offline,22677.6
+8,1,AMD MI300X-NPS1-SPX-192GB-750W,40,llama2-70b-99,Intel(R) Xeon(R) Platinum 8460Y+,Server,19886.1
+8,1,AMD MI300X-NPS1-SPX-192GB-750W,40,llama2-70b-99.9,Intel(R) Xeon(R) Platinum 8460Y+,Offline,22677.6
+8,1,AMD MI300X-NPS1-SPX-192GB-750W,40,llama2-70b-99.9,Intel(R) Xeon(R) Platinum 8460Y+,Server,19886.1
+8,1,NVIDIA L40S,32,gptj-99,Intel(R) Xeon(R) Gold 6454S,Offline,6911.78
+8,1,NVIDIA L40S,32,gptj-99,Intel(R) Xeon(R) Gold 6454S,Server,6903.45
+8,1,NVIDIA L40S,32,gptj-99.9,Intel(R) Xeon(R) Gold 6454S,Offline,6911.78
+8,1,NVIDIA L40S,32,gptj-99.9,Intel(R) Xeon(R) Gold 6454S,Server,6903.45
+8,1,NVIDIA L40S,32,llama2-70b-99,Intel(R) Xeon(R) Gold 6454S,Offline,3717.74
+8,1,NVIDIA L40S,32,llama2-70b-99,Intel(R) Xeon(R) Gold 6454S,Server,3218.55
+8,1,NVIDIA L40S,32,llama2-70b-99.9,Intel(R) Xeon(R) Gold 6454S,Offline,3717.74
+8,1,NVIDIA L40S,32,llama2-70b-99.9,Intel(R) Xeon(R) Gold 6454S,Server,3218.55
+4,1,NVIDIA H100-SXM-80GB,48,gptj-99,Intel(R) Xeon(R) Platinum 8468,Offline,9960.74
+4,1,NVIDIA H100-SXM-80GB,48,gptj-99,Intel(R) Xeon(R) Platinum 8468,Server,9602.79
+4,1,NVIDIA H100-SXM-80GB,48,gptj-99.9,Intel(R) Xeon(R) Platinum 8468,Offline,9960.74
+4,1,NVIDIA H100-SXM-80GB,48,gptj-99.9,Intel(R) Xeon(R) Platinum 8468,Server,9602.79
+4,1,NVIDIA H100-SXM-80GB,48,llama2-70b-99,Intel(R) Xeon(R) Platinum 8468,Offline,10133.3
+4,1,NVIDIA H100-SXM-80GB,48,llama2-70b-99,Intel(R) Xeon(R) Platinum 8468,Server,9493.99
+4,1,NVIDIA H100-SXM-80GB,48,llama2-70b-99.9,Intel(R) Xeon(R) Platinum 8468,Offline,10133.3
+4,1,NVIDIA H100-SXM-80GB,48,llama2-70b-99.9,Intel(R) Xeon(R) Platinum 8468,Server,9493.99
+4,1,NVIDIA H100-SXM-80GB,48,mixtral-8x7b,Intel(R) Xeon(R) Platinum 8468,Offline,26641.6
+4,1,NVIDIA H100-SXM-80GB,48,mixtral-8x7b,Intel(R) Xeon(R) Platinum 8468,Server,25358.5
+8,1,NVIDIA H200-SXM-141GB,56,gptj-99,Intel(R) Xeon(R) Platinum 8480+,Offline,20041.3
+8,1,NVIDIA H200-SXM-141GB,56,gptj-99,Intel(R) Xeon(R) Platinum 8480+,Server,19250.4
+8,1,NVIDIA H200-SXM-141GB,56,gptj-99.9,Intel(R) Xeon(R) Platinum 8480+,Offline,20041.3
+8,1,NVIDIA H200-SXM-141GB,56,gptj-99.9,Intel(R) Xeon(R) Platinum 8480+,Server,19250.4
+8,1,NVIDIA H200-SXM-141GB,56,llama2-70b-99,Intel(R) Xeon(R) Platinum 8480+,Offline,31263.8
+8,1,NVIDIA H200-SXM-141GB,56,llama2-70b-99,Intel(R) Xeon(R) Platinum 8480+,Server,29715.28
+8,1,NVIDIA H200-SXM-141GB,56,llama2-70b-99.9,Intel(R) Xeon(R) Platinum 8480+,Offline,31263.8
+8,1,NVIDIA H200-SXM-141GB,56,llama2-70b-99.9,Intel(R) Xeon(R) Platinum 8480+,Server,29715.28
+8,1,NVIDIA H200-SXM-141GB,56,mixtral-8x7b,Intel(R) Xeon(R) Platinum 8480+,Offline,59334.8
+8,1,NVIDIA H200-SXM-141GB,56,mixtral-8x7b,Intel(R) Xeon(R) Platinum 8480+,Server,57174.1
+8,1,NVIDIA H100-SXM-80GB,56,llama2-70b-99,Intel(R) Xeon(R) Platinum 8481C,Offline,24133.7
+8,1,NVIDIA H100-SXM-80GB,56,llama2-70b-99,Intel(R) Xeon(R) Platinum 8481C,Server,21588.35
+8,1,NVIDIA H100-SXM-80GB,56,llama2-70b-99.9,Intel(R) Xeon(R) Platinum 8481C,Offline,24133.7
+8,1,NVIDIA H100-SXM-80GB,56,llama2-70b-99.9,Intel(R) Xeon(R) Platinum 8481C,Server,21588.35
+8,1,NVIDIA H100-SXM-80GB,56,mixtral-8x7b,Intel(R) Xeon(R) Platinum 8481C,Offline,52524.4
+8,1,NVIDIA H100-SXM-80GB,56,mixtral-8x7b,Intel(R) Xeon(R) Platinum 8481C,Server,50798.8
+0,1,,64,gptj-99,INTEL(R) XEON(R) PLATINUM 8592+,Offline,251.298
+0,1,,64,gptj-99,INTEL(R) XEON(R) PLATINUM 8592+,Server,113.735
+8,1,NVIDIA H100-SXM-80GB,48,gptj-99,Intel(R) Xeon(R) Platinum 8468,Offline,19751.9
+8,1,NVIDIA H100-SXM-80GB,48,gptj-99,Intel(R) Xeon(R) Platinum 8468,Server,19502.6
+8,1,NVIDIA H100-SXM-80GB,48,llama2-70b-99,Intel(R) Xeon(R) Platinum 8468,Offline,24528.3
+8,1,NVIDIA H100-SXM-80GB,48,llama2-70b-99,Intel(R) Xeon(R) Platinum 8468,Server,23132.81
+8,1,NVIDIA H100-SXM-80GB,48,llama2-70b-99.9,Intel(R) Xeon(R) Platinum 8468,Offline,24424.7
+8,1,NVIDIA H100-SXM-80GB,48,llama2-70b-99.9,Intel(R) Xeon(R) Platinum 8468,Server,23144.02
+8,1,NVIDIA H100-SXM-80GB,48,mixtral-8x7b,Intel(R) Xeon(R) Platinum 8468,Offline,52395.1
+8,1,NVIDIA H100-SXM-80GB,48,mixtral-8x7b,Intel(R) Xeon(R) Platinum 8468,Server,50798.5
+4,1,NVIDIA H100-NVL-94GB,32,llama2-70b-99,INTEL(R) XEON(R) GOLD 6530,Offline,8858.78
+4,1,NVIDIA H100-NVL-94GB,32,llama2-70b-99,INTEL(R) XEON(R) GOLD 6530,Server,6927.8
+4,1,NVIDIA H100-NVL-94GB,32,llama2-70b-99.9,INTEL(R) XEON(R) GOLD 6530,Offline,8858.78
+4,1,NVIDIA H100-NVL-94GB,32,llama2-70b-99.9,INTEL(R) XEON(R) GOLD 6530,Server,6927.8
+0,1,,64,gptj-99,INTEL(R) XEON(R) PLATINUM 8592+,Offline,254.724
+0,1,,64,gptj-99,INTEL(R) XEON(R) PLATINUM 8592+,Server,113.74
+8,2,NVIDIA H100-SXM-80GB,112,llama2-70b-99,AMD EPYC 7763 64-Core Processor,Offline,41672.4
+8,2,NVIDIA H100-SXM-80GB,112,llama2-70b-99,AMD EPYC 7763 64-Core Processor,Server,41091.6
+8,2,NVIDIA H100-SXM-80GB,112,llama2-70b-99.9,AMD EPYC 7763 64-Core Processor,Offline,41672.4
+8,2,NVIDIA H100-SXM-80GB,112,llama2-70b-99.9,AMD EPYC 7763 64-Core Processor,Server,41091.6
+8,4,NVIDIA H100-SXM-80GB,112,llama2-70b-99,AMD EPYC 7763 64-Core Processor,Offline,82749.6
+8,4,NVIDIA H100-SXM-80GB,112,llama2-70b-99,AMD EPYC 7763 64-Core Processor,Server,82273.2
+8,4,NVIDIA H100-SXM-80GB,112,llama2-70b-99.9,AMD EPYC 7763 64-Core Processor,Offline,82749.6
+8,4,NVIDIA H100-SXM-80GB,112,llama2-70b-99.9,AMD EPYC 7763 64-Core Processor,Server,82273.2
+8,1,NVIDIA H200-SXM-141GB,48,gptj-99,AMD EPYC 9454,Offline,19859.2
+8,1,NVIDIA H200-SXM-141GB,48,gptj-99,AMD EPYC 9454,Server,19716.0
+8,1,NVIDIA H200-SXM-141GB,48,llama2-70b-99,AMD EPYC 9454,Offline,31917.0
+8,1,NVIDIA H200-SXM-141GB,48,llama2-70b-99,AMD EPYC 9454,Server,30068.5
+8,1,NVIDIA H200-SXM-141GB,48,llama2-70b-99.9,AMD EPYC 9454,Offline,31917.0
+8,1,NVIDIA H200-SXM-141GB,48,llama2-70b-99.9,AMD EPYC 9454,Server,30068.5
+8,1,NVIDIA H200-SXM-141GB,48,gptj-99,Intel(R) Xeon(R) Platinum 8568Y+,Offline,20552.1
+8,1,NVIDIA H200-SXM-141GB,48,gptj-99,Intel(R) Xeon(R) Platinum 8568Y+,Server,19785.0
+8,1,NVIDIA H200-SXM-141GB,48,gptj-99.9,Intel(R) Xeon(R) Platinum 8568Y+,Offline,20552.1
+8,1,NVIDIA H200-SXM-141GB,48,gptj-99.9,Intel(R) Xeon(R) Platinum 8568Y+,Server,19785.0
+8,1,NVIDIA H200-SXM-141GB,48,llama2-70b-99,Intel(R) Xeon(R) Platinum 8568Y+,Offline,31973.7
+8,1,NVIDIA H200-SXM-141GB,48,llama2-70b-99,Intel(R) Xeon(R) Platinum 8568Y+,Server,30438.66
+8,1,NVIDIA H200-SXM-141GB,48,llama2-70b-99.9,Intel(R) Xeon(R) Platinum 8568Y+,Offline,31973.7
+8,1,NVIDIA H200-SXM-141GB,48,llama2-70b-99.9,Intel(R) Xeon(R) Platinum 8568Y+,Server,30438.66
+3,1,NVIDIA L40S,32,gptj-99,Intel(R) Xeon(R) Gold 6438N,Offline,2593.65
+3,1,NVIDIA L40S,32,gptj-99,Intel(R) Xeon(R) Gold 6438N,Server,2475.22
+8,1,NVIDIA H100-NVL-94GB,84,gptj-99,AMD EPYC 9634 84-Core Processor,Offline,14073.6
+8,1,NVIDIA H100-NVL-94GB,84,gptj-99,AMD EPYC 9634 84-Core Processor,Server,13083.5
+8,1,NVIDIA H100-NVL-94GB,84,llama2-70b-99,AMD EPYC 9634 84-Core Processor,Offline,15875.8
+8,1,NVIDIA H100-NVL-94GB,84,llama2-70b-99,AMD EPYC 9634 84-Core Processor,Server,13074.68
+8,1,NVIDIA H100-NVL-94GB,84,llama2-70b-99.9,AMD EPYC 9634 84-Core Processor,Offline,15875.8
+8,1,NVIDIA H100-NVL-94GB,84,llama2-70b-99.9,AMD EPYC 9634 84-Core Processor,Server,13074.68
+8,1,NVIDIA H100-SXM-80GB,56,gptj-99,Intel(R) Xeon(R) Platinum 8480C,Offline,19739.8
+8,1,NVIDIA H100-SXM-80GB,56,gptj-99,Intel(R) Xeon(R) Platinum 8480C,Server,19233.8
+8,1,NVIDIA H100-SXM-80GB,56,gptj-99.9,Intel(R) Xeon(R) Platinum 8480C,Offline,19739.8
+8,1,NVIDIA H100-SXM-80GB,56,gptj-99.9,Intel(R) Xeon(R) Platinum 8480C,Server,19233.8
+8,1,NVIDIA H100-SXM-80GB,56,llama2-70b-99,Intel(R) Xeon(R) Platinum 8480C,Offline,24524.9
+8,1,NVIDIA H100-SXM-80GB,56,llama2-70b-99,Intel(R) Xeon(R) Platinum 8480C,Server,21605.79
+8,1,NVIDIA H100-SXM-80GB,56,llama2-70b-99.9,Intel(R) Xeon(R) Platinum 8480C,Offline,24524.9
+8,1,NVIDIA H100-SXM-80GB,56,llama2-70b-99.9,Intel(R) Xeon(R) Platinum 8480C,Server,21605.79
+8,1,NVIDIA H100-SXM-80GB,56,mixtral-8x7b,Intel(R) Xeon(R) Platinum 8480C,Offline,52415.9
+8,1,NVIDIA H100-SXM-80GB,56,mixtral-8x7b,Intel(R) Xeon(R) Platinum 8480C,Server,50795.6
+1,1,NVIDIA GH200 Grace Hopper Superchip 144GB,72,gptj-99,NVIDIA Grace CPU,Offline,2627.69
+1,1,NVIDIA GH200 Grace Hopper Superchip 144GB,72,gptj-99,NVIDIA Grace CPU,Server,2513.38
+1,1,NVIDIA GH200 Grace Hopper Superchip 144GB,72,gptj-99.9,NVIDIA Grace CPU,Offline,2627.69
+1,1,NVIDIA GH200 Grace Hopper Superchip 144GB,72,gptj-99.9,NVIDIA Grace CPU,Server,2513.38
+1,1,NVIDIA GH200 Grace Hopper Superchip 144GB,72,llama2-70b-99,NVIDIA Grace CPU,Offline,4067.52
+1,1,NVIDIA GH200 Grace Hopper Superchip 144GB,72,llama2-70b-99,NVIDIA Grace CPU,Server,3883.67
+1,1,NVIDIA GH200 Grace Hopper Superchip 144GB,72,llama2-70b-99.9,NVIDIA Grace CPU,Offline,4067.52
+1,1,NVIDIA GH200 Grace Hopper Superchip 144GB,72,llama2-70b-99.9,NVIDIA Grace CPU,Server,3883.67
+1,1,NVIDIA GH200 Grace Hopper Superchip 144GB,72,mixtral-8x7b,NVIDIA Grace CPU,Offline,8021.46
+1,1,NVIDIA GH200 Grace Hopper Superchip 144GB,72,mixtral-8x7b,NVIDIA Grace CPU,Server,7450.27
+1,1,NVIDIA H200-SXM-141GB-CTS,56,llama2-70b-99,Intel(R) Xeon(R) Platinum 8480C,Offline,4487.88
+1,1,NVIDIA H200-SXM-141GB-CTS,56,llama2-70b-99,Intel(R) Xeon(R) Platinum 8480C,Server,4202.3
+1,1,NVIDIA H200-SXM-141GB-CTS,56,llama2-70b-99.9,Intel(R) Xeon(R) Platinum 8480C,Offline,4487.88
+1,1,NVIDIA H200-SXM-141GB-CTS,56,llama2-70b-99.9,Intel(R) Xeon(R) Platinum 8480C,Server,4202.3
+8,1,NVIDIA H200-SXM-141GB-CTS,56,llama2-70b-99,Intel(R) Xeon(R) Platinum 8480C,Offline,34864.2
+8,1,NVIDIA H200-SXM-141GB-CTS,56,llama2-70b-99,Intel(R) Xeon(R) Platinum 8480C,Server,32789.74
+8,1,NVIDIA H200-SXM-141GB-CTS,56,llama2-70b-99.9,Intel(R) Xeon(R) Platinum 8480C,Offline,34864.2
+8,1,NVIDIA H200-SXM-141GB-CTS,56,llama2-70b-99.9,Intel(R) Xeon(R) Platinum 8480C,Server,32789.74
+1,1,NVIDIA H200-SXM-141GB,56,gptj-99,Intel(R) Xeon(R) Platinum 8480C,Offline,2579.51
+1,1,NVIDIA H200-SXM-141GB,56,gptj-99,Intel(R) Xeon(R) Platinum 8480C,Server,2405.86
+1,1,NVIDIA H200-SXM-141GB,56,gptj-99.9,Intel(R) Xeon(R) Platinum 8480C,Offline,2579.51
+1,1,NVIDIA H200-SXM-141GB,56,gptj-99.9,Intel(R) Xeon(R) Platinum 8480C,Server,2405.86
+8,1,NVIDIA H200-SXM-141GB,56,gptj-99,Intel(R) Xeon(R) Platinum 8480C,Offline,20086.1
+8,1,NVIDIA H200-SXM-141GB,56,gptj-99,Intel(R) Xeon(R) Platinum 8480C,Server,19243.3
+8,1,NVIDIA H200-SXM-141GB,56,gptj-99.9,Intel(R) Xeon(R) Platinum 8480C,Offline,20086.1
+8,1,NVIDIA H200-SXM-141GB,56,gptj-99.9,Intel(R) Xeon(R) Platinum 8480C,Server,19243.3
+8,1,NVIDIA H200-SXM-141GB,56,llama2-70b-99,Intel(R) Xeon(R) Platinum 8480C,Offline,31302.7
+8,1,NVIDIA H200-SXM-141GB,56,llama2-70b-99,Intel(R) Xeon(R) Platinum 8480C,Server,29228.22
+8,1,NVIDIA H200-SXM-141GB,56,llama2-70b-99.9,Intel(R) Xeon(R) Platinum 8480C,Offline,31302.7
+8,1,NVIDIA H200-SXM-141GB,56,llama2-70b-99.9,Intel(R) Xeon(R) Platinum 8480C,Server,29228.22
+8,1,NVIDIA H200-SXM-141GB,56,mixtral-8x7b,Intel(R) Xeon(R) Platinum 8480C,Offline,59022.3
+8,1,NVIDIA H200-SXM-141GB,56,mixtral-8x7b,Intel(R) Xeon(R) Platinum 8480C,Server,57177.2
+8,1,NVIDIA H200-SXM-141GB,56,llama2-70b-99,Intel(R) Xeon(R) Platinum 8480C,Offline,31059.3
+8,1,NVIDIA H200-SXM-141GB,56,llama2-70b-99,Intel(R) Xeon(R) Platinum 8480C,Server,30128.44
+8,1,NVIDIA H200-SXM-141GB,56,llama2-70b-99.9,Intel(R) Xeon(R) Platinum 8480C,Offline,31059.3
+8,1,NVIDIA H200-SXM-141GB,56,llama2-70b-99.9,Intel(R) Xeon(R) Platinum 8480C,Server,30128.44
+8,1,NVIDIA L40S,4,llama2-70b-99,AMD EPYC 9254 24-Core Processor,Offline,948.198
+8,1,NVIDIA L40S,4,llama2-70b-99,AMD EPYC 9254 24-Core Processor,Server,592.26
+1,1,NVIDIA GH200 Grace Hopper Superchip 96GB,72,gptj-99,NVIDIA Grace CPU,Offline,2695.15
+1,1,NVIDIA GH200 Grace Hopper Superchip 96GB,72,gptj-99,NVIDIA Grace CPU,Server,2159.58
+1,1,NVIDIA GH200 Grace Hopper Superchip 96GB,72,gptj-99.9,NVIDIA Grace CPU,Offline,2695.15
+1,1,NVIDIA GH200 Grace Hopper Superchip 96GB,72,gptj-99.9,NVIDIA Grace CPU,Server,2159.58
+0,1,,64,gptj-99,Intel(R) Xeon(R) Platinum 8592+,Offline,239.034
+0,1,,64,gptj-99,Intel(R) Xeon(R) Platinum 8592+,Server,113.732
+4,1,NVIDIA L40S,44,gptj-99,Intel(R) Xeon(R) Platinum 8458P,Offline,3463.19
+4,1,NVIDIA L40S,44,gptj-99,Intel(R) Xeon(R) Platinum 8458P,Server,3096.45
+4,1,NVIDIA L40S,44,gptj-99.9,Intel(R) Xeon(R) Platinum 8458P,Offline,3463.19
+4,1,NVIDIA L40S,44,gptj-99.9,Intel(R) Xeon(R) Platinum 8458P,Server,3096.45
+1,1,NVIDIA GH200 Grace Hopper Superchip 96GB,72,gptj-99,NVIDIA Grace CPU,Offline,2803.72
+1,1,NVIDIA GH200 Grace Hopper Superchip 96GB,72,gptj-99,NVIDIA Grace CPU,Server,2160.12
+1,1,NVIDIA GH200 Grace Hopper Superchip 96GB,72,gptj-99.9,NVIDIA Grace CPU,Offline,2803.72
+1,1,NVIDIA GH200 Grace Hopper Superchip 96GB,72,gptj-99.9,NVIDIA Grace CPU,Server,2160.12
+1,1,NVIDIA GH200 Grace Hopper Superchip 96GB,72,llama2-70b-99.9,NVIDIA Grace CPU,Offline,3114.03
+1,1,NVIDIA GH200 Grace Hopper Superchip 96GB,72,llama2-70b-99.9,NVIDIA Grace CPU,Server,2619.09
+4,1,NVIDIA L40S,112,llama2-70b-99.9,Intel(R) Xeon(R) Platinum 8480CL,Offline,1717.77
+4,1,NVIDIA L40S,112,llama2-70b-99.9,Intel(R) Xeon(R) Platinum 8480CL,Server,1469.19
+8,1,NVIDIA H100-SXM-80GB,96,gptj-99,AMD EPYC 9654,Offline,19539.2
+8,1,NVIDIA H100-SXM-80GB,96,gptj-99,AMD EPYC 9654,Server,19810.7
+8,1,NVIDIA H100-SXM-80GB,96,gptj-99.9,AMD EPYC 9654,Offline,19539.2
+8,1,NVIDIA H100-SXM-80GB,96,gptj-99.9,AMD EPYC 9654,Server,19810.7
+8,1,NVIDIA H100-SXM-80GB,96,llama2-70b-99,AMD EPYC 9654,Offline,24216.8
+8,1,NVIDIA H100-SXM-80GB,96,llama2-70b-99,AMD EPYC 9654,Server,23699.66
+8,1,NVIDIA H100-SXM-80GB,96,llama2-70b-99.9,AMD EPYC 9654,Offline,24216.8
+8,1,NVIDIA H100-SXM-80GB,96,llama2-70b-99.9,AMD EPYC 9654,Server,23699.66
+8,1,NVIDIA H100-SXM-80GB,96,mixtral-8x7b,AMD EPYC 9654,Offline,51269.0
+8,1,NVIDIA H100-SXM-80GB,96,mixtral-8x7b,AMD EPYC 9654,Server,50099.5
+8,1,NVIDIA H100-SXM-80GB,48,gptj-99,AMD EPYC 9474F,Offline,19418.9
+8,1,NVIDIA H100-SXM-80GB,48,gptj-99,AMD EPYC 9474F,Server,19304.4
+8,1,NVIDIA H100-SXM-80GB,48,gptj-99.9,AMD EPYC 9474F,Offline,19418.9
+8,1,NVIDIA H100-SXM-80GB,48,gptj-99.9,AMD EPYC 9474F,Server,19304.4
+8,1,NVIDIA H100-SXM-80GB,48,llama2-70b-99,AMD EPYC 9474F,Offline,24011.7
+8,1,NVIDIA H100-SXM-80GB,48,llama2-70b-99,AMD EPYC 9474F,Server,21775.48
+8,1,NVIDIA H100-SXM-80GB,48,llama2-70b-99.9,AMD EPYC 9474F,Offline,24011.7
+8,1,NVIDIA H100-SXM-80GB,48,llama2-70b-99.9,AMD EPYC 9474F,Server,21775.48
+8,1,NVIDIA H100-SXM-80GB,48,mixtral-8x7b,AMD EPYC 9474F,Offline,50970.6
+8,1,NVIDIA H100-SXM-80GB,48,mixtral-8x7b,AMD EPYC 9474F,Server,49864.0
+1,1,NVIDIA GH200 Grace Hopper Superchip 96GB,72,gptj-99,NVIDIA Grace CPU,Offline,2659.47
+1,1,NVIDIA GH200 Grace Hopper Superchip 96GB,72,gptj-99,NVIDIA Grace CPU,Server,2159.89
+1,1,NVIDIA GH200 Grace Hopper Superchip 96GB,72,gptj-99.9,NVIDIA Grace CPU,Offline,2659.47
+1,1,NVIDIA GH200 Grace Hopper Superchip 96GB,72,gptj-99.9,NVIDIA Grace CPU,Server,2159.89
+8,1,NVIDIA H100-SXM-80GB,56,gptj-99,Intel(R) Xeon(R) Platinum 8570,Offline,19808.2
+8,1,NVIDIA H100-SXM-80GB,56,gptj-99,Intel(R) Xeon(R) Platinum 8570,Server,19725.6
+8,1,NVIDIA H100-SXM-80GB,56,gptj-99.9,Intel(R) Xeon(R) Platinum 8570,Offline,19808.2
+8,1,NVIDIA H100-SXM-80GB,56,gptj-99.9,Intel(R) Xeon(R) Platinum 8570,Server,19725.6
+8,1,NVIDIA H100-SXM-80GB,56,llama2-70b-99,Intel(R) Xeon(R) Platinum 8570,Offline,24180.6
+8,1,NVIDIA H100-SXM-80GB,56,llama2-70b-99,Intel(R) Xeon(R) Platinum 8570,Server,21888.6
+8,1,NVIDIA H100-SXM-80GB,56,llama2-70b-99.9,Intel(R) Xeon(R) Platinum 8570,Offline,24180.6
+8,1,NVIDIA H100-SXM-80GB,56,llama2-70b-99.9,Intel(R) Xeon(R) Platinum 8570,Server,21888.6
+8,1,NVIDIA H100-SXM-80GB,56,mixtral-8x7b,Intel(R) Xeon(R) Platinum 8570,Offline,52452.0
+8,1,NVIDIA H100-SXM-80GB,56,mixtral-8x7b,Intel(R) Xeon(R) Platinum 8570,Server,51028.4
+8,1,NVIDIA H100-SXM-80GB,48,gptj-99,Intel(R) Xeon(R) Platinum 8468,Offline,19803.6
+8,1,NVIDIA H100-SXM-80GB,48,gptj-99,Intel(R) Xeon(R) Platinum 8468,Server,19635.2
+8,1,NVIDIA H100-SXM-80GB,48,gptj-99.9,Intel(R) Xeon(R) Platinum 8468,Offline,19803.6
+8,1,NVIDIA H100-SXM-80GB,48,gptj-99.9,Intel(R) Xeon(R) Platinum 8468,Server,19635.2
+8,1,NVIDIA H100-SXM-80GB,48,llama2-70b-99,Intel(R) Xeon(R) Platinum 8468,Offline,24140.1
+8,1,NVIDIA H100-SXM-80GB,48,llama2-70b-99,Intel(R) Xeon(R) Platinum 8468,Server,21986.02
+8,1,NVIDIA H100-SXM-80GB,48,llama2-70b-99.9,Intel(R) Xeon(R) Platinum 8468,Offline,24140.1
+8,1,NVIDIA H100-SXM-80GB,48,llama2-70b-99.9,Intel(R) Xeon(R) Platinum 8468,Server,21986.02
+8,1,NVIDIA H100-SXM-80GB,48,mixtral-8x7b,Intel(R) Xeon(R) Platinum 8468,Offline,52353.8
+8,1,NVIDIA H100-SXM-80GB,48,mixtral-8x7b,Intel(R) Xeon(R) Platinum 8468,Server,50676.9
+8,1,NVIDIA H100-SXM-80GB,32,gptj-99,Intel(R) Xeon(R) Platinum 8462Y+,Offline,19711.1
+8,1,NVIDIA H100-SXM-80GB,32,gptj-99,Intel(R) Xeon(R) Platinum 8462Y+,Server,19233.8
+8,1,NVIDIA H100-SXM-80GB,32,llama2-70b-99,Intel(R) Xeon(R) Platinum 8462Y+,Offline,24459.6
+8,1,NVIDIA H100-SXM-80GB,32,llama2-70b-99,Intel(R) Xeon(R) Platinum 8462Y+,Server,21326.97
+8,1,NVIDIA H100-SXM-80GB,32,llama2-70b-99.9,Intel(R) Xeon(R) Platinum 8462Y+,Offline,24459.6
+8,1,NVIDIA H100-SXM-80GB,32,llama2-70b-99.9,Intel(R) Xeon(R) Platinum 8462Y+,Server,21326.97
+8,1,NVIDIA H100-SXM-80GB,32,mixtral-8x7b,Intel(R) Xeon(R) Platinum 8462Y+,Offline,52817.7
+8,1,NVIDIA H100-SXM-80GB,32,mixtral-8x7b,Intel(R) Xeon(R) Platinum 8462Y+,Server,50797.2
+8,1,AMD Instinct MI300X-NPS1-SPX-192GB-750W,0,llama2-70b-99,2xAMD EPYC TURIN,Offline,24109.8
+8,1,AMD Instinct MI300X-NPS1-SPX-192GB-750W,0,llama2-70b-99,2xAMD EPYC TURIN,Server,22020.92
+8,1,AMD Instinct MI300X-NPS1-SPX-192GB-750W,0,llama2-70b-99.9,2xAMD EPYC TURIN,Offline,24109.8
+8,1,AMD Instinct MI300X-NPS1-SPX-192GB-750W,0,llama2-70b-99.9,2xAMD EPYC TURIN,Server,22020.92
+1,1,NVIDIA GH200 Grace Hopper Superchip 144GB,72,gptj-99,NVIDIA Grace CPU,Offline,2632.76
+1,1,NVIDIA GH200 Grace Hopper Superchip 144GB,72,gptj-99,NVIDIA Grace CPU,Server,2512.89
+1,1,NVIDIA GH200 Grace Hopper Superchip 144GB,72,gptj-99.9,NVIDIA Grace CPU,Offline,2632.76
+1,1,NVIDIA GH200 Grace Hopper Superchip 144GB,72,gptj-99.9,NVIDIA Grace CPU,Server,2512.89
+1,1,NVIDIA GH200 Grace Hopper Superchip 144GB,72,llama2-70b-99,NVIDIA Grace CPU,Offline,4084.3
+1,1,NVIDIA GH200 Grace Hopper Superchip 144GB,72,llama2-70b-99,NVIDIA Grace CPU,Server,3884.16
+1,1,NVIDIA GH200 Grace Hopper Superchip 144GB,72,llama2-70b-99.9,NVIDIA Grace CPU,Offline,4084.3
+1,1,NVIDIA GH200 Grace Hopper Superchip 144GB,72,llama2-70b-99.9,NVIDIA Grace CPU,Server,3884.16
+1,1,NVIDIA GH200 Grace Hopper Superchip 144GB,72,mixtral-8x7b,NVIDIA Grace CPU,Offline,8063.02
+1,1,NVIDIA GH200 Grace Hopper Superchip 144GB,72,mixtral-8x7b,NVIDIA Grace CPU,Server,7450.72
+0,1,,128,gptj-99,INTEL(R) XEON(R) 6980P,Offline,498.316
+0,1,,128,gptj-99,INTEL(R) XEON(R) 6980P,Server,217.466
+1,1,NVIDIA B200-SXM-180GB,12,llama2-70b-99,Intel(R) Xeon(R) Silver 4410Y,Offline,11264.4
+1,1,NVIDIA B200-SXM-180GB,12,llama2-70b-99,Intel(R) Xeon(R) Silver 4410Y,Server,10755.59
+1,1,NVIDIA B200-SXM-180GB,12,llama2-70b-99.9,Intel(R) Xeon(R) Silver 4410Y,Offline,11264.4
+1,1,NVIDIA B200-SXM-180GB,12,llama2-70b-99.9,Intel(R) Xeon(R) Silver 4410Y,Server,10755.59
