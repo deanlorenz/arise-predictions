@@ -31,6 +31,15 @@ def get_config(*keys):
     return result
 
 
+def save_config():
+    global config
+
+    # Save to YAML file
+    yaml_file_path = "config.yaml"
+    with open(yaml_file_path, "w") as yaml_file:
+        yaml.dump(config, yaml_file)
+
+
 def load_config():
     global config
 
