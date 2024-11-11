@@ -32,7 +32,7 @@ For each output variable (in our example only `tokens_per_second`), a file named
 is created. For each combination of the categorical inputs, it computes the min, max, and mean of the output variable.
 
 Finally, pearson correlations are computed between the different numeric variables. In our example, we can see that the
-output `tokens_per_second` is moderately correlated (0.66) with the input `# of Accelartors`.
+output `tokens_per_second` is moderately correlated (0.66) with the input `# of Accelerators`.
 
 <img src="correlation-single-job.png"  width="25%" height="25%">
 
@@ -49,7 +49,7 @@ Answering this question requires the existence of a predictive model trained on 
 [provided in this repo](../examples/MLCommons/ARISE-auto-models/estimator-nonlinear-XGBoost-Regressor-tokens_per_second.pkl).
 
 Before calling the predict command that will answer this question, we need to define the subset of the configuration space
-that prediction needs to explore. This space is given in a yaml configuration file. A one matching our question can be found 
+that prediction needs to explore. This space is given in a yaml configuration file. One matching our question can be found 
 [here](../config/example-demo-mlcommons-config.yaml). The config file lists the fixed and variable configuration inputs,
 along with the target variable and the name of the file containing the best performing model. 
 
