@@ -34,7 +34,7 @@ is created. For each combination of the categorical inputs, it computes the min,
 Finally, pearson correlations are computed between the different numeric variables. In our example, we can see that the
 output `tokens_per_second` is moderately correlated (0.66) with the input `# of Accelerators`.
 
-<img src="correlation-single-job.png"  width="25%" height="25%">
+<img src="correlation-single-job.png"  width="60%" height="60%">
 
 ## Using predictive models to select best-performing configurations
 
