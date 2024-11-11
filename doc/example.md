@@ -3,15 +3,15 @@
 To see ARISE in action on a sample dataset, we will use the [MLCommons example](../examples/MLCommons). This example
 contains inference benchmark data from [MLCommons Datacenter Benchmark Results](https://mlcommons.org/benchmarks/inference-datacenter), 
 where the inputs represent different configuration options of the GPU, LLM and environment, and the output is the 
-measured throughput (`tokens_per_second`). We will use ARISE to help the user select the best input configurations that 
-optimize throughout. Since measuring performance for the entire input space is typically not scalable and unrealistic, 
+measured throughput (`tokens_per_second`). We will use ARISE to help the user select a minimal configuration that 
+meets the desired throughout requirements. Since measuring performance for the entire input space is typically not scalable and unrealistic, 
 ARISE will use predictive models in order to estimate the throughout for input configurations not present in the 
 benchmark data.
 
 For example, we want to ask the following:
 
 Given I am running on `gptj-99` with CPU `AMD EPYC 9654` in an `Offline` scenario and my throughput is required to be at 
-least `20,000` tokens per second, what is the cheapest configuration in terms of number of cores and accelerators that I 
+least `20,000` tokens per second, what is the minimal configuration in terms of number of cores and accelerators that I 
 can use?
 
 ## Generating descriptive statistics of the dataset
@@ -41,12 +41,12 @@ output `tokens_per_second` is moderately correlated (0.66) with the input `# of 
 After getting a glimpse into the dataset characteristics, we can get back to the question we started with: 
 
 Given I am running on `gptj-99` with CPU `AMD EPYC 9654` in an `Offline` scenario and my throughput is required to be at 
-least `20,000` tokens per second, what is the cheapest configuration in terms of number of cores and accelerators that I 
+least `20,000` tokens per second, what is the minimal configuration in terms of number of cores and accelerators that I 
 can use?
 
 Answering this question requires the existence of a predictive model trained on the dataset. We will show 
 [here](#building-predictive-models-from-the-dataset) how to build such a model. For now, we will use the model 
-[provided in this repo](../examples/MLCommons/ARISE-auto-models/estimator-nonlinear-XGBoost-Regressor-tokens_per_second.pkl).
+[provided in this repository](../examples/MLCommons/ARISE-auto-models/estimator-nonlinear-XGBoost-Regressor-tokens_per_second.pkl).
 
 Before calling the predict command that will answer this question, we need to define the subset of the configuration space
 that prediction needs to explore. This space is given in a yaml configuration file. One matching our question can be found 
@@ -62,8 +62,8 @@ config/example-demo-mlcommons-config.yaml --model-path examples/MLCommons/ARISE-
 
 The prediction results are generated in `ARISE-predictions/all-predictions.csv` in the provided input path. The file can
 be sorted according to `tokens_per_second` column, and configurations with less than `20,000` tokens per second can
-be filtered out. In the future, filtering and applying queries to the predictions will be supported via the ARISE UI, 
-but currently we can perform these via Excel. First, we filter configurations with less than `20,000` tokens per second:
+be filtered out. In a next version, filtering and applying queries to the predictions will be supported in the ARISE UI. 
+For now, we perform these actions via Excel. First, we filter configurations with less than `20,000` tokens per second:
 
 <img src="filter-predictions.png"  width="50%" height="50%">
 
