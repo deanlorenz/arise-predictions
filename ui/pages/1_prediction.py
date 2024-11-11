@@ -1,16 +1,18 @@
-from config import config
+from config import get_config
 from tools.data_execution_metadata import DataExecutionMetadata
 from ui.predict_ui import PredictUI
 
-# Show the UI
-data_execution_metadata_file = DataExecutionMetadata(config["job"]["data_execution_metadata_file"])
-
+# Instantiate the prediction UI class
 gui = PredictUI()
+
+# set the input and output fields based on the data_execution_metadata_file file
+data_execution_metadata_file = DataExecutionMetadata(get_config("job","data_execution_metadata_file"))
 gui.set_input_fields(data_execution_metadata_file.job_metadata_inputs,
                      data_execution_metadata_file.job_metadata_inputs_details)
-
 gui.set_output_fields(data_execution_metadata_file.job_metadata_outputs)
-gui.load_session_state(config["job"]["prediction_save_state_file"])
+
+# load the session state (saved user fields) from a file
+gui.load_session_state(get_config("job", "prediction_save_state_file"))
 
 # Show the UI
 gui.show()

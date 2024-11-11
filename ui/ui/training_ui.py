@@ -3,7 +3,7 @@ from string import Template
 
 import streamlit as st
 
-from config import config
+from config import get_config
 from tools.actuator import execute_command
 
 logger = logging.getLogger(__name__)
@@ -47,18 +47,18 @@ class TrainingUI:
 
     def on_analyze_jobs_clicked(self):
         logger.debug(f"on_analyze_jobs_clicked")
-        command_template = Template(config["actuation_templates"]["analyze-jobs"])
+        command_template = Template(get_config("actuation_templates", "analyze-jobs"))
         logger.debug(f"command_template: {command_template}")
 
         # Substitute values
         command = command_template.substitute(
             title=self.title,
-            job_spec_file=config["job"]["job_spec_file"],
-            input_path=config["job"]["input_path"],
-            python=config["job"]["python"],
-            executable=config["job"]["executable"],
-            model_path=config["job"]["model_path"]
-            )
+            job_spec_file=get_config("job", "job_spec_file"),
+            input_path=get_config("job", "input_path"),
+            python=get_config("job", "python"),
+            executable=get_config("job", "executable"),
+            model_path=get_config("job", "model_path"),
+        )
 
         # Execute the command
         result = execute_command(command)
@@ -73,18 +73,18 @@ The results are:
 
     def on_auto_build_models_clicked(self):
         logger.debug(f"on_auto_build_models_clicked")
-        command_template = Template(config["actuation_templates"]["auto-build-models"])
+        command_template = Template(get_config("actuation_templates", "auto-build-models"))
         logger.debug(f"command_template: {command_template}")
 
         # Substitute values
         command = command_template.substitute(
             title=self.title,
-            job_spec_file=config["job"]["job_spec_file"],
-            input_path=config["job"]["input_path"],
-            python=config["job"]["python"],
-            executable=config["job"]["executable"],
-            model_path=config["job"]["model_path"]
-            )
+            job_spec_file=get_config("job", "job_spec_file"),
+            input_path=get_config("job", "input_path"),
+            python=get_config("job", "python"),
+            executable=get_config("job", "executable"),
+            model_path=get_config("job", "model_path"),
+        )
 
         result = execute_command(command)
         logger.debug(f"on_auto_build_models_clicked result: {result}")
@@ -95,5 +95,3 @@ The results are:
 ```{result}
 ```
 """
-
-

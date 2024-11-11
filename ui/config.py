@@ -1,8 +1,34 @@
 import argparse
 import os
 import yaml
+import re
 
 config = {"not_initialized": True}
+
+
+def get_config(*keys):
+    global config
+
+    if config.get("not_initialized"):
+        config = load_config()
+
+    # go through all nested keys to find the relevant value in the dict
+    result = config
+    for key in keys:
+        result = result.get(key)
+
+    # Split the value to find all the tokens that start with$.
+    # For each $ started token, replace with the relevant value from config
+    if isinstance(result, str):
+        # Combine whitespace, $, /, and \ as separators
+        pattern = r'([\s#/\\][^\s#/\\]+)'
+        tokens = re.split(pattern, result)
+        for i in range(len(tokens)):
+            if tokens[i].startswith("#"):
+                tokens[i] = get_config(*tokens[i][1:].split("."))
+        result = "".join(tokens)
+
+    return result
 
 
 def load_config():
