@@ -181,10 +181,14 @@ class PredictUI:
     def load_session_state(self, file):
         """ loads the user UI fields (inputs, outputs ...) session_state fields from a saved file """
         logger.debug(f"load_session_state: {file}")
-        if os.path.exists(file):
-            with open(file) as f:
-                dic_to_load = yaml.load(f, Loader=yaml.SafeLoader)
-        else:
+        try:
+            if os.path.exists(file):
+                with open(file) as f:
+                    dic_to_load = yaml.load(f, Loader=yaml.SafeLoader)
+            else:
+                return
+        except FileNotFoundError:
+            st.toast(f"File {file} not found", icon=":material/error:")
             return
 
         # set the UI state based on the dictionary of fields from the file
