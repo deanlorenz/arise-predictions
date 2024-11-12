@@ -190,13 +190,19 @@ class PredictUI:
         # set the UI state based on the dictionary of fields from the file
         # set the input fields
         for config_input_field in self.config_input_fields:
-            if config_input_field not in st.session_state and dic_to_load["config_input_field"][config_input_field]:
-                st.session_state[config_input_field] = dic_to_load["config_input_field"][config_input_field]
+            try:
+                if config_input_field not in st.session_state and dic_to_load["config_input_field"][config_input_field]:
+                    st.session_state[config_input_field] = dic_to_load["config_input_field"][config_input_field]
+            except KeyError:
+                pass
 
         # set the output fields
         for config_output_field in self.config_output_fields:
-            if config_output_field not in st.session_state and dic_to_load["config_output_field"][config_output_field]:
-                st.session_state[config_output_field] = dic_to_load["config_output_field"][config_output_field]
+            try:
+                if config_output_field not in st.session_state and dic_to_load["config_output_field"][config_output_field]:
+                    st.session_state[config_output_field] = dic_to_load["config_output_field"][config_output_field]
+            except KeyError:
+                pass
 
     def get_prediction_configuration(self):
         # generate the prediction config file
