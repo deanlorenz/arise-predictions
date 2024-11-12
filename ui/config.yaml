@@ -1,34 +1,32 @@
-loglevel: DEBUG
-job:
-  prediction_save_state_file: "/tmp/prediction_save_state_file.yaml"
-  data_execution_metadata_file: "../examples/MLCommons/data_execution_metadata.yaml"
-  job_spec_file: "../examples/MLCommons/job_spec.yaml"
-  input_path: "../examples/MLCommons"
-  python: "python"
-  executable: "../src/main.py"
-  model_path: "../examples/MLCommons/ARISE-auto-models"
-  prediction:
-    config_file: "../config/generated-prediction-config-file.yaml"
-    estimator_file: "estimator-nonlinear-XGBoost-Regressor-tokens_per_second.pkl"
-    greater_is_better: True
-    all_predictions_file: "../examples/MLCommons/ARISE-predictions/all-predictions.csv"
-    predictions_with_ground_truth_file: "../examples/MLCommons/ARISE-predictions/predictions-with-ground-truth.csv"
 actuation_templates:
-  analyze-jobs: >
-    pip install -q -r ../requirements.txt;
-    $python $executable analyze-jobs --input-path $input_path 
-    --job-spec-file-name job_spec.yaml
-  auto-build-models: > 
-    pip install -q -r ../requirements.txt;
-    $python $executable auto-build-models --input-path $input_path 
-    --config-file ../config/small-auto-model-search-config.yaml
-  predict: >
-    pip install -q -r ../requirements.txt;
-    $python $executable predict --input-path $input_path 
-    --model-path $model_path 
-    --config-file $prediction_config_file
-  demo-predict: >
-    pip install -q -r ../requirements.txt;
-    $python $executable demo-predict --input-path $input_path 
-    --model-path $model_path 
-    --config-file $prediction_config_file
+  analyze-jobs: 'pip install -q -r ../requirements.txt; $python $executable analyze-jobs
+    --input-path $input_path  --job-spec-file-name job_spec.yaml
+
+    '
+  auto-build-models: 'pip install -q -r ../requirements.txt; $python $executable auto-build-models
+    --input-path $input_path  --config-file ../config/small-auto-model-search-config.yaml
+
+    '
+  demo-predict: 'pip install -q -r ../requirements.txt; $python $executable demo-predict
+    --input-path $input_path  --model-path $model_path  --config-file $prediction_config_file
+
+    '
+  predict: 'pip install -q -r ../requirements.txt; $python $executable predict --input-path
+    $input_path  --model-path $model_path  --config-file $prediction_config_file
+
+    '
+job:
+  data_execution_metadata_file: '#job.input_path/data_execution_metadata.yaml'
+  executable: ../src/main.py
+  input_path: ../examples/MLCommons
+  job_spec_file: '#job.input_path/job_spec.yaml'
+  model_path: '#job.input_path/ARISE-auto-models'
+  prediction:
+    all_predictions_file: '#job.input_path/ARISE-predictions/all-predictions.csv'
+    config_file: ../config/generated-prediction-config-file.yaml
+    estimator_file: estimator-nonlinear-XGBoost-Regressor-tokens_per_second.pkl
+    greater_is_better: true
+    predictions_with_ground_truth_file: '#job.input_path/ARISE-predictions/predictions-with-ground-truth.csv'
+  prediction_save_state_file: /tmp/prediction_save_state_file.yaml
+  python: python
+loglevel: DEBUG

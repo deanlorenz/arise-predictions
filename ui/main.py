@@ -3,7 +3,7 @@ import os
 
 import streamlit as st
 
-from config import load_config
+from config import load_config, get_config
 from config import config
 
 logger = logging.getLogger(__name__)
@@ -16,10 +16,13 @@ def init_logging():
         config["loglevel"] = "INFO"
 
     # Setting log level
-    level = logging.getLevelName(config["loglevel"].upper())
+    level = logging.getLevelName(get_config("loglevel").upper())
     logging.getLogger()
     logging.basicConfig(
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=level)
+
+    # Suppress logging for watchdog.observers.inotify_buffer
+    logging.getLogger("watchdog.observers.inotify_buffer").setLevel(logging.ERROR)
 
 
 if __name__ == "__main__":
@@ -27,10 +30,10 @@ if __name__ == "__main__":
     init_logging()
 
     # delete prediction files if exists
-    if os.path.exists(config["job"]["prediction"]["all_predictions_file"]):
-        os.remove(config["job"]["prediction"]["all_predictions_file"])
-    if os.path.exists(config["job"]["prediction"]["predictions_with_ground_truth_file"]):
-        os.remove(config["job"]["prediction"]["predictions_with_ground_truth_file"])
+    if os.path.exists(get_config("job", "prediction", "all_predictions_file")):
+        os.remove(get_config("job", "prediction", "all_predictions_file"))
+    if os.path.exists(get_config("job", "prediction", "predictions_with_ground_truth_file")):
+        os.remove(get_config("job", "prediction", "predictions_with_ground_truth_file"))
 
     logger.debug(f"Config: {config}")
     st.markdown(f"""

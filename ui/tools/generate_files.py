@@ -1,7 +1,7 @@
 import logging
 import ruamel.yaml
 
-from config import config
+from config import get_config
 
 logger = logging.getLogger(__name__)
 
@@ -11,8 +11,10 @@ def generate_prediction_config_file(fixed_input_values, variable_input_values, o
     output_values_enriched = []
     for output_value in output_values:
         output_values_enriched.append({"target_variable": output_value,
-                                       "estimator_file": config["job"]["prediction"]["estimator_file"], # TODO: automation?
-                                       "greater_is_better": config["job"]["prediction"]["greater_is_better"]  # TODO: automation?
+                                       "estimator_file": get_config("job", "prediction", "estimator_file"),
+                                       # TODO: automation?
+                                       "greater_is_better": get_config("job", "prediction", "greater_is_better")
+                                       # TODO: automation?
                                        })
     prediction_config = {
         "fixed_values": fixed_input_values,
@@ -22,7 +24,7 @@ def generate_prediction_config_file(fixed_input_values, variable_input_values, o
 
     # Write the prediction configuration file
     try:
-        prediction_config_file = config["job"]["prediction"]["config_file"]
+        prediction_config_file = get_config("job", "prediction", "config_file")
         with open(prediction_config_file, "w") as f:
             yaml = ruamel.yaml.YAML()
             yaml.indent(sequence=4, offset=2)

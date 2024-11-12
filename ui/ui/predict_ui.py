@@ -1,4 +1,3 @@
-import json
 import logging
 import os
 from string import Template
@@ -7,6 +6,7 @@ import pandas as pd
 import streamlit as st
 import yaml
 
+from config import get_config
 from tools.actuator import execute_command
 from tools.generate_files import generate_prediction_config_file
 
@@ -178,7 +178,7 @@ class PredictUI:
             yaml.dump(dic_to_save, f)
 
     def load_session_state(self, file):
-        """ loads the input and output session_state fields from a file """
+        """ loads the user UI fields (inputs, outputs ...) session_state fields from a saved file """
         logger.debug(f"load_session_state: {file}")
         if os.path.exists(file):
             with open(file) as f:
@@ -186,10 +186,13 @@ class PredictUI:
         else:
             return
 
+        # set the UI state based on the dictionary of fields from the file
+        # set the input fields
         for config_input_field in self.config_input_fields:
             if config_input_field not in st.session_state and dic_to_load["config_input_field"][config_input_field]:
                 st.session_state[config_input_field] = dic_to_load["config_input_field"][config_input_field]
 
+        # set the output fields
         for config_output_field in self.config_output_fields:
             if config_output_field not in st.session_state and dic_to_load["config_output_field"][config_output_field]:
                 st.session_state[config_output_field] = dic_to_load["config_output_field"][config_output_field]
@@ -245,13 +248,11 @@ class PredictUI:
         return True, fixed_input_values, variable_input_values, output_values
 
     def on_predict(self):
-        from config import config
-
         logger.debug(f"on_predict")
         if st.session_state['compare_with_ground_truth']:
-            command_template = Template(config["actuation_templates"]["demo-predict"])
+            command_template = Template(get_config("actuation_templates", "demo-predict"))
         else:
-            command_template = Template(config["actuation_templates"]["predict"])
+            command_template = Template(get_config("actuation_templates", "predict"))
         logger.debug(f"command_template: {command_template}")
 
         # build the prediction configuration file based on customer inputs and outputs:
@@ -261,7 +262,7 @@ class PredictUI:
             logger.debug(f"get_prediction_configuration failed")
             return
 
-        self.persist_session_state(config["job"]["prediction_save_state_file"])
+        self.persist_session_state(get_config("job", "prediction_save_state_file"))
 
         generate_prediction_config_file(fixed_input_values,
                                         variable_input_values,
@@ -270,12 +271,12 @@ class PredictUI:
         # Substitute values
         command = command_template.substitute(
             title=self.title,
-            job_spec_file=config["job"]["job_spec_file"],
-            input_path=config["job"]["input_path"],
-            python=config["job"]["python"],
-            executable=config["job"]["executable"],
-            model_path=config["job"]["model_path"],
-            prediction_config_file=config["job"]["prediction"]["config_file"]
+            job_spec_file=get_config("job", "job_spec_file"),
+            input_path=get_config("job", "input_path"),
+            python=get_config("job", "python"),
+            executable=get_config("job", "executable"),
+            model_path=get_config("job", "model_path"),
+            prediction_config_file=get_config("job", "prediction", "config_file")
         )
 
         result = execute_command(command)
@@ -289,11 +290,11 @@ The results are:
 """
 
         # get the prediction file if exists
-        if os.path.exists(config["job"]["prediction"]["all_predictions_file"]):
-            csv = pd.read_csv(config["job"]["prediction"]["all_predictions_file"])
+        if os.path.exists(get_config("job", "prediction","all_predictions_file")):
+            csv = pd.read_csv(get_config("job", "prediction", "all_predictions_file"))
             st.session_state['all-predictions.csv'] = csv
 
         # get the ground-truth file if exists
-        if os.path.exists(config["job"]["prediction"]["predictions_with_ground_truth_file"]):
-            csv = pd.read_csv(config["job"]["prediction"]["predictions_with_ground_truth_file"])
+        if os.path.exists(get_config("job", "prediction", "predictions_with_ground_truth_file")):
+            csv = pd.read_csv(get_config("job", "prediction", "predictions_with_ground_truth_file"))
             st.session_state['predictions-with-ground-truth.csv'] = csv
