@@ -23,7 +23,7 @@ class ConfigUI:
         st.divider
         # allows the user to configure the base path for the prediction model
         with st.form(key='config-form'):
-            st.subheader("Configure the base path of the prediction model")
+            st.subheader("Configure the input path of the prediction model")
             st.text_input("Input path", key="input_path", value=get_config("job", "input_path"),
                           help="The input path of the prediction model")
             st.form_submit_button("Save")
