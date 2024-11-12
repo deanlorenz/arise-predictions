@@ -1,3 +1,4 @@
+import copy
 import logging
 import os
 from string import Template
@@ -100,7 +101,7 @@ class PredictUI:
 
         if 'all-predictions.csv' in st.session_state:
             st.markdown("## Prediction result")
-            st.write(st.session_state['all-predictions.csv'])
+            st.dataframe(st.session_state['all-predictions.csv'])
 
         if 'predictions-with-ground-truth.csv' in st.session_state:
             st.markdown("## Ground-truth result")
@@ -180,22 +181,31 @@ class PredictUI:
     def load_session_state(self, file):
         """ loads the user UI fields (inputs, outputs ...) session_state fields from a saved file """
         logger.debug(f"load_session_state: {file}")
-        if os.path.exists(file):
-            with open(file) as f:
-                dic_to_load = yaml.load(f, Loader=yaml.SafeLoader)
-        else:
+        try:
+            if os.path.exists(file):
+                with open(file) as f:
+                    dic_to_load = yaml.load(f, Loader=yaml.SafeLoader)
+            else:
+                return
+        except FileNotFoundError:
             return
 
         # set the UI state based on the dictionary of fields from the file
         # set the input fields
         for config_input_field in self.config_input_fields:
-            if config_input_field not in st.session_state and dic_to_load["config_input_field"][config_input_field]:
-                st.session_state[config_input_field] = dic_to_load["config_input_field"][config_input_field]
+            try:
+                if config_input_field not in st.session_state and dic_to_load["config_input_field"][config_input_field]:
+                    st.session_state[config_input_field] = dic_to_load["config_input_field"][config_input_field]
+            except KeyError:
+                pass
 
         # set the output fields
         for config_output_field in self.config_output_fields:
-            if config_output_field not in st.session_state and dic_to_load["config_output_field"][config_output_field]:
-                st.session_state[config_output_field] = dic_to_load["config_output_field"][config_output_field]
+            try:
+                if config_output_field not in st.session_state and dic_to_load["config_output_field"][config_output_field]:
+                    st.session_state[config_output_field] = dic_to_load["config_output_field"][config_output_field]
+            except KeyError:
+                pass
 
     def get_prediction_configuration(self):
         # generate the prediction config file
@@ -290,8 +300,28 @@ The results are:
 """
 
         # get the prediction file if exists
-        if os.path.exists(get_config("job", "prediction","all_predictions_file")):
+        if os.path.exists(get_config("job", "prediction", "all_predictions_file")):
             csv = pd.read_csv(get_config("job", "prediction", "all_predictions_file"))
+
+            # Move the output columns to the beginning of the table
+            csv_columns = csv.columns.tolist()
+            columns = copy.deepcopy(csv_columns)
+            columns_to_highlight = []
+            for column in columns:
+                try:
+                    if st.session_state[column] is True:
+                        csv_columns = [column] + [col for col in csv_columns if col != column]
+                        columns_to_highlight.append(column)
+                except Exception as e:
+                    pass
+
+            def highlight_columns(x, _columns_to_highlight):
+                styles = pd.DataFrame('', index=x.index, columns=x.columns)
+                styles[_columns_to_highlight] = 'background-color: lightblue'
+                return styles
+
+            csv = csv[csv_columns]
+            csv = csv.style.apply(highlight_columns, axis=None, _columns_to_highlight=columns_to_highlight)
             st.session_state['all-predictions.csv'] = csv
 
         # get the ground-truth file if exists
