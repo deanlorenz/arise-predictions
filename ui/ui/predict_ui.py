@@ -188,7 +188,6 @@ class PredictUI:
             else:
                 return
         except FileNotFoundError:
-            st.toast(f"File {file} not found", icon=":material/error:")
             return
 
         # set the UI state based on the dictionary of fields from the file
