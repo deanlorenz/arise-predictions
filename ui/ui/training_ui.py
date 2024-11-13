@@ -3,7 +3,7 @@ from string import Template
 
 import streamlit as st
 
-from config import get_config
+from utils.config import get_config
 from tools.actuator import execute_command
 
 logger = logging.getLogger(__name__)

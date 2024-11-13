@@ -3,8 +3,8 @@ import os
 
 import streamlit as st
 
-from config import load_config, get_config
-from config import config
+from utils.config import load_config, get_config
+from utils.config import config
 
 logger = logging.getLogger(__name__)
 
