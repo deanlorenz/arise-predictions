@@ -26,6 +26,13 @@ def init_logging():
 
 
 if __name__ == "__main__":
+
+    # **** for deployment on stremlit cloud ****
+    # When the app is loaded from the root folder using `steamlit run ui/main.py` command,
+    # We need to change the directory to the ui directory so that the config.yaml file can be loaded correctly.
+    if os.path.exists("ui/config.yaml"):
+        os.chdir("ui")
+
     config = load_config()
     init_logging()
 
