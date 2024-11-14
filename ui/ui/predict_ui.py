@@ -104,7 +104,7 @@ class PredictUI:
             styles = pd.DataFrame('', index=x.index, columns=x.columns)
             styles[_columns_to_highlight] = 'background-color: lightblue'
             return styles
-        
+
         if 'all-predictions.csv' in st.session_state:
             st.markdown("## Prediction result")
             st.dataframe(filter_dataframe(
