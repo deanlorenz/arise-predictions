@@ -1,4 +1,4 @@
-from config import get_config
+from utils.config import get_config
 from tools.data_execution_metadata import DataExecutionMetadata
 from ui.predict_ui import PredictUI
 

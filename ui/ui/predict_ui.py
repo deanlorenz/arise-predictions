@@ -7,9 +7,10 @@ import pandas as pd
 import streamlit as st
 import yaml
 
-from config import get_config
+from utils.config import get_config
 from tools.actuator import execute_command
 from tools.generate_files import generate_prediction_config_file
+from utils.ui_filters import filter_dataframe
 
 logger = logging.getLogger(__name__)
 
@@ -99,9 +100,19 @@ class PredictUI:
                     > Note: Be patient. The operations might take some time.    
                     """)
 
+        def highlight_columns(x, _columns_to_highlight):
+            styles = pd.DataFrame('', index=x.index, columns=x.columns)
+            styles[_columns_to_highlight] = 'background-color: lightblue'
+            return styles
+
         if 'all-predictions.csv' in st.session_state:
             st.markdown("## Prediction result")
-            st.dataframe(st.session_state['all-predictions.csv'])
+            st.dataframe(filter_dataframe(
+                st.session_state['all-predictions.csv'])
+                .style.apply(highlight_columns,
+                             axis=None,
+                             _columns_to_highlight=st.session_state['all-predictions.csv.columns_to_highlight']))
+
 
         if 'predictions-with-ground-truth.csv' in st.session_state:
             st.markdown("## Ground-truth result")
@@ -315,14 +326,9 @@ The results are:
                 except Exception as e:
                     pass
 
-            def highlight_columns(x, _columns_to_highlight):
-                styles = pd.DataFrame('', index=x.index, columns=x.columns)
-                styles[_columns_to_highlight] = 'background-color: lightblue'
-                return styles
-
             csv = csv[csv_columns]
-            csv = csv.style.apply(highlight_columns, axis=None, _columns_to_highlight=columns_to_highlight)
             st.session_state['all-predictions.csv'] = csv
+            st.session_state['all-predictions.csv.columns_to_highlight'] = columns_to_highlight
 
         # get the ground-truth file if exists
         if os.path.exists(get_config("job", "prediction", "predictions_with_ground_truth_file")):

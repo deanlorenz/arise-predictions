@@ -4,3 +4,4 @@ __pycache__/
 ARISE-auto-models/
 job-analysis/
 ARISE-predictions/
+config/generated-prediction-config-file.yaml
