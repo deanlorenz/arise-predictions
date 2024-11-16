@@ -167,12 +167,13 @@ def _run_predictions(original_data: pd.DataFrame,
             continue
         df = pd.read_csv(filename, index_col=None, header=0)
         dfs.append(df)
-    all_predictions_df = reduce(lambda x, y: pd.merge(x, y), dfs) 
+    all_predictions_df = reduce(lambda x, y: pd.merge(x, y), dfs)
+    all_predictions_df = all_predictions_df.loc[:, ~all_predictions_df.columns.str.contains('^Unnamed')]
     output_file_all_predictions = constants.PRED_ALL_PREDICTIONS_FILE
     path = utils.write_df_to_csv(
         df=all_predictions_df, 
         output_path=output_path,
-        output_file=output_file_all_predictions)
+        output_file=output_file_all_predictions, index=False)
     logger.info(f"Wrote merged predictions to {path}")
 
     # create comparison with original data
@@ -184,6 +185,7 @@ def _run_predictions(original_data: pd.DataFrame,
             on=input_data.columns.values.tolist(),
             suffixes=["_actual", "_pred"])
         if not merged_df.empty:
+            merged_df = merged_df.loc[:, ~merged_df.columns.str.contains('^Unnamed')]
             merged_params = merged_df.columns.values.tolist()
             for p in all_predictions_df:
                 if p+"_pred" in merged_params and p+"_actual" in merged_params:
@@ -193,7 +195,7 @@ def _run_predictions(original_data: pd.DataFrame,
             path = utils.write_df_to_csv(
                 df=merged_df,
                 output_path=output_path,
-                output_file=output_file_merged)
+                output_file=output_file_merged, index=False)
             logger.info(f"Wrote source of truth to {path}")
 
 

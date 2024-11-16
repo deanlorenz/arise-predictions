@@ -101,10 +101,10 @@ def get_categorical_features(data):
 
 
 def write_df_to_csv(df: pd.DataFrame, output_path: str, 
-                    output_file: str) -> str:
+                    output_file: str, index: bool = True) -> str:
     mkdirs(output_path)
     path = os.path.join(output_path, output_file)
-    df.to_csv(path)
+    df.to_csv(path, index=index)
     return path
 
 
