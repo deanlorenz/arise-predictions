@@ -71,7 +71,7 @@ def _create_input_space(input_config: Dict[str, list[Dict[str, Any]]],
     interpolation_values_list = input_config.get("interpolation_values", [])
     fixed_values = {k: v for d in fixed_values_list for k, v in d.items()}
     variable_values = {k: v for d in variable_values_list for k, v in d.items()}
-    interpolation_values = {k: _get_missing_values(original_data, k) for k in interpolation_values_list} if \
+    interpolation_values = {k: _get_data_range_missing_values(original_data, k) for k in interpolation_values_list} if \
         original_data is not None and not original_data.empty else {}
 
     if variable_values.keys() & interpolation_values.keys():
@@ -97,23 +97,38 @@ def _create_input_space(input_config: Dict[str, list[Dict[str, Any]]],
     output_file_df = constants.PRED_INPUT_SPACE_FILE
 
     path = utils.write_df_to_csv(
-        df=input_space_df, 
-        output_path=output_path, 
+        df=input_space_df,
+        output_path=output_path,
         output_file=output_file_df)
     logger.info(f"Wrote input feature space to {path}")
     return path, input_space_df
 
 
-def _get_missing_values(original_data: pd.DataFrame, var_name: str):
-
-    values = range(original_data[var_name].min()+1, original_data[var_name].max())
+def _get_data_range_missing_values(original_data: pd.DataFrame, var_name: str) -> list[str]:
+    values = range(original_data[var_name].min() + 1, original_data[var_name].max())
     return [val for val in values if val not in original_data[var_name].tolist()]
+
+
+def _get_highest_ranked_estimator(estimator_path: str, target_variable: str) -> str:
+    ranking_file = os.path.join(estimator_path, constants.AM_RANKINGS_FILE)
+    if not os.path.exists(ranking_file):
+        logger.error("Failed to locate model ranking file")
+        raise Exception
+    ranking_df = pd.read_csv(ranking_file)
+    ranking_df_var = ranking_df.loc[ranking_df[constants.AM_COL_TARGET] == target_variable]
+    ranking_df_var['combined_rank'] = ranking_df_var[constants.AM_COL_RANK_MAPE] + \
+                                      ranking_df_var[constants.AM_COL_RANK_NRMSE_MAXMIN] + \
+                                      ranking_df_var[constants.AM_COL_RANK_R2]
+    best_row = ranking_df_var[ranking_df_var['combined_rank'].idxmin():]
+    estimator_type = "linear" if best_row[constants.AM_COL_LINEAR].values[0] else "nonlinear"
+    return utils.get_estimator_file_name(estimator_type, best_row[constants.AM_COL_ESTIMATOR].values[0],
+                                         target_variable)
 
 
 def _run_predictions(original_data: pd.DataFrame,
                      input_data: pd.DataFrame,
-                     estimators_config: Dict, 
-                     estimator_path: str, 
+                     estimators_config: Dict,
+                     estimator_path: str,
                      output_path: str) -> None:
     """"
     For each target variable in the estimator configuration, load the
@@ -129,7 +144,13 @@ def _run_predictions(original_data: pd.DataFrame,
         target_variable = entry[constants.PRED_CONFIG_TARGET_VAR]
         target_variables.append(target_variable)
         greater_is_better = entry[constants.PRED_CONFIG_GREATER_BETTER]
-        estimator_file = entry[constants.PRED_CONFIG_ESTIMATOR_FILE]
+        if constants.PRED_CONFIG_ESTIMATOR_FILE in entry:
+            estimator_file = entry[constants.PRED_CONFIG_ESTIMATOR_FILE]
+        else:
+            # We consult ranking for each target variable separately, because for some
+            # target variables the user mau specify an estimator, while for others not
+            # (in which one the best one according to ranking will be taken)
+            estimator_file = _get_highest_ranked_estimator(estimator_path, target_variable)
         logger.info((f"Predicting target variable {target_variable}"
                      f" with {estimator_file}"))
         estimator = utils.load_estimator(
@@ -146,22 +167,22 @@ def _run_predictions(original_data: pd.DataFrame,
 
         output_file_preds = f"predictions-{target_variable}.csv"
         path = utils.write_df_to_csv(
-            df=predictions_ranked_df, 
-            output_path=output_path, 
+            df=predictions_ranked_df,
+            output_path=output_path,
             output_file=output_file_preds)
         logger.info(f"Wrote predictions to {path}")
-    
+
     # merge predictions to facilitate demos
     logger.info("Merging predictions")
     all_predictions_files = glob.glob(os.path.join(
-        output_path, 
+        output_path,
         r"predictions-*.csv"))
     dfs = []
 
     for filename in all_predictions_files:
         # TODO can find better way to handle/avoid this with more time
         ignore_files = [
-            constants.PRED_ALL_PREDICTIONS_FILE, 
+            constants.PRED_ALL_PREDICTIONS_FILE,
             constants.PRED_GROUND_TRUTH_FILE]
         if any(x in filename for x in ignore_files):
             continue
@@ -171,7 +192,7 @@ def _run_predictions(original_data: pd.DataFrame,
     all_predictions_df = all_predictions_df.loc[:, ~all_predictions_df.columns.str.contains('^Unnamed')]
     output_file_all_predictions = constants.PRED_ALL_PREDICTIONS_FILE
     path = utils.write_df_to_csv(
-        df=all_predictions_df, 
+        df=all_predictions_df,
         output_path=output_path,
         output_file=output_file_all_predictions, index=False)
     logger.info(f"Wrote merged predictions to {path}")
@@ -188,9 +209,9 @@ def _run_predictions(original_data: pd.DataFrame,
             merged_df = merged_df.loc[:, ~merged_df.columns.str.contains('^Unnamed')]
             merged_params = merged_df.columns.values.tolist()
             for p in all_predictions_df:
-                if p+"_pred" in merged_params and p+"_actual" in merged_params:
-                    merged_df[p+"_mape"] = [mean_absolute_percentage_error([y_t], [y_p]) for y_t, y_p in
-                                    zip(merged_df[p+"_actual"], merged_df[p+"_pred"])]
+                if p + "_pred" in merged_params and p + "_actual" in merged_params:
+                    merged_df[p + "_mape"] = [mean_absolute_percentage_error([y_t], [y_p]) for y_t, y_p in
+                                              zip(merged_df[p + "_actual"], merged_df[p + "_pred"])]
             output_file_merged = constants.PRED_GROUND_TRUTH_FILE
             path = utils.write_df_to_csv(
                 df=merged_df,
@@ -200,8 +221,8 @@ def _run_predictions(original_data: pd.DataFrame,
 
 
 def _rank_predictions(
-        data: pd.DataFrame, 
-        target_column: str, 
+        data: pd.DataFrame,
+        target_column: str,
         greater_is_better: bool = False) -> pd.DataFrame:
     """
     Rank the indicated target variable column according to whether larger 
@@ -220,12 +241,12 @@ def _rank_predictions(
     """
     data.insert(
         loc=len(data.columns),
-        column=f"rank_{target_column}", 
+        column=f"rank_{target_column}",
         value=data[target_column].rank(ascending=not greater_is_better))
     return data
 
 
-def demo_predict(original_data: pd.DataFrame, config_file: str, 
+def demo_predict(original_data: pd.DataFrame, config_file: str,
                  estimator_path: str, feature_engineering: dict[str, str] = None,
                  metadata_parser_class_name: str = None, metadata_path: str = None, output_path: str = None):
     logging.basicConfig(
@@ -237,7 +258,7 @@ def demo_predict(original_data: pd.DataFrame, config_file: str,
         msg = "Must set output_path for demo predict outputs"
         logger.error(msg)
         raise ValueError(msg)
-    
+
     logger.info("Beginning demo predict")
     config = _read_yaml_config(config_file=config_file)
     _, input_space_df = _create_input_space(
