@@ -218,7 +218,7 @@ class PredictUI:
             col0, col1, col2 = st.columns([0.5, 6, 0.5], vertical_alignment="bottom")
             col1.text_area("Response", height=150, key="bot_text_area")
             col0, col1, col2 = st.columns([0.5, 5, 1], vertical_alignment="bottom")
-            col1.text_input("Ask anything:", key="bot_input", placeholder="?")
+            col1.text_input("Ask anything:", key="bot_input", placeholder="?", on_change=self.on_bot_send)
             col2.button(":material/send:", on_click=self.on_bot_send)
 
     def on_bot_send(self):
