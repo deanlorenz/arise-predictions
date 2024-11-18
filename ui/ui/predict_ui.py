@@ -7,10 +7,12 @@ import pandas as pd
 import streamlit as st
 import yaml
 
+from tools.bot import get_bot
 from utils.config import get_config
 from tools.actuator import execute_command
 from tools.generate_files import generate_prediction_config_file
 from utils.ui_filters import filter_dataframe
+from streamlit_float import *
 
 logger = logging.getLogger(__name__)
 
@@ -36,6 +38,8 @@ class PredictUI:
         self.title = "ARISE predictions"
         self.output_fields = None
         self.input_fields = None
+        if "show_bot" not in st.session_state:
+            st.session_state.show_bot = False
 
     def set_input_fields(self, input_fields, input_fields_details):
         self.config_input_fields = input_fields
@@ -74,9 +78,11 @@ class PredictUI:
         self.set_page_layout()
         self.show_page_content()
         self.show_sidebar()
+        self.shot_bot()
 
     def set_page_layout(self):
         st.set_page_config(page_icon="⌛️", layout="wide", page_title="ARISE Prediction")
+        float_init()
 
     def show_page_content(self):
         st.markdown("""
@@ -169,6 +175,54 @@ class PredictUI:
 
                 st.toggle("compare with ground truth", key="compare_with_ground_truth", value=False,
                           help="Compare the results with the ground truth")
+
+    def shot_bot(self):
+        """ Presents a bot dialog allowing users to ask questions about the prediction window """
+        # Floating button
+        button_container = st.container()
+        with button_container:
+            if st.session_state.show_bot:
+                if st.button(":material/close_fullscreen:", type="primary"):
+                    st.session_state.show_bot = False
+                    st.rerun()
+            else:
+                if st.button(":material/smart_toy:", type="secondary"):
+                    st.session_state.show_bot = True
+                    st.rerun()
+
+        if st.session_state.show_bot:
+            vid_y_pos = "2rem"
+            button_b_pos = "21rem"
+        else:
+            vid_y_pos = "-19.5rem"
+            button_b_pos = "1rem"
+
+        button_css = float_css_helper(width="2.2rem", right="2rem", bottom=button_b_pos, transition=0)
+        button_container.float(button_css)
+
+        # bot dialog
+        bot_dialog_container = st.container()
+        bot_dialog_css = float_css_helper(width="29rem", right="2rem",
+                                          border="1px gray solid",
+                                          css=";border-radius: 10px;padding: 5px;",
+                                          bottom=vid_y_pos,
+                                          background="white",
+                                          transition=0)
+        bot_dialog_container.float(bot_dialog_css)
+        with bot_dialog_container:
+            col0, col1, col2 = st.columns([0.5, 6, 0.5], vertical_alignment="bottom")
+            col1.text_area("Response", height=150, key="bot_text_area")
+            col0, col1, col2 = st.columns([0.5, 5, 1], vertical_alignment="bottom")
+            col1.text_input("Ask anything:", key="bot_input", placeholder="?")
+            col2.button(":material/send:", on_click=self.on_bot_send)
+
+    def on_bot_send(self):
+        """ Sends the user input to the bot and displays the response """
+        logger.debug(f"send_bot: {st.session_state.bot_input}")
+        # get the bot response
+        response = get_bot().ask_synchronized(st.session_state.bot_input)
+        response = f"{response}"
+        st.session_state.bot_text_area = response
 
     def persist_session_state(self, file):
         """ saves the input and output session_state fields to a file """

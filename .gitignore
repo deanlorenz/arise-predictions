@@ -5,3 +5,5 @@ ARISE-auto-models/
 job-analysis/
 ARISE-predictions/
 config/generated-prediction-config-file.yaml
+ui/.streamlit/
+ui/cookies/
