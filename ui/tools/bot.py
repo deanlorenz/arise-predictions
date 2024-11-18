@@ -30,8 +30,21 @@ and learn how the arise project works.
 
 Answer the question based only on what you read from the web and the arise project.
 Think step by step before answering.
+
+****
 The question is:
 {query}
+****
+
+****
+There is a human user that uses a UI to configure the prediction configuration.
+The current configuration that includes the input fields and the output fields as
+provided by the user in yaml format is the following:
+
+```
+{persist_session_state}
+```
+*****
 
 Answer accurate and concise without any unnecessary information. Be short and very prescriptive.
 Answer just from the web page and if content doesn't exist on the web page just emit the info.
@@ -63,7 +76,7 @@ class ChatBot:
     def delete_all_conversations(self):
         self.get_chatbot().delete_all_conversations()
 
-    def ask_synchronized(self, query):
+    def ask_synchronized(self, query, persist_session_state):
         chatbot = self.get_chatbot()
 
         models = chatbot.get_available_llm_models()
@@ -72,11 +85,15 @@ class ChatBot:
                 chatbot.switch_llm(index)
                 break
 
-        prompt = prompt_template.format(query=query)
-        message_result = chatbot.chat(prompt, web_search=True)
-        message_str = message_result.wait_until_done()
+        try:
+            prompt = prompt_template.format(query=query,persist_session_state=persist_session_state)
+            message_result = chatbot.chat(prompt, web_search=True)
+            message_str = message_result.wait_until_done()
+        except Exception as e:
+            logger.error(f"Error in chatbot: {e}")
+            message_str = "Sorry, I'm having trouble answering your question. Please try again later."
 
-        self.delete_all_conversations()
+        chatbot.delete_conversation()
 
         return message_str
 

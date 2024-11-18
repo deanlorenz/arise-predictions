@@ -223,9 +223,19 @@ class PredictUI:
 
     def on_bot_send(self):
         """ Sends the user input to the bot and displays the response """
+
+        if st.session_state["bot_input"] == "" or st.session_state["bot_input"] is None:
+            return
+        if ("saved_bot_input" not in st.session_state or
+                st.session_state["saved_bot_input"] != st.session_state["bot_input"]):
+            st.session_state["saved_bot_input"] = st.session_state["bot_input"]
+        else:
+            return
+
         logger.debug(f"send_bot: {st.session_state.bot_input}")
         # get the bot response
-        response = get_bot().ask_synchronized(st.session_state.bot_input)
+        response = get_bot().ask_synchronized(st.session_state.bot_input,
+                                              st.session_state["persist_session_state"])
         response = f"{response}"
         st.session_state.bot_text_area = response
 
@@ -245,6 +255,7 @@ class PredictUI:
                     st.session_state[config_output_fields] is True):
                 dic_to_save["config_output_field"][config_output_fields] = st.session_state[config_output_fields]
 
+        st.session_state["persist_session_state"] = dic_to_save
         with open(file, "w") as f:
             yaml.dump(dic_to_save, f)
 
@@ -259,6 +270,8 @@ class PredictUI:
                 return
         except FileNotFoundError:
             return
+
+        st.session_state["persist_session_state"] = dic_to_load
 
         # set the UI state based on the dictionary of fields from the file
         # set the input fields
