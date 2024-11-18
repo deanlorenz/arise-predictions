@@ -81,8 +81,10 @@ class PredictUI:
         self.shot_bot()
 
     def set_page_layout(self):
-        st.set_page_config(page_icon="⌛️", layout="wide", page_title="ARISE Prediction")
-        float_init()
+        if 'set_page_layout' not in st.session_state:
+            st.set_page_config(page_icon="⌛️", layout="wide", page_title="ARISE Prediction")
+            float_init()
+            st.session_state["set_page_layout"] = True
 
     def show_page_content(self):
         st.markdown("""
@@ -177,6 +179,9 @@ class PredictUI:
                           help="Compare the results with the ground truth")
 
     def shot_bot(self):
+        if not get_bot().is_bot_enabled():
+            return
+
         """ Presents a bot dialog allowing users to ask questions about the prediction window """
         # Floating button
         button_container = st.container()
