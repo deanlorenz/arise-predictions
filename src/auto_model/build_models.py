@@ -5,18 +5,16 @@ import os
 import sys
 import importlib
 import pandas as pd
-import numpy as np
 from sklearn.model_selection import train_test_split, KFold, GridSearchCV, LeaveOneGroupOut
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
-from sklearn.metrics import (make_scorer, mean_absolute_percentage_error, 
-                             r2_score)
 from sklearn.pipeline import Pipeline
 from sklearn.ensemble import StackingRegressor
 
 from utils import constants, utils
 from cmd.cmd import get_args
 from metrics import metrics
+import shutil
 
 logger = logging.getLogger(__name__)
 
@@ -1012,4 +1010,7 @@ def auto_build_models(raw_data: pd.DataFrame, config_file: str,
         )
         logger.info(f"Auto-model meta-learner artifacts written to {output_path}")
 
-    logger.info(f"Auto-model artifacts written to {output_path}")
+    archived_output = shutil.make_archive(os.path.join(os.path.dirname(output_path), constants.AM_OUTPUT_PATH_SUFFIX),
+                                          'zip', output_path)
+
+    logger.info(f"Auto-model artifacts written to {output_path} and archived into {archived_output}")

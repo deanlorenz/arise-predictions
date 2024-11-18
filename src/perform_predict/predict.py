@@ -6,6 +6,7 @@ import os
 import sys
 import glob
 from functools import reduce
+import shutil
 
 import pandas as pd
 
@@ -139,6 +140,13 @@ def _run_predictions(original_data: pd.DataFrame,
     logger.info("Running predictions")
     target_variables = []
 
+    if os.path.isfile(estimator_path):
+        estimator_folder = os.path.join(os.path.dirname(estimator_path), os.path.splitext(os.path.basename(
+            estimator_path))[0])
+        shutil.unpack_archive(estimator_path, estimator_folder)
+    else:
+        estimator_folder = estimator_path
+
     # run predictions
     for entry in estimators_config[constants.PRED_CONFIG_ESTIMATORS]:
         target_variable = entry[constants.PRED_CONFIG_TARGET_VAR]
@@ -150,11 +158,11 @@ def _run_predictions(original_data: pd.DataFrame,
             # We consult ranking for each target variable separately, because for some
             # target variables the user mau specify an estimator, while for others not
             # (in which one the best one according to ranking will be taken)
-            estimator_file = _get_highest_ranked_estimator(estimator_path, target_variable)
+            estimator_file = _get_highest_ranked_estimator(estimator_folder, target_variable)
         logger.info((f"Predicting target variable {target_variable}"
                      f" with {estimator_file}"))
         estimator = utils.load_estimator(
-            input_path=estimator_path, pickle_file=estimator_file)
+            input_path=estimator_folder, pickle_file=estimator_file)
         y_pred = estimator.predict(input_data)
         predictions_df = input_data.copy(deep=True)
         predictions_df[target_variable] = y_pred
