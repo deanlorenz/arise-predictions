@@ -128,6 +128,10 @@ def persist_estimator(estimator: Any, output_path: str,
     return path
 
 
+def get_estimator_file_name(estimator_type: str, estimator_name: str, target_variable: str) -> str:
+    return f"estimator-{estimator_type}-{estimator_name}"f"-{target_variable}.pkl"
+
+
 def load_estimator(input_path: str, pickle_file: str) -> Any:
     """
     Load estimator (e.g., scikit-learn pipeline) from a pickle file.

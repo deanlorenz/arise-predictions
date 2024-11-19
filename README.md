@@ -162,7 +162,11 @@ input space for the target variables indicated in the same configuration file.
 
 An example configuration file: [example-demo-mlcommons-config.yaml](config/example-demo-mlcommons-config.yaml).
 
-The `--config-file` argument is optional (uses example configuration file if no alternative is specified).
+In addition to feature values, the config file requires specifying target variables for prediction. For each target 
+variable, the boolean parameter indicating whether `greater_is_better` should be specified. `estimator_file` is an 
+optional parameter providing the name of the model file to use for predictions of this target variable. If it is not 
+provided, ARISE automatically uses the top-ranked model file according to the `auto-build-models` results which should 
+be located in the provided model path, next to the persisted model files.
 
 ```bash
 python src/main.py predict --input-path examples/MLCommons --config-file

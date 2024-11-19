@@ -612,12 +612,10 @@ def _persist_estimator(estimator_name: str, estimator_class: Any,
                  f" target variable {target_variable}"))
 
     # persist best estimator
-    output_file_estimator = (f"estimator-{estimator_type}-{estimator_name}"
-                             f"-{target_variable}.pkl")
     path = utils.persist_estimator(
         estimator=estimator_class, 
         output_path=output_path,
-        output_file=output_file_estimator)
+        output_file=utils.get_estimator_file_name(estimator_type, estimator_name, target_variable))
     logger.info(f"Persisted estimator to {path}")
 
     # store information about best params
