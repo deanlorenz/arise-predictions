@@ -1014,7 +1014,9 @@ def auto_build_models(raw_data: pd.DataFrame, config_file: str,
     if single_output_file:
         archived_output = shutil.make_archive(os.path.join(os.path.dirname(output_path),
                                                            constants.AM_OUTPUT_PATH_SUFFIX), 'zip', output_path)
-        shutil.rmtree(output_path)
+        if os.path.basename(output_path) == constants.AM_OUTPUT_PATH_SUFFIX:
+            # delete output file only if ARISE created it
+            shutil.rmtree(output_path)
         logger.info(f"Auto-model artifacts written to {archived_output}")
     else:
         logger.info(f"Auto-model artifacts written to {output_path}")
