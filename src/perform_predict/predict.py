@@ -6,7 +6,7 @@ import os
 import sys
 import glob
 from functools import reduce
-import shutil
+import shutil, zipfile
 
 import pandas as pd
 
@@ -139,7 +139,7 @@ def _run_predictions(original_data: pd.DataFrame,
     logger.info("Running predictions")
     target_variables = []
 
-    if os.path.isfile(estimator_path):
+    if zipfile.is_zipfile(estimator_path):
         estimator_folder = os.path.join(os.path.dirname(estimator_path), os.path.splitext(os.path.basename(
             estimator_path))[0])
         shutil.unpack_archive(estimator_path, estimator_folder)
@@ -225,6 +225,10 @@ def _run_predictions(original_data: pd.DataFrame,
                 output_path=output_path,
                 output_file=output_file_merged, index=False)
             logger.info(f"Wrote source of truth to {path}")
+
+    if zipfile.is_zipfile(estimator_path):
+        # remove temporary estimator artifacts folder created from given archive file
+        shutil.rmtree(estimator_folder)
 
 
 def _rank_predictions(

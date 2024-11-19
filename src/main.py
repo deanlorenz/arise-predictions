@@ -88,7 +88,8 @@ def execute_auto_build_models():
                           leave_one_out_cv=get_args().leave_one_out_cv,
                           feature_col=get_args().feature_column,
                           low_threshold=get_args().low_threshold,
-                          high_threshold=get_args().high_threshold)
+                          high_threshold=get_args().high_threshold,
+                          single_output_file=get_args().single_output_file)
 
 
 def execute_demo_predict():

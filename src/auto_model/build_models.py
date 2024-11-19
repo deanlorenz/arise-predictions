@@ -944,7 +944,8 @@ def _persist_and_test_meta_estimator(
 def auto_build_models(raw_data: pd.DataFrame, config_file: str,
                       target_variables: list[str], output_path: str = None, 
                       leave_one_out_cv: str = None, feature_col: str = None,
-                      low_threshold: int = None, high_threshold: int = None):
+                      low_threshold: int = None, high_threshold: int = None,
+                      single_output_file: bool = False):
     logging.basicConfig(
         stream=sys.stdout,
         level=logging.INFO,
@@ -1010,7 +1011,12 @@ def auto_build_models(raw_data: pd.DataFrame, config_file: str,
         )
         logger.info(f"Auto-model meta-learner artifacts written to {output_path}")
 
-    archived_output = shutil.make_archive(os.path.join(os.path.dirname(output_path), constants.AM_OUTPUT_PATH_SUFFIX),
-                                          'zip', output_path)
+    if single_output_file:
+        archived_output = shutil.make_archive(os.path.join(os.path.dirname(output_path),
+                                                           constants.AM_OUTPUT_PATH_SUFFIX), 'zip', output_path)
+        shutil.rmtree(output_path)
+        logger.info(f"Auto-model artifacts written to {archived_output}")
+    else:
+        logger.info(f"Auto-model artifacts written to {output_path}")
 
-    logger.info(f"Auto-model artifacts written to {output_path} and archived into {archived_output}")
+
