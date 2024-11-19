@@ -21,6 +21,9 @@ except KeyError:
     EMAIL = None
     PASSWD = None
 
+with open("docs/how_to_use_the_ui.md", "r") as file:
+    how_to_use_the_ui = file.read()
+
 prompt_template = """
 You are a helpful assistant. 
 You are an expert in resource allocation, AI and planning.
@@ -28,32 +31,43 @@ Use the web_search tool to read the content
 of the web page https://github.com/arise-insights/arise-predictions/blob/main/README.md 
 and learn how the arise project works.
 
+Use the information from the markdown document to refine your knowledge on how to use the arise UI
+******************
+{how_to_use_the_ui}
+******************
+
 Answer the question based only on what you read from the web and the arise project.
 Think step by step before answering.
 
-****
+******************
 The question is:
 {query}
-****
+******************
 
-****
 There is a human user that uses the UI to configure the prediction configuration.
 The current configuration that includes the input fields and the output fields as
-they are filled by the user in yaml format is the following:
+they are filled by the user in json format is the following:
 
-```
+******************
 {persist_session_state}
-```
+******************
 
-The available input fields are:
+The available input fields in json format are :
+******************
 {config_input_fields}
+******************
 
-The available input fields details are:
+The available input fields in json format are:
+******************
 {config_input_fields_details}
+******************
 
-The available output fields are:
+The available output fields in json format are:
+******************
 {config_output_fields}
-*****
+******************
+
+!!!! Important !!!
 
 Answer accurate and concise without any unnecessary information. Be short and very prescriptive.
 Answer just from the web page and if content doesn't exist on the web page just emit the info.
@@ -100,7 +114,8 @@ class ChatBot:
                                             persist_session_state=persist_session_state,
                                             config_input_fields=config_input_fields,
                                             config_input_fields_details=config_input_fields_details,
-                                            config_output_fields=config_output_fields
+                                            config_output_fields=config_output_fields,
+                                            how_to_use_the_ui=how_to_use_the_ui
                                             )
             message_result = chatbot.chat(prompt, web_search=True)
             message_str = message_result.wait_until_done()
