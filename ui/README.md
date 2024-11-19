@@ -1,7 +1,7 @@
-# ARIZE prediction UI
+# ARISE prediction UI
 
 This UI provides consumable and efficient user-friendly fronting 
-to ARIZE prediction functionality. It is making use of the
+to ARISE prediction functionality. It is making use of the
 `streamlit` library to execute `arise` commands and present
 the outputs in convenient and friendly fashion.
 
