@@ -37,13 +37,22 @@ The question is:
 ****
 
 ****
-There is a human user that uses a UI to configure the prediction configuration.
+There is a human user that uses the UI to configure the prediction configuration.
 The current configuration that includes the input fields and the output fields as
-provided by the user in yaml format is the following:
+they are filled by the user in yaml format is the following:
 
 ```
 {persist_session_state}
 ```
+
+The available input fields are:
+{config_input_fields}
+
+The available input fields details are:
+{config_input_fields_details}
+
+The available output fields are:
+{config_output_fields}
 *****
 
 Answer accurate and concise without any unnecessary information. Be short and very prescriptive.
@@ -76,7 +85,8 @@ class ChatBot:
     def delete_all_conversations(self):
         self.get_chatbot().delete_all_conversations()
 
-    def ask_synchronized(self, query, persist_session_state):
+    def ask_synchronized(self, query, persist_session_state,
+                         config_input_fields, config_input_fields_details, config_output_fields):
         chatbot = self.get_chatbot()
 
         models = chatbot.get_available_llm_models()
@@ -86,7 +96,12 @@ class ChatBot:
                 break
 
         try:
-            prompt = prompt_template.format(query=query,persist_session_state=persist_session_state)
+            prompt = prompt_template.format(query=query,
+                                            persist_session_state=persist_session_state,
+                                            config_input_fields=config_input_fields,
+                                            config_input_fields_details=config_input_fields_details,
+                                            config_output_fields=config_output_fields
+                                            )
             message_result = chatbot.chat(prompt, web_search=True)
             message_str = message_result.wait_until_done()
         except Exception as e:

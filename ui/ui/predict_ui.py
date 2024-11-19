@@ -34,6 +34,7 @@ class PredictUI:
     def __init__(self):
         self.config_output_fields = None
         self.config_input_fields = None
+        self.config_input_fields_details = None
         self.test = None
         self.title = "ARISE predictions"
         self.output_fields = None
@@ -43,6 +44,7 @@ class PredictUI:
 
     def set_input_fields(self, input_fields, input_fields_details):
         self.config_input_fields = input_fields
+        self.config_input_fields_details = input_fields_details
         self.input_fields = {}
         for input_field in input_fields:
             # handle categorical fields
@@ -78,7 +80,7 @@ class PredictUI:
         self.set_page_layout()
         self.show_page_content()
         self.show_sidebar()
-        self.shot_bot()
+        self.show_bot()
 
     def set_page_layout(self):
         if 'set_page_layout' not in st.session_state:
@@ -178,7 +180,7 @@ class PredictUI:
                 st.toggle("compare with ground truth", key="compare_with_ground_truth", value=False,
                           help="Compare the results with the ground truth")
 
-    def shot_bot(self):
+    def show_bot(self):
         if not get_bot().is_bot_enabled():
             return
 
@@ -218,24 +220,30 @@ class PredictUI:
             col0, col1, col2 = st.columns([0.5, 6, 0.5], vertical_alignment="bottom")
             col1.text_area("Response", height=150, key="bot_text_area")
             col0, col1, col2 = st.columns([0.5, 5, 1], vertical_alignment="bottom")
-            col1.text_input("Ask anything:", key="bot_input", placeholder="?", on_change=self.on_bot_send)
+            col1.text_input("Ask anything:", key="bot_input", placeholder="?", on_change=self.on_bot_text_input_change)
             col2.button(":material/send:", on_click=self.on_bot_send)
 
-    def on_bot_send(self):
-        """ Sends the user input to the bot and displays the response """
-
-        if st.session_state["bot_input"] == "" or st.session_state["bot_input"] is None:
-            return
+    def on_bot_text_input_change(self):
         if ("saved_bot_input" not in st.session_state or
                 st.session_state["saved_bot_input"] != st.session_state["bot_input"]):
-            st.session_state["saved_bot_input"] = st.session_state["bot_input"]
-        else:
+            self.on_bot_send()
+
+    def on_bot_send(self):
+        if st.session_state["bot_input"] == "" or st.session_state["bot_input"] is None:
             return
 
+        st.session_state["saved_bot_input"] = st.session_state["bot_input"]
+
+        self.persist_session_state(get_config("job", "prediction_save_state_file"))
+
+        """ Sends the user input to the bot and displays the response """
         logger.debug(f"send_bot: {st.session_state.bot_input}")
         # get the bot response
         response = get_bot().ask_synchronized(st.session_state.bot_input,
-                                              st.session_state["persist_session_state"])
+                                              st.session_state["persist_session_state"],
+                                              self.config_input_fields,
+                                              self.config_input_fields_details,
+                                              self.config_output_fields)
         response = f"{response}"
         st.session_state.bot_text_area = response
 
