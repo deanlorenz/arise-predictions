@@ -97,6 +97,8 @@ def parse_args(argv: Sequence[str] = None):
         required=False, type=int)
     parser_auto_build_models.add_argument(
         '--ignore-metadata', help='ignore metadata if exists', action='store_true')
+    parser_auto_build_models.add_argument(
+        '--single-output-file', help='package output into a single file', action='store_true')
 
     # parser for demo-predict command
     parser_demo_predict = subparsers.add_parser(

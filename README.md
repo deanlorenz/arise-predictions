@@ -106,7 +106,8 @@ python src/main.py auto-build-models --input-path examples/MLCommons --reread-hi
 ```
 
 The output models, their relative ranking, and the cross validation results are all stored in a folder named 
-`ARISE-auto-models` which is created in the given input path.
+`ARISE-auto-models` which is created in the given input path. If you run with the flag `--single-output-file`, the
+models and results will be archived into a single output file `ARISE-auto-models.zip` in the given input path.
 
 If you do not specify an option for `--config-file`, it uses the default one in
 `config/default-auto-model-search-config.yaml`. There is a config file that
