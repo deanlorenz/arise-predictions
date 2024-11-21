@@ -56,6 +56,10 @@ support configuration decision-making for platform engineers or data scientists 
 
 ---
 
+[![GitHub Repo](https://img.shields.io/badge/GitHub-Repo-blue?logo=github)](https://github.com/arise-insights/arise-predictions)
+[![Documentation](https://img.shields.io/badge/Documentation-How_to_Use-blue?logo=read-the-docs)](./docs/how_to_use_the_ui.md)
+
+---
 
 ## :arrow_left: Usage: 
 
