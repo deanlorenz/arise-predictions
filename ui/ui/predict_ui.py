@@ -116,13 +116,21 @@ class PredictUI:
             styles[_columns_to_highlight] = 'background-color: lightblue'
             return styles
 
-        if 'all-predictions.csv' in st.session_state:
+        df_pred = st.session_state.get('all-predictions.csv')
+        df_orig = st.session_state.get('original_truth_file.csv')
+        if df_pred is not None:
             st.markdown("## Prediction result")
-            st.dataframe(filter_dataframe(
-                st.session_state['all-predictions.csv'])
-                .style.apply(highlight_columns,
-                             axis=None,
-                             _columns_to_highlight=st.session_state['all-predictions.csv.columns_to_highlight']))
+            df_pred, df_orig = filter_dataframe(df_pred, df_orig)
+            st.dataframe(df_pred.style.apply(highlight_columns,
+                         axis=None,
+                         _columns_to_highlight=st.session_state['all-predictions.csv.columns_to_highlight']))
+
+        if df_orig is not None:
+            st.markdown("## Original data")
+            st.dataframe(df_orig.style.apply(highlight_columns,
+                         axis=None,
+                         _columns_to_highlight=st.session_state['original_truth_file.csv.columns_to_highlight']))
+
 
 
         if 'predictions-with-ground-truth.csv' in st.session_state:
@@ -178,7 +186,7 @@ class PredictUI:
 
                 st.form_submit_button("Predict", on_click=self.on_predict)
 
-                st.toggle("compare with ground truth", key="compare_with_ground_truth", value=False,
+                st.toggle("compare with ground truth", key="compare_with_ground_truth", value=True,
                           help="Compare the results with the ground truth")
 
     def show_bot(self):
@@ -424,6 +432,26 @@ The results are:
             st.session_state['all-predictions.csv.columns_to_highlight'] = columns_to_highlight
 
         # get the ground-truth file if exists
-        if os.path.exists(get_config("job", "prediction", "predictions_with_ground_truth_file")):
+        if st.session_state['compare_with_ground_truth'] and os.path.exists(
+                get_config("job", "prediction", "predictions_with_ground_truth_file")):
             csv = pd.read_csv(get_config("job", "prediction", "predictions_with_ground_truth_file"))
             st.session_state['predictions-with-ground-truth.csv'] = csv
+        else:
+            st.session_state.pop('predictions-with-ground-truth.csv', None)
+
+
+        # get the original-truth file if exists
+        if st.session_state['compare_with_ground_truth'] and os.path.exists(
+                get_config("job", "prediction", "original_truth_file")):
+            csv = pd.read_csv(get_config("job", "prediction", "original_truth_file"))
+            prediction_csv = st.session_state.get('all-predictions.csv')
+            if prediction_csv is not None:
+                new_cols = [col for col in prediction_csv if col in csv]
+                csv = csv[new_cols]
+            st.session_state['original_truth_file.csv'] = csv
+            st.session_state['original_truth_file.csv.columns_to_highlight'] \
+                = st.session_state['all-predictions.csv.columns_to_highlight']
+        else:
+            st.session_state.pop('original_truth_file.csv', None)
+            st.session_state.pop('original_truth_file.csv.columns_to_highlight', None)
+
