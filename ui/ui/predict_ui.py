@@ -189,6 +189,16 @@ class PredictUI:
                 st.toggle("compare with ground truth", key="compare_with_ground_truth", value=True,
                           help="Compare the results with the ground truth")
 
+    def get_session_state_path(self):
+        """ returns session state path using temp dir if needed"""
+        dir = get_config("job", "prediction_save_state_dir")
+        file = get_config("job", "prediction_save_state_file")
+        if not dir or not os.path.exists(dir) or not os.path.isdir(dir):
+            dir = gettempdir()
+        path = os.path.join(dir, file)
+        logger.debug(f"get_session_state_path: {dir}/{file} = {path}")
+        return path
+
     def show_bot(self):
         if not get_bot().is_bot_enabled():
             return
