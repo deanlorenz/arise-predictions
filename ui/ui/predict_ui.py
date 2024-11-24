@@ -376,7 +376,7 @@ class PredictUI:
             logger.debug(f"get_prediction_configuration failed")
             return
 
-        self.persist_session_state(get_config("job", "prediction_save_state_file"))
+        self.persist_session_state()
 
         generate_prediction_config_file(fixed_input_values,
                                         variable_input_values,
