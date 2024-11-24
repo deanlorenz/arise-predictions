@@ -2,6 +2,7 @@ import copy
 import logging
 import os
 from string import Template
+from tempfile import gettempdir
 
 import pandas as pd
 import streamlit as st
@@ -170,9 +171,19 @@ class PredictUI:
                 st.toggle("compare with ground truth", key="compare_with_ground_truth", value=False,
                           help="Compare the results with the ground truth")
 
-    def persist_session_state(self, file):
+    def get_session_state_path(self):
+        """ returns session state path using temp dir if needed"""
+        dir = get_config("job", "prediction_save_state_dir")
+        file = get_config("job", "prediction_save_state_file")
+        if not dir or not os.path.exists(dir) or not os.path.isdir(dir):
+            dir = gettempdir()
+        path = os.path.join(dir, file)
+        logger.debug(f"get_session_state_path: {dir}/{file} = {path}")
+        return path
+
+    def persist_session_state(self):
         """ saves the input and output session_state fields to a file """
-        logger.debug(f"persist_session_state: {file}")
+        logger.debug(f"persist_session_state")
 
         dic_to_save = {"config_input_field": {},
                        "config_output_field": {}}
@@ -186,15 +197,17 @@ class PredictUI:
                     st.session_state[config_output_fields] is True):
                 dic_to_save["config_output_field"][config_output_fields] = st.session_state[config_output_fields]
 
-        with open(file, "w") as f:
+        with open(self.get_session_state_path(), "w") as f:
             yaml.dump(dic_to_save, f)
 
-    def load_session_state(self, file):
+    def load_session_state(self):
         """ loads the user UI fields (inputs, outputs ...) session_state fields from a saved file """
-        logger.debug(f"load_session_state: {file}")
+        logger.debug(f"load_session_state")
+        path = self.get_session_state_path()
+
         try:
-            if os.path.exists(file):
-                with open(file) as f:
+            if os.path.exists(path):
+                with open(path) as f:
                     dic_to_load = yaml.load(f, Loader=yaml.SafeLoader)
             else:
                 return
@@ -283,7 +296,7 @@ class PredictUI:
             logger.debug(f"get_prediction_configuration failed")
             return
 
-        self.persist_session_state(get_config("job", "prediction_save_state_file"))
+        self.persist_session_state()
 
         generate_prediction_config_file(fixed_input_values,
                                         variable_input_values,
