@@ -1,5 +1,5 @@
 from typing import Dict, Any
-import yaml
+from dataclasses import dataclass
 import logging
 from itertools import product
 import os
@@ -7,6 +7,7 @@ import sys
 import glob
 from functools import reduce
 import shutil, zipfile
+import yaml
 
 import pandas as pd
 
@@ -24,25 +25,31 @@ demo purposes.
 """
 
 
-def _read_yaml_config(config_file: str) -> Dict[str, Any]:
-    """
-    Read YAML configuration files (e.g., fixed and variable values defining
-    input feature space or model binaries per target variable). 
+@dataclass
+class PredictionInputSpace:
 
-    :param config_file: Path to YAML configuration file.
-    :type input_config_file: str
-    :returns: Dictionary representation of values from configuration file.
-    :rtype: Dict[str, Any]
-    """
-    # TODO add validation to check config is as expected
+    fixed_values: list[Dict[str, Any]]
+    variable_values: list[Dict[str, Any]]
+    interpolation_values: list[str]
+    estimators: list[Dict[str, Any]]
+
+
+def get_predict_config(config_file: str) -> PredictionInputSpace:
     logger.info(f"Reading YAML configuration: {config_file}")
+    try:
+        with open(config_file, "r") as f:
+            config_dict = yaml.safe_load(f)
+    except FileNotFoundError:
+        raise ValueError(f"Configuration file not found: {config_file}")
+    except yaml.YAMLError as e:
+        raise ValueError(f"Error parsing configuration file: {e}")
+    return PredictionInputSpace(config_dict[constants.PRED_CONFIG_FIXED],
+                                config_dict[constants.PRED_CONFIG_VARIABLE],
+                                config_dict.get(constants.PRED_CONFIG_INTERPOLATION, []),
+                                config_dict[constants.PRED_CONFIG_ESTIMATORS])
 
-    with open(config_file, "r") as f:
-        config = yaml.safe_load(f)
-    return config
 
-
-def _create_input_space(input_config: Dict[str, list[Dict[str, Any]]],
+def _create_input_space(input_config: PredictionInputSpace,
                         original_data: pd.DataFrame,
                         output_path: str, feature_engineering: dict[str, str] = None,
                         metadata_parser_class_name: str = None, metadata_path: str = None) -> tuple[str, pd.DataFrame]:
@@ -51,7 +58,7 @@ def _create_input_space(input_config: Dict[str, list[Dict[str, Any]]],
     DataFrame to run predictions on.
 
     :param input_config: Parsed input feature space configuration
-    :type input_config: Dict[[str, list[Dict[str, Any]]]]
+    :type input_config: PredictionInputSpace
     :param original_data: Original data used to create the model
     :type original_data: pd.DataFrame
     :param output_path: Path under which to store outputs of this script
@@ -67,13 +74,11 @@ def _create_input_space(input_config: Dict[str, list[Dict[str, Any]]],
     :rtype: tuple[str, pd.DataFrame]
     """
     logger.info(f"Creating input feature space")
-    fixed_values_list = input_config["fixed_values"]
-    variable_values_list = input_config["variable_values"]
-    interpolation_values_list = input_config.get("interpolation_values", [])
-    fixed_values = {k: v for d in fixed_values_list for k, v in d.items()}
-    variable_values = {k: v for d in variable_values_list for k, v in d.items()}
-    interpolation_values = {k: _get_data_range_missing_values(original_data, k) for k in interpolation_values_list} if \
-        original_data is not None and not original_data.empty else {}
+    fixed_values = {k: v for d in input_config.fixed_values for k, v in d.items()}
+    variable_values = {k: v for d in input_config.variable_values for k, v in d.items()}
+    interpolation_values = {k: _get_data_range_missing_values(original_data, k) for k in
+                            input_config.interpolation_values} if original_data is not None and not \
+                                                                  original_data.empty else {}
 
     if variable_values.keys() & interpolation_values.keys():
         logger.error("Cannot specify same variable name as variable values and interpolation values")
@@ -127,7 +132,7 @@ def _get_highest_ranked_estimator(estimator_path: str, target_variable: str) -> 
 
 def _run_predictions(original_data: pd.DataFrame,
                      input_data: pd.DataFrame,
-                     estimators_config: Dict,
+                     estimators_config: list[Dict[str, Any]],
                      estimator_path: str,
                      output_path: str) -> None:
     """"
@@ -147,7 +152,7 @@ def _run_predictions(original_data: pd.DataFrame,
         estimator_folder = estimator_path
 
     # run predictions
-    for entry in estimators_config[constants.PRED_CONFIG_ESTIMATORS]:
+    for entry in estimators_config:
         target_variable = entry[constants.PRED_CONFIG_TARGET_VAR]
         target_variables.append(target_variable)
         greater_is_better = entry[constants.PRED_CONFIG_GREATER_BETTER]
@@ -263,7 +268,7 @@ def _rank_predictions(
     return data
 
 
-def demo_predict(original_data: pd.DataFrame, config_file: str,
+def demo_predict(original_data: pd.DataFrame, config: PredictionInputSpace,
                  estimator_path: str, feature_engineering: dict[str, str] = None,
                  metadata_parser_class_name: str = None, metadata_path: str = None, output_path: str = None):
     logging.basicConfig(
@@ -277,7 +282,6 @@ def demo_predict(original_data: pd.DataFrame, config_file: str,
         raise ValueError(msg)
 
     logger.info("Beginning demo predict")
-    config = _read_yaml_config(config_file=config_file)
     _, input_space_df = _create_input_space(
         input_config=config,
         original_data=original_data,
@@ -289,7 +293,7 @@ def demo_predict(original_data: pd.DataFrame, config_file: str,
     _run_predictions(
         original_data=original_data,
         input_data=input_space_df,
-        estimators_config=config,
+        estimators_config=config.estimators,
         estimator_path=estimator_path,
         output_path=output_path
     )

@@ -7,9 +7,7 @@ import pandas as pd
 
 from tests.utils.logger_redirector import LoggerRedirector
 from utils import constants
-from perform_predict.predict import (_read_yaml_config,
-                                     _create_input_space,
-                                     _run_predictions)
+from perform_predict.predict import (_create_input_space, _run_predictions, get_predict_config)
 
 """
 Tests for perform_predict.predict.
@@ -55,19 +53,19 @@ class TestPredict(unittest.TestCase):
         """
         Reads input feature space configuration as expected.
         """
-        input_config = _read_yaml_config(self.predict_config_file)
-        logger.info(f"fixed_values {input_config['fixed_values']}")
-        logger.info(f"variable_values {input_config['variable_values']}")
-        self.assertIsNotNone(input_config["fixed_values"])
-        self.assertIsNotNone(input_config["variable_values"])
-        self.assertEqual(7, len(input_config["fixed_values"]))
-        self.assertEqual(3, len(input_config["variable_values"]))
+        input_config = get_predict_config(self.predict_config_file)
+        logger.info(f"fixed_values {input_config.fixed_values}")
+        logger.info(f"variable_values {input_config.variable_values}")
+        self.assertIsNotNone(input_config.fixed_values)
+        self.assertIsNotNone(input_config.variable_values)
+        self.assertEqual(7, len(input_config.fixed_values))
+        self.assertEqual(3, len(input_config.variable_values))
 
     def test_create_input_space(self):
         """
         DataFrame representing input space is created.
         """
-        input_config = _read_yaml_config(self.predict_config_file)
+        input_config = get_predict_config(self.predict_config_file)
         original_data_df = pd.read_csv(os.path.join(
             self.resources_path,
             self.data_execution_history_file))
@@ -82,9 +80,9 @@ class TestPredict(unittest.TestCase):
         """
         Reads estimator configuration for each target variable.
         """
-        estimator_config = _read_yaml_config(self.predict_config_file)
+        estimator_config = get_predict_config(self.predict_config_file)
         logger.info(f"estimator_config: {estimator_config}")
-        self.assertTrue(2, len(estimator_config["estimators"]))
+        self.assertTrue(2, len(estimator_config.estimators))
 
     def test_predictions_exist(self):
         """
@@ -94,7 +92,7 @@ class TestPredict(unittest.TestCase):
         data using the test functions above and estimator binaries created by
         auto-model build on the same data.
         """
-        config = _read_yaml_config(self.predict_config_file)
+        config = get_predict_config(self.predict_config_file)
         original_data_df = pd.read_csv(os.path.join(
             self.resources_path, 
             self.data_execution_history_file))
@@ -110,7 +108,7 @@ class TestPredict(unittest.TestCase):
         _run_predictions(
             original_data=original_data_df,
             input_data=input_space_df,
-            estimators_config=config, 
+            estimators_config=config.estimators,
             estimator_path=self.resources_path,
             output_path=self.output_path)
         self.assertTrue(os.path.exists(os.path.join(
