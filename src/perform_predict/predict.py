@@ -7,6 +7,7 @@ import sys
 import glob
 from functools import reduce
 import shutil, zipfile
+import yaml
 
 import pandas as pd
 
@@ -31,6 +32,18 @@ class PredictionInputSpace:
     variable_values: list[Dict[str, Any]]
     interpolation_values: list[str]
     estimators: list[Dict[str, Any]]
+
+
+def get_predict_config(config_file: str) -> PredictionInputSpace:
+    logger.info(f"Reading YAML configuration: {config_file}")
+
+    with open(config_file, "r") as f:
+        config_dict = yaml.safe_load(f)
+
+    return PredictionInputSpace(config_dict[constants.PRED_CONFIG_FIXED],
+                                config_dict[constants.PRED_CONFIG_VARIABLE],
+                                config_dict.get(constants.PRED_CONFIG_INTERPOLATION, []),
+                                config_dict[constants.PRED_CONFIG_ESTIMATORS])
 
 
 def _create_input_space(input_config: PredictionInputSpace,
