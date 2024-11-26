@@ -7,10 +7,12 @@ import pandas as pd
 import streamlit as st
 import yaml
 
+from tools.bot import get_bot
 from utils.config import get_config
 from tools.actuator import execute_command
 from tools.generate_files import generate_prediction_config_file
 from utils.ui_filters import filter_dataframe
+from streamlit_float import *
 
 logger = logging.getLogger(__name__)
 
@@ -32,13 +34,17 @@ class PredictUI:
     def __init__(self):
         self.config_output_fields = None
         self.config_input_fields = None
+        self.config_input_fields_details = None
         self.test = None
         self.title = "ARISE predictions"
         self.output_fields = None
         self.input_fields = None
+        if "show_bot" not in st.session_state:
+            st.session_state.show_bot = False
 
     def set_input_fields(self, input_fields, input_fields_details):
         self.config_input_fields = input_fields
+        self.config_input_fields_details = input_fields_details
         self.input_fields = {}
         for input_field in input_fields:
             # handle categorical fields
@@ -74,9 +80,13 @@ class PredictUI:
         self.set_page_layout()
         self.show_page_content()
         self.show_sidebar()
+        self.show_bot()
 
     def set_page_layout(self):
-        st.set_page_config(page_icon="⌛️", layout="wide", page_title="ARISE Prediction")
+        if 'set_page_layout' not in st.session_state:
+            st.set_page_config(page_icon="⌛️", layout="wide", page_title="ARISE Prediction")
+            float_init()
+            st.session_state["set_page_layout"] = True
 
     def show_page_content(self):
         st.markdown("""
@@ -170,6 +180,73 @@ class PredictUI:
                 st.toggle("compare with ground truth", key="compare_with_ground_truth", value=False,
                           help="Compare the results with the ground truth")
 
+    def show_bot(self):
+        if not get_bot().is_bot_enabled():
+            return
+
+        """ Presents a bot dialog allowing users to ask questions about the prediction window """
+        # Floating button
+        button_container = st.container()
+        with button_container:
+            if st.session_state.show_bot:
+                if st.button(":material/close_fullscreen:", type="primary"):
+                    st.session_state.show_bot = False
+                    st.rerun()
+            else:
+                if st.button(":material/smart_toy:", type="secondary"):
+                    st.session_state.show_bot = True
+                    st.rerun()
+
+        if st.session_state.show_bot:
+            vid_y_pos = "2rem"
+            button_b_pos = "21rem"
+        else:
+            vid_y_pos = "-19.5rem"
+            button_b_pos = "1rem"
+
+        button_css = float_css_helper(width="2.2rem", right="2rem", bottom=button_b_pos, transition=0)
+        button_container.float(button_css)
+
+        # bot dialog
+        bot_dialog_container = st.container()
+        bot_dialog_css = float_css_helper(width="29rem", right="2rem",
+                                          border="1px gray solid",
+                                          css=";border-radius: 10px;padding: 5px;",
+                                          bottom=vid_y_pos,
+                                          background="white",
+                                          transition=0)
+        bot_dialog_container.float(bot_dialog_css)
+        with bot_dialog_container:
+            col0, col1, col2 = st.columns([0.5, 6, 0.5], vertical_alignment="bottom")
+            col1.text_area("Response", height=150, key="bot_text_area")
+            col0, col1, col2 = st.columns([0.5, 5, 1], vertical_alignment="bottom")
+            col1.text_input("Ask anything:", key="bot_input", placeholder="?", on_change=self.on_bot_text_input_change)
+            col2.button(":material/send:", on_click=self.on_bot_send)
+
+    def on_bot_text_input_change(self):
+        if ("saved_bot_input" not in st.session_state or
+                st.session_state["saved_bot_input"] != st.session_state["bot_input"]):
+            self.on_bot_send()
+
+    def on_bot_send(self):
+        if st.session_state["bot_input"] == "" or st.session_state["bot_input"] is None:
+            return
+
+        st.session_state["saved_bot_input"] = st.session_state["bot_input"]
+
+        self.persist_session_state(get_config("job", "prediction_save_state_file"))
+
+        """ Sends the user input to the bot and displays the response """
+        logger.debug(f"send_bot: {st.session_state.bot_input}")
+        # get the bot response
+        response = get_bot().ask_synchronized(st.session_state.bot_input,
+                                              st.session_state["persist_session_state"],
+                                              self.config_input_fields,
+                                              self.config_input_fields_details,
+                                              self.config_output_fields)
+        response = f"{response}"
+        st.session_state.bot_text_area = response
+
     def persist_session_state(self, file):
         """ saves the input and output session_state fields to a file """
         logger.debug(f"persist_session_state: {file}")
@@ -186,6 +263,7 @@ class PredictUI:
                     st.session_state[config_output_fields] is True):
                 dic_to_save["config_output_field"][config_output_fields] = st.session_state[config_output_fields]
 
+        st.session_state["persist_session_state"] = dic_to_save
         with open(file, "w") as f:
             yaml.dump(dic_to_save, f)
 
@@ -200,6 +278,8 @@ class PredictUI:
                 return
         except FileNotFoundError:
             return
+
+        st.session_state["persist_session_state"] = dic_to_load
 
         # set the UI state based on the dictionary of fields from the file
         # set the input fields
