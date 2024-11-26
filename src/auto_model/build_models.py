@@ -1,5 +1,6 @@
 import logging
 from typing import Dict, Any, Tuple, List
+from dataclasses import dataclass
 import yaml
 import os
 import sys
@@ -12,7 +13,6 @@ from sklearn.pipeline import Pipeline
 from sklearn.ensemble import StackingRegressor
 
 from utils import constants, utils
-from cmd.cmd import get_args
 from metrics import metrics
 import shutil
 
@@ -28,32 +28,51 @@ In this iteration, we build one model per target variable.
 """
 
 
-def _read_config(config_file: str) -> Dict[str, Dict[str, Any]]:
+@dataclass
+class EstimatorConfig:
+
+    name: str
+    class_name: str
+    linear: bool
+    parameters: list[Dict[str, Any]]
+
+
+@dataclass
+class EstimatorsConfig:
+
+    estimators: List[EstimatorConfig]
+    num_jobs: int
+
+
+def get_estimators_config(config_file: str, num_jobs: int = -1) -> EstimatorsConfig:
     """
     Read list of learning algorithms and their parameter search space.
 
+    :param config_file: Path to estimator and parameter search space configuration file.
     :type config_file: str
-    :param config_file: Path to estimator and parameter search space
-        configuration file.
-    :type config_file: str
-    :returns: Dictionary representation of values from configuration file.
-    :rtype: Dict[str, Dict[str, Any]]
+    :param num_jobs: number of processors to use for building the models
+    :type num_jobs: int
+    :returns: Data class representation of values from configuration file.
+    :rtype: EstimatorsConfig
     """
-    # TODO add validation to check config is as expected
 
     with open(config_file, "r") as f:
-        config = yaml.safe_load(f)
-    return config
+        config_dict = yaml.safe_load(f)
+
+    config_list = config_dict[constants.AM_CONFIG_ESTIMATORS]
+    return EstimatorsConfig([EstimatorConfig(entry[constants.AM_CONFIG_NAME], entry[constants.AM_CONFIG_CLASS_NAME],
+                                             entry[constants.AM_CONFIG_LINEAR], entry[constants.AM_CONFIG_PARAMETERS])
+                             for entry in config_list], num_jobs)
 
 
 def _init_estimators(
-        config: Dict[str, Dict[str, Any]], cat_indices: list[str]) -> list[tuple[str, Any, str]]:
+        config: EstimatorsConfig, cat_indices: list[str]) -> list[tuple[str, Any, str]]:
     """
     Instantiate estimators listed in configuration.
 
     :param config: Parsed configuration of estimators and parameter search
     space.
-    :type config: Dict[str, Dict[str, Any]]
+    :type config: EstimatorsConfig
     :returns: List of tuples each consisting of descriptive estimator name and
     its instantiation along with whether estimator is linear algorithm.
     :rtype: list[tuple[str, Any, str]]
@@ -67,10 +86,10 @@ def _init_estimators(
     logger.info("Instantiating estimators from configuration.")
     estimators = []
 
-    for estimator_config in config[constants.AM_CONFIG_ESTIMATORS]:
-        name = estimator_config[constants.AM_CONFIG_NAME]
-        fqcn = estimator_config[constants.AM_CONFIG_CLASS_NAME]
-        linear = estimator_config[constants.AM_CONFIG_LINEAR]
+    for estimator_config in config.estimators:
+        name = estimator_config.name
+        fqcn = estimator_config.class_name
+        linear = estimator_config.linear
         estimator = _instantiate_estimator(fqcn, cat_indices=cat_indices)
         estimators.append((name, estimator, linear))
     
@@ -180,7 +199,7 @@ def _split_data_by_extrapolation_feature(
 
 
 def _search_models(data: pd.DataFrame, estimators: list[tuple[str, Any]], 
-                   config: Dict[str, Dict[str, Any]], categorical_variables: list[str],
+                   config: EstimatorsConfig, categorical_variables: list[str],
                    target_variables: List[str], 
                    output_path: str, leave_one_out_cv: str = None,
                    feature_col: str = None, low_threshold: int = None, 
@@ -195,7 +214,7 @@ def _search_models(data: pd.DataFrame, estimators: list[tuple[str, Any]],
     :type estimators: list[tuple[str, Any]].
     :param config: Estimators and parameter search spaces parsed from
     configuration file.
-    :type config: Dict[str, Dict[str, Any]]
+    :type config: EstimatorsConfig
     :param target_variables: List of column names containing target 
     variables (from job_spec.yaml). 
     :type target_variables: List[Tuple[str, Any]]
@@ -219,10 +238,11 @@ def _search_models(data: pd.DataFrame, estimators: list[tuple[str, Any]],
     logger.info(("Beginning parameter search for target variables"
                  f" {target_variables} using {len(estimators)}."))
 
-    categorical_variables: list[str] = utils.get_categorical_features(data)
-    logger.info(f"Found categorical variables: {categorical_variables}")
+    # commenting out since these are already computed outside the function and passed to it as an argument
+    #categorical_variables: list[str] = utils.get_categorical_features(data)
+    #logger.info(f"Found categorical variables: {categorical_variables}")
 
-    num_jobs = config.get(constants.AM_NUM_JOBS, get_args().num_jobs)  # default use all cores
+    num_jobs = config.num_jobs  # default use all cores
     logger.info(f'Using {constants.AM_NUM_JOBS}={num_jobs}')
 
     if leave_one_out_cv:
@@ -290,9 +310,9 @@ def _search_models(data: pd.DataFrame, estimators: list[tuple[str, Any]],
         logger.info("Setting up hyperparameter search")
 
         for estimator_name, estimator_class, linear in estimators:
-            for estimator in config[constants.AM_CONFIG_ESTIMATORS]:
-                if estimator[constants.AM_CONFIG_NAME] == estimator_name:
-                    params = estimator.get(constants.AM_CONFIG_PARAMETERS, [])
+            for estimator in config.estimators:
+                if estimator.name == estimator_name:
+                    params = estimator.parameters
 
                     preprocessor = ColumnTransformer(
                         transformers=[
@@ -688,7 +708,7 @@ def _predict_on_test(estimator_name: str, estimator_class: Any,
 
 def _search_meta_model(
         best_estimators_per_target_var: Dict[str, List[Dict[str, Any]]],
-        config: Dict[str, Dict[str, Any]],
+        config: EstimatorsConfig,
         cat_indices: List[str],
         target_variables: List[str],
         output_path: str,
@@ -705,7 +725,7 @@ def _search_meta_model(
     logger.info(("Beginning meta-learner parameter search for target"
                  f" variables: {target_variables}"))
 
-    num_jobs = config.get(constants.AM_NUM_JOBS, get_args().num_jobs)
+    num_jobs = config.num_jobs
     logger.info(f'Using {constants.AM_NUM_JOBS}={num_jobs}')
 
     if leave_one_out_cv:
@@ -745,9 +765,8 @@ def _search_meta_model(
         logger.info("Setting up meta-learner hyperparameter search")
         meta_learner_name = "ElasticNet-Regression"
         meta_estimator = next((
-            est for est in 
-            config[constants.AM_CONFIG_ESTIMATORS] 
-            if est[constants.AM_CONFIG_NAME] == meta_learner_name), None)
+            est for est in config.estimators
+            if est.name == meta_learner_name), None)
 
         if not meta_estimator:
             logger.warning((f"Could not find estimator: {meta_learner_name}"
@@ -756,9 +775,9 @@ def _search_meta_model(
                             f" {target_variable}"))
             continue
 
-        meta_learner_fqcn = meta_estimator[constants.AM_CONFIG_CLASS_NAME]
-        meta_learner_params = meta_estimator[constants.AM_CONFIG_PARAMETERS]
-        meta_learner_linear = meta_estimator[constants.AM_CONFIG_LINEAR]
+        meta_learner_fqcn = meta_estimator.class_name
+        meta_learner_params = meta_estimator.parameters
+        meta_learner_linear = meta_estimator.linear
         meta_learner_class = _instantiate_estimator(
             fqcn=meta_learner_fqcn, cat_indices=cat_indices)
         estimators = best_estimators_per_target_var[target_variable]
@@ -941,7 +960,7 @@ def _persist_and_test_meta_estimator(
         output_file=output_file_extrapolation_performance_summary)
 
 
-def auto_build_models(raw_data: pd.DataFrame, config_file: str,
+def auto_build_models(raw_data: pd.DataFrame, config: EstimatorsConfig,
                       target_variables: list[str], output_path: str = None, 
                       leave_one_out_cv: str = None, feature_col: str = None,
                       low_threshold: int = None, high_threshold: int = None,
@@ -957,8 +976,6 @@ def auto_build_models(raw_data: pd.DataFrame, config_file: str,
         raise ValueError(msg)
     
     logger.info("Beginning auto-model search and build")
-
-    config = _read_config(config_file=config_file)
 
     categorical_variables: list[str] = utils.get_categorical_features(raw_data)
     logger.info(f"Found categorical variables: {categorical_variables}")

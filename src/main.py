@@ -2,7 +2,7 @@ import pandas as pd
 import os
 from cmd.cmd import parse_args, get_args
 from job_statistics.analyze_jobs import analyze_job_data
-from auto_model.build_models import auto_build_models
+from auto_model.build_models import auto_build_models, get_estimators_config
 from perform_predict.predict import demo_predict, get_predict_config
 from utils import constants
 from preprocessing import job_parser
@@ -81,7 +81,8 @@ def execute_auto_build_models():
     else:
         logging.info("Invoking auto model search and build")
         auto_build_models(raw_data=history_data, 
-                          config_file=get_args().config_file,
+                          config=get_estimators_config(config_file=get_args().config_file,
+                                                       num_jobs=get_args().num_jobs),
                           target_variables=outputs, 
                           output_path=os.path.join(
                               get_args().input_path, 
