@@ -27,6 +27,6 @@ job:
     estimator_file: estimator-nonlinear-XGBoost-Regressor-tokens_per_second.pkl
     greater_is_better: true
     predictions_with_ground_truth_file: '#job.input_path/ARISE-predictions/predictions-with-ground-truth.csv'
-  prediction_save_state_file: tmp/prediction_save_state_file.yaml
+  prediction_save_state_file: /tmp/prediction_save_state_file.yaml
   python: python
 loglevel: DEBUG
