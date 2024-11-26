@@ -36,10 +36,13 @@ class PredictionInputSpace:
 
 def get_predict_config(config_file: str) -> PredictionInputSpace:
     logger.info(f"Reading YAML configuration: {config_file}")
-
-    with open(config_file, "r") as f:
-        config_dict = yaml.safe_load(f)
-
+    try:
+        with open(config_file, "r") as f:
+            config_dict = yaml.safe_load(f)
+    except FileNotFoundError:
+        raise ValueError(f"Configuration file not found: {config_file}")
+    except yaml.YAMLError as e:
+        raise ValueError(f"Error parsing configuration file: {e}")
     return PredictionInputSpace(config_dict[constants.PRED_CONFIG_FIXED],
                                 config_dict[constants.PRED_CONFIG_VARIABLE],
                                 config_dict.get(constants.PRED_CONFIG_INTERPOLATION, []),

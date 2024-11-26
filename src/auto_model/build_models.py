@@ -55,14 +55,22 @@ def get_estimators_config(config_file: str, num_jobs: int = -1) -> EstimatorsCon
     :returns: Data class representation of values from configuration file.
     :rtype: EstimatorsConfig
     """
+    logger.info(f"Reading YAML configuration: {config_file}")
+    try:
+        with open(config_file, "r") as f:
+            config_dict = yaml.safe_load(f)
+    except FileNotFoundError:
+        raise ValueError(f"Configuration file not found: {config_file}")
+    except yaml.YAMLError as e:
+        raise ValueError(f"Error parsing configuration file: {e}")
 
-    with open(config_file, "r") as f:
-        config_dict = yaml.safe_load(f)
-
-    config_list = config_dict[constants.AM_CONFIG_ESTIMATORS]
+    estimator_configurations = config_dict[constants.AM_CONFIG_ESTIMATORS]
+    if not estimator_configurations:
+        raise ValueError(f"No estimator configurations found in configuration file: {config_file}")
+    
     return EstimatorsConfig([EstimatorConfig(entry[constants.AM_CONFIG_NAME], entry[constants.AM_CONFIG_CLASS_NAME],
                                              entry[constants.AM_CONFIG_LINEAR], entry[constants.AM_CONFIG_PARAMETERS])
-                             for entry in config_list], num_jobs)
+                             for entry in estimator_configurations], num_jobs)
 
 
 def _init_estimators(
