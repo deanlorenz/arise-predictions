@@ -9,7 +9,7 @@ import pandas as pd
 
 from utils import constants, utils
 from tests.utils.logger_redirector import LoggerRedirector
-from auto_model.build_models import (_read_config,
+from auto_model.build_models import (get_estimators_config,
                                      _init_estimators,
                                      _search_models,
                                      _rank_estimators,
@@ -99,25 +99,23 @@ class TestBuildModels(unittest.TestCase):
         """
         Reads estimators and their hyperparameters from the configuration file.
         """
-        config = _read_config(self.config_file)
-        estimators = config[constants.AM_CONFIG_ESTIMATORS]
+        config = get_estimators_config(self.config_file)
+        estimators = config.estimators
         logger.error(f"estimators from YAML:\n{estimators}")
         self.assertEqual(4, len(estimators))
-        self.assertTrue(any(d[constants.AM_CONFIG_NAME] == 
-                        "RidgeRegression" for d in estimators))
+        self.assertTrue(any(d.name == "RidgeRegression" for d in estimators))
     
     def test_setup_estimators(self):
         """
         List of estimators is instantiated according to configuration.
         """
-        config = _read_config(self.config_file)
+        config = get_estimators_config(self.config_file)
         estimators = _init_estimators(
             config, self.categorical_variables_indices)
         self.assertEqual(len(estimators), 
-                         len(config[constants.AM_CONFIG_ESTIMATORS]))
+                         len(config.estimators))
         estimator_names = [x[0] for x in estimators]
-        config_names = [x[constants.AM_CONFIG_NAME] 
-                        for x in config[constants.AM_CONFIG_ESTIMATORS]]
+        config_names = [x.name for x in config.estimators]
         logger.error(f"estimator names: {estimator_names}")
         logger.error(f"config names: {config_names}")
         self.assertTrue(set(estimator_names) == set(config_names))
@@ -126,7 +124,7 @@ class TestBuildModels(unittest.TestCase):
         """
         CSV files containing training data have been written.
         """
-        config = _read_config(self.config_file)
+        config = get_estimators_config(self.config_file)
         estimators = _init_estimators(
             config, self.categorical_variables_indices)
         data = pd.read_csv(os.path.join(self.resources_path, self.data_file))
@@ -143,7 +141,7 @@ class TestBuildModels(unittest.TestCase):
         """
         CSV files for detailed search CV results are written as expected.
         """
-        config = _read_config(self.config_file)
+        config = get_estimators_config(self.config_file)
         estimators = _init_estimators(
             config, self.categorical_variables_indices)
         data = pd.read_csv(os.path.join(self.resources_path, self.data_file))
@@ -165,7 +163,7 @@ class TestBuildModels(unittest.TestCase):
         """
         Rankings CSV file with model performance per target variable exists. 
         """
-        config = _read_config(self.config_file)
+        config = get_estimators_config(self.config_file)
         estimators = _init_estimators(
             config, self.categorical_variables_indices)
         data = pd.read_csv(os.path.join(self.resources_path, self.data_file))
@@ -187,7 +185,7 @@ class TestBuildModels(unittest.TestCase):
         """
         Estimators and test set results have been persisted
         """
-        config = _read_config(self.config_file)
+        config = get_estimators_config(self.config_file)
         estimators = _init_estimators(
             config, cat_indices=self.categorical_variables_indices)
         data = pd.read_csv(os.path.join(self.resources_path, self.data_file))
@@ -233,7 +231,7 @@ class TestBuildModels(unittest.TestCase):
         """
         Test that we can load a persisted estimator and use it to predict.
         """
-        config = _read_config(self.config_file)
+        config = get_estimators_config(self.config_file)
         estimators = _init_estimators(
             config, self.categorical_variables_indices)
         data = pd.read_csv(os.path.join(self.resources_path, self.data_file))
@@ -265,7 +263,7 @@ class TestBuildModels(unittest.TestCase):
         """
         Extrapolation test set created if feature column has been set.
         """
-        config = _read_config(self.config_file)
+        config = get_estimators_config(self.config_file)
         estimators = _init_estimators(
                 config, cat_indices=self.categorical_variables_indices)
         data = pd.read_csv(os.path.join(self.resources_path, self.data_file))

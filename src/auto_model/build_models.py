@@ -50,7 +50,7 @@ def get_estimators_config(config_file: str, num_jobs: int = -1) -> EstimatorsCon
 
     :param config_file: Path to estimator and parameter search space configuration file.
     :type config_file: str
-    :param num_jobs: number of processors to use for building the models
+    :param num_jobs: number of processors to use for building the models. Default -1 means all processors are used.
     :type num_jobs: int
     :returns: Data class representation of values from configuration file.
     :rtype: EstimatorsConfig

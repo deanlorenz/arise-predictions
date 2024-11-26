@@ -9,7 +9,7 @@ from utils import utils, constants
 from tests.utils.logger_redirector import LoggerRedirector
 
 from auto_model.build_models import (
-    _read_config,
+    get_estimators_config,
     _init_estimators,
     _search_models,
     _rank_estimators,
@@ -101,7 +101,7 @@ class TestBuildMetaLearner(unittest.TestCase):
         functionality I want to test (via separate assertion methods) to avoid
         having to run auto-model-build repeatedly (time-consuming).
         """
-        config = _read_config(self.config_file)
+        config = get_estimators_config(self.config_file)
         estimators = _init_estimators(
                 config, cat_indices=self.categorical_variables_indices)
         self.assertEqual(len(estimators), 4, "4 estimators")
