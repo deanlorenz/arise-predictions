@@ -3,11 +3,12 @@ import os
 from cmd.cmd import parse_args, get_args
 from job_statistics.analyze_jobs import analyze_job_data
 from auto_model.build_models import auto_build_models
-from perform_predict.predict import demo_predict
+from perform_predict.predict import demo_predict, PredictionInputSpace
 from utils import constants
 from preprocessing import job_parser
 from utils import utils
 import logging
+import yaml
 
 logger = logging.getLogger(__name__)
 
@@ -105,7 +106,7 @@ def execute_demo_predict():
         logging.info("Invoking demo predict")
         demo_predict(
             original_data=history_data,
-            config_file=get_args().config_file,
+            config=get_predict_config(get_args().config_file),
             estimator_path=get_args().model_path,
             feature_engineering=None if get_args().ignore_metadata else loaded_job_spec[7],
             metadata_parser_class_name=loaded_job_spec[8],
@@ -120,13 +121,25 @@ def execute_predict():
     logging.info("Invoking predict")
     demo_predict(
         original_data=None,
-        config_file=get_args().config_file,
+        config=get_predict_config(get_args().config_file),
         estimator_path=get_args().model_path,
         feature_engineering=None if get_args().ignore_metadata else loaded_job_spec[7],
         metadata_parser_class_name=loaded_job_spec[8],
         metadata_path=get_args().input_path,
         output_path=os.path.join(
             get_args().input_path, constants.PRED_OUTPUT_PATH_SUFFIX))
+
+
+def get_predict_config(config_file: str) -> PredictionInputSpace:
+    logger.info(f"Reading YAML configuration: {config_file}")
+
+    with open(config_file, "r") as f:
+        config_dict = yaml.safe_load(f)
+
+    return PredictionInputSpace(config_dict[constants.PRED_CONFIG_FIXED],
+                                config_dict[constants.PRED_CONFIG_VARIABLE],
+                                config_dict.get(constants.PRED_CONFIG_INTERPOLATION, []),
+                                config_dict[constants.PRED_CONFIG_ESTIMATORS])
 
 
 def get_history(history_file, inputs, outputs, start_time_field_name, end_time_field_name, job_parser_class_name,
