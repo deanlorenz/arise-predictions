@@ -19,7 +19,7 @@ streamlit run main.py
 ## How to change the configuration
 
 Change the config.yaml file to fit your custom configuration.  
-The provided version from github is aligned with the demo mlcommon
+The provided version from GitHub is aligned with the demo [MLCommons](../examples/MLCommons) 
 example that can be found also in arise Makefile.
 
 ## How to use the UI

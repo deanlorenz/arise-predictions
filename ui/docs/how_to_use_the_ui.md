@@ -35,7 +35,9 @@ The ARISE Prediction landing page is designed to help users predict resource usa
 
 ## Configuring Input Parameters
 
-Input parameters are set in the **Prediction Configuration Panel** and are essential for accurate results. The available fields depend on the dataset and model used. Below are the configurable input parameters for the `MLCommons` dataset:
+Input parameters are set in the **Prediction Configuration Panel** and are essential for accurate results.
+The available fields depend on the dataset and model used. 
+Below are the configurable input parameters for the [MLCommons](../../examples/MLCommons) dataset:
 
 1. **Number of Accelerators:**  
    - **Purpose:** Define the number and type of GPUs or accelerators to use.  
@@ -69,7 +71,8 @@ Input parameters are set in the **Prediction Configuration Panel** and are essen
 
 ## Configuring Output Parameters
 
-The **Output Configuration Panel** allows users to select prediction metrics. For the `MLCommons` dataset, available outputs include:
+The **Output Configuration Panel** allows users to select prediction metrics. 
+For the [MLCommons](../../examples/MLCommons) dataset, available outputs include:
 
 1. **Tokens Per Second:**  
    - **Purpose:** Display the model's token generation rate based on the configuration.  
@@ -140,6 +143,8 @@ The result table includes filtering features to refine results:
 2. Click **Add Filters**.  
 3. Select **Tokens Per Second**.  
 4. Use the slider to focus on values near 5000 tokens per second.
+
+> Note: More elaborate example and explanation of what happens under the hood can be found [here](../../doc/example.md)
 
 ---
 
