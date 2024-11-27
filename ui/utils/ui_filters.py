@@ -12,6 +12,7 @@ from pandas.core.dtypes.common import is_string_dtype, is_integer_dtype
 
 logger = logging.getLogger(__name__)
 
+
 def filter_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     """
     Adds a UI on top of a dataframe to let viewers filter columns
