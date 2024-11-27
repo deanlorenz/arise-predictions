@@ -111,17 +111,19 @@ class PredictUI:
                     > Note: Be patient. The operations might take some time.    
                     """)
 
-        def highlight_columns(x, _columns_to_highlight):
+        def style_columns(x, _columns_to_highlight, _columns_to_grayout):
             styles = pd.DataFrame('', index=x.index, columns=x.columns)
             styles[_columns_to_highlight] = 'background-color: lightblue'
+            styles[_columns_to_grayout] = 'color: gray'
             return styles
 
         if 'all-predictions.csv' in st.session_state:
             st.markdown("## Prediction result")
             st.dataframe(filter_dataframe(
                 st.session_state['all-predictions.csv'])
-                .style.apply(highlight_columns,
+                .style.apply(style_columns,
                              axis=None,
+                             _columns_to_grayout=st.session_state['all-predictions.csv.columns_to_grayout'],
                              _columns_to_highlight=st.session_state['all-predictions.csv.columns_to_highlight']))
 
 
@@ -411,17 +413,22 @@ The results are:
             csv_columns = csv.columns.tolist()
             columns = copy.deepcopy(csv_columns)
             columns_to_highlight = []
+            columns_to_grayout = []
             for column in columns:
                 try:
                     if st.session_state[column] is True:
                         csv_columns = [column] + [col for col in csv_columns if col != column]
                         columns_to_highlight.append(column)
+                    elif len(csv[column].unique()) <= 1:
+                        csv_columns = [col for col in csv_columns if col != column] + [column]
+                        columns_to_grayout.append(column)
                 except Exception as e:
                     pass
 
             csv = csv[csv_columns]
             st.session_state['all-predictions.csv'] = csv
             st.session_state['all-predictions.csv.columns_to_highlight'] = columns_to_highlight
+            st.session_state['all-predictions.csv.columns_to_grayout'] = columns_to_grayout
 
         # get the ground-truth file if exists
         if os.path.exists(get_config("job", "prediction", "predictions_with_ground_truth_file")):
