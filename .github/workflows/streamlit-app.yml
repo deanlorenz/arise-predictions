@@ -14,21 +14,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - name: Set up Python 3.10
-      uses: actions/setup-python@v5
+    - uses: actions/setup-python@v5
       with:
         python-version: '3.10'
     - name: Install dependencies
       run: |
-        cd ui
-        sudo apt-get update
-        sudo apt-get install -y python3-pip
-        pip install pandas
+        python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
         if [ -f ui/requirements.txt ]; then pip install -r ui/requirements.txt; fi
-    - uses: actions/setup-python@v5
-      with:
-        python-version: "3.11"
+    - name: Test
+      run: |
+        cd ui
+        python -m pytest test.py
+
+
+
     - uses: streamlit/streamlit-app-action@v0.0.3
       with:
         app-path: main.py

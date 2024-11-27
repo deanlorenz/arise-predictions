@@ -1,5 +1,7 @@
 import argparse
 import os
+import sys
+
 import yaml
 import re
 
@@ -57,13 +59,15 @@ def load_config():
             config[key] = env_value
 
     # Override with command-line arguments (the highest priority)
-    parser = argparse.ArgumentParser()
-    for key in config.keys():
-        parser.add_argument(f"--{key}", type=str, help=f"Override {key} from command line")
+    if len(sys.argv) > 2:
+        print("Command line arguments: ", sys.argv)
+        parser = argparse.ArgumentParser()
+        for key in config.keys():
+            parser.add_argument(f"--{key}", type=str, help=f"Override {key} from command line")
 
-    args = parser.parse_args()
-    for key, value in vars(args).items():
-        if value is not None:
-            config[key] = value
+        args = parser.parse_args()
+        for key, value in vars(args).items():
+            if value is not None:
+                config[key] = value
 
     return config
