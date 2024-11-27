@@ -1,14 +1,6 @@
 import os
-import unittest
-import argparse
 from pathlib import Path
-
 from streamlit.testing.v1 import AppTest
-
-try:
-    from unittest import mock  # python 3.3+
-except ImportError:
-    import mock  # python 2.6-3.2
 
 
 APP_PATH = os.getenv("APP_PATH", default="main.py")
@@ -28,16 +20,6 @@ def pytest_generate_tests(metafunc):
     """
     This is a special function that is called automatically by pytest to generate tests.
     https://docs.pytest.org/en/7.1.x/how-to/parametrize.html#pytest-generate-tests
-
-    This generates list of file paths for each page in the pages folder, which will
-    automatically be used if a test function has an argument called "file_path".
-
-    Each file path will be the absolute path to each file, but the test ids will be
-    just the file name. This is so that the test output is easier to read.
-
-    st_smoke_test.py::test_smoke_page[streamlit_app.py] PASSED                  [ 33%]
-    st_smoke_test.py::test_smoke_page[p1.py] PASSED                             [ 66%]
-    st_smoke_test.py::test_smoke_page[p2.py] PASSED                             [100%]
     """
     if "file_path" in metafunc.fixturenames:
         metafunc.parametrize(
