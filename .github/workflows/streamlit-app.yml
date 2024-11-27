@@ -20,6 +20,7 @@ jobs:
         python-version: '3.10'
     - name: Install dependencies
       run: |
+        cd ui
         sudo apt-get update
         sudo apt-get install -y python3-pip
         pip install pandas
@@ -30,4 +31,4 @@ jobs:
         python-version: "3.11"
     - uses: streamlit/streamlit-app-action@v0.0.3
       with:
-        app-path: ui/main.py
+        app-path: main.py
