@@ -40,6 +40,7 @@ class PredictUI:
         self.title = "ARISE predictions"
         self.output_fields = None
         self.input_fields = None
+        self.config_costs = None
         if "show_bot" not in st.session_state:
             st.session_state.show_bot = False
 
@@ -76,6 +77,13 @@ class PredictUI:
                                                 "placeholder": output_field,
                                                 "value": True,
                                                 "type": "toggle"}
+    def get_cost(self, df: pd.DataFrame) -> pd.Series:
+        unit, count, denominator = (self.config_costs[key] for key in ['unit', 'count', 'denominator'])
+        price_dict = self.config_costs['unit_price']
+        logger.debug(f"get_cost: unit keys={df[unit].unique()}, price keys={list(price_dict.keys())}")
+        cost = df.apply(lambda row: 100.0 * price_dict.get(row[unit], 0) * row[count] / row[denominator], axis=1)
+        return cost
+
 
     def show(self):
         self.set_page_layout()
@@ -125,13 +133,11 @@ class PredictUI:
                          axis=None,
                          _columns_to_highlight=st.session_state['all-predictions.csv.columns_to_highlight']))
 
-        if df_orig is not None:
-            st.markdown("## Original data")
-            st.dataframe(df_orig.style.apply(highlight_columns,
-                         axis=None,
-                         _columns_to_highlight=st.session_state['original_truth_file.csv.columns_to_highlight']))
-
-
+            if df_orig is not None:
+                st.markdown("## Original data")
+                st.dataframe(df_orig.style.apply(highlight_columns,
+                             axis=None,
+                             _columns_to_highlight=st.session_state['original_truth_file.csv.columns_to_highlight']))
 
         if 'predictions-with-ground-truth.csv' in st.session_state:
             st.markdown("## Ground-truth result")

@@ -84,3 +84,19 @@ inputs:
 - Scenario
 outputs:
 - tokens_per_second
+costs:
+  count: '# of Accelerators'
+  unit: Accelerator
+  denominator: tokens_per_second
+  unit_price:
+    AMD Instinct MI300X-NPS1-SPX-192GB-750W: 108
+    NVIDIA H100-NVL-94GB: 200
+    NVIDIA H100-PCIe-80GB: 200
+    NVIDIA H100-SXM-80GB: 200
+    NVIDIA L40S: 61
+    NVIDIA H200-SXM-141GB: 400
+    AMD MI300X-NPS1-SPX-192GB-750W: 108
+    NVIDIA GH200 Grace Hopper Superchip 144GB: 400
+    NVIDIA H200-SXM-141GB-CTS: 400
+    NVIDIA GH200 Grace Hopper Superchip 96GB: 400
+    NVIDIA B200-SXM-180GB: 600

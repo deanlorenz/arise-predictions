@@ -16,6 +16,7 @@ class DataExecutionMetadata:
         self.job_metadata_inputs = []
         self.job_metadata_inputs_details = {}
         self.job_metadata_outputs = []
+        self.job_metadata_costs = {}
         self.parse()
 
     def parse(self):
@@ -32,8 +33,13 @@ class DataExecutionMetadata:
                 raise ValueError(f"data_execution_metadata file "
                                  f"{self.data_execution_metadata_file} does not contain outputs")
 
+            if "costs" not in content:
+                raise ValueError(f"data_execution_metadata file "
+                                 f"{self.data_execution_metadata_file} does not contain costs")
+
             self.job_metadata_inputs = content["inputs"]
             self.job_metadata_outputs = content["outputs"]
+            self.job_metadata_costs = content["costs"]
 
             # get output details
             for _input in self.job_metadata_inputs:
@@ -42,3 +48,11 @@ class DataExecutionMetadata:
                         f"data_execution_metadata file "
                         f"{self.data_execution_metadata_file} does not contain details for {_input} input")
                 self.job_metadata_inputs_details[_input] = content[_input]
+
+            # validate cost params
+            valid_params = set(self.job_metadata_inputs) | set(self.job_metadata_outputs)
+            for _param in ['count', 'unit', 'denominator']:
+                if self.job_metadata_costs.get(_param, None) not in valid_params:
+                    raise ValueError(
+                        f"data_execution_metadata file "
+                        f"{self.data_execution_metadata_file} does not contain cost param {_param}")

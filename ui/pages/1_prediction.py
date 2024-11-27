@@ -10,6 +10,7 @@ data_execution_metadata_file = DataExecutionMetadata(get_config("job", "data_exe
 gui.set_input_fields(data_execution_metadata_file.job_metadata_inputs,
                      data_execution_metadata_file.job_metadata_inputs_details)
 gui.set_output_fields(data_execution_metadata_file.job_metadata_outputs)
+gui.config_costs = data_execution_metadata_file.job_metadata_costs
 
 # load the session state (saved user fields) from a file
 gui.load_session_state()
