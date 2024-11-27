@@ -20,6 +20,10 @@ jobs:
         python-version: 3.8
     - name: Install dependencies
       run: |
+        apt-get update
+        apt-get install -y python3-pip
+        pip install pandas
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
         if [ -f ui/requirements.txt ]; then pip install -r ui/requirements.txt; fi
     - uses: actions/setup-python@v5
       with:
