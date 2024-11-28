@@ -26,4 +26,4 @@ jobs:
     - name: Test
       run: |
         cd ui
-        python -m pytest test.py
+        python -m pytest tests/test_ci.py
