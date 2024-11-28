@@ -178,7 +178,7 @@ class PredictUI:
 
                 st.divider()
 
-                st.form_submit_button("Predict", on_click=self.on_predict)
+                st.form_submit_button("Predict", icon=":material/double_arrow:", type="primary", on_click=self.on_predict)
 
                 st.toggle("compare with ground truth", key="compare_with_ground_truth", value=False,
                           help="Compare the results with the ground truth")
@@ -205,7 +205,7 @@ class PredictUI:
             button_b_pos = "21rem"
         else:
             vid_y_pos = "-19.5rem"
-            button_b_pos = "1rem"
+            button_b_pos = "4rem"
 
         button_css = float_css_helper(width="2.2rem", right="2rem", bottom=button_b_pos, transition=0)
         button_container.float(button_css)
