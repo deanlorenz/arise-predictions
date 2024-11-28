@@ -237,7 +237,7 @@ class PredictUI:
 
         st.session_state["saved_bot_input"] = st.session_state["bot_input"]
 
-        self.persist_session_state(get_config("job", "prediction_save_state_file"))
+        self.persist_session_state()
 
         """ Sends the user input to the bot and displays the response """
         logger.debug(f"send_bot: {st.session_state.bot_input}")
