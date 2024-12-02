@@ -21,55 +21,61 @@ except KeyError:
     EMAIL = None
     PASSWD = None
 
-with open("docs/how_to_use_the_ui.md", "r") as file:
-    how_to_use_the_ui = file.read()
+try:
+    with open("docs/how_to_use_the_ui.md", "r") as file:
+        how_to_use_the_ui = file.read()
+except FileNotFoundError:
+    how_to_use_the_ui = ""
+
+try:
+    with open("README.md", "r") as file:
+        arise_main_readme = file.read()
+except FileNotFoundError:
+    arise_main_readme = ""
 
 prompt_template = """
 # System Role and Expertise
 You are a knowledgeable assistant specializing in **resource allocation, AI, and planning**. 
-Your goal is to provide accurate, concise, and prescriptive responses.
+Your goal is to provide accurate, concise, and prescriptive responses to the user question/chat.
+You are to answer the user's question based only on the information provided in the prompt.
+
+# The user's question is: 
+{query}
 
 # Task Context
-Use the web browsing tool to access the following web page:  
-[https://github.com/arise-insights/arise-predictions/blob/main/README.md](https://github.com/arise-insights/arise-predictions/blob/main/README.md)
+Following is general information about the arise project
+- **Arise README(markdown)**  
+{arise_main_readme}
 
-In addition, use the following how-to and example content:
+Following is general information about how to use the arise ser interface (UI)
 - **How to use the UI (markdown)**  
 {how_to_use_the_ui}
  
-# Objective
-1. Analyze the README to understand the workings of the **arise-predictions** project.
-2. Learn and refine your knowledge on **how to use the arise UI** based on the markdown content.
-
-# Response Guidelines
-- Answer based **exclusively** on the information obtained from the README and the information from the prompt.
-- Provide **accurate and concise** responses. Avoid unnecessary information or assumptions.
-- If relevant information is unavailable in the README, state: "I don't know. I only assist for arise. Please refine."
-
-# Details for Configuration
-The user's configuration and related fields are defined as follows:
-
-- **Current Configuration (JSON)**  
+- **Current UI Configuration (JSON)**  
 {persist_session_state}
 
-- **Available Input Fields (JSON)**  
+- **Current UI Input Fields (JSON)**  
 {config_input_fields}
 
-- **Input Field Details (JSON)**  
+- **Current UI Input Field Details (JSON)**  
 {config_input_fields_details}
 
-- **Available Output Fields (JSON)**  
+- **Current UI Output Fields (JSON)**  
 {config_output_fields}
 
-# Question Template
-**The question is:**  
-{query}
+# Objective
+1. Analyze the Task Context to understand the workings of the **arise-predictions** project and the UI.
+2. Learn and refine your knowledge on **how to use the arise UI** based on the content from the Task Context.
+3. Answer the user's question accurately!
 
-# Important Notes
-1. Only reference the README and the prompt content for responses.
-2. Exclude any excuses or unrelated information.
-3. Exclude from the response details about the sources of the information.
-4. Do not mention the README or prompt content in the response.
+# Response Guidelines
+- The answer should be formatted in markdown language 
+- Answer based **exclusively** on the information obtained from the prompt.
+- Provide **accurate and concise** responses. Avoid unnecessary information or assumptions.
+- If relevant information is unavailable in the README, state: "I don't know. I only assist for arise. Please refine."
+- Exclude any excuses or unrelated information.
+- Exclude from the response details about the sources of the information.
+- Do not mention the README or prompt content in the response.
 """
 
 
@@ -86,48 +92,54 @@ class ChatBot:
             self.cookie_path_dir = "./cookies/"
             self.sign = Login(EMAIL, PASSWD)
             self.cookies = self.sign.login(cookie_dir_path=self.cookie_path_dir, save_cookies=True)
+            self.chatbot = None
         pass
 
     def is_bot_enabled(self):
         return PASSWD is not None
 
     def get_chatbot(self):
-        return hugchat.ChatBot(cookies=self.cookies.get_dict())
+        if self.chatbot is None:
+            self.chatbot = hugchat.ChatBot(cookies=self.cookies.get_dict())
+            # cleanup, delete all old conversations
+            self.chatbot.delete_all_conversations()
+            # switch to the required LLM
+            models = self.chatbot.get_available_llm_models()
+            for index in range(len(models)):
+                if models[index].name == MODEL:
+                    self.chatbot.switch_llm(index)
+                    break
+            # Create a new conversation
+            conversation_id = self.chatbot.new_conversation()
+            self.chatbot.change_conversation(conversation_id)
 
-    def delete_all_conversations(self):
-        self.get_chatbot().delete_all_conversations()
+        return self.chatbot
 
     def ask_synchronized(self, query, persist_session_state,
                          config_input_fields, config_input_fields_details, config_output_fields):
         chatbot = self.get_chatbot()
-
-        models = chatbot.get_available_llm_models()
-        for index in range(len(models)):
-            if models[index].name == MODEL:
-                chatbot.switch_llm(index)
-                break
-
         try:
             prompt = prompt_template.format(query=query,
                                             persist_session_state=persist_session_state,
                                             config_input_fields=config_input_fields,
                                             config_input_fields_details=config_input_fields_details,
                                             config_output_fields=config_output_fields,
+                                            arise_main_readme=arise_main_readme,
                                             how_to_use_the_ui=how_to_use_the_ui
                                             )
-            message_result = chatbot.chat(prompt, web_search=True)
+            message_result = chatbot.chat(text=prompt,
+                                          web_search=False)
             message_str = message_result.wait_until_done()
         except Exception as e:
             logger.error(f"Error in chatbot: {e}")
             message_str = "Sorry, I'm having trouble answering your question. Please try again later."
-
-        chatbot.delete_conversation()
 
         return message_str
 
     def delete_current_conversation(self):
         chatbot = self.get_chatbot()
         chatbot.delete_conversation()
+        self.chatbot = None
 
     def ask_async(self, message):
         # TODO: Implement async chatbot
