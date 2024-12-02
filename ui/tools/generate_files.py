@@ -1,7 +1,7 @@
 import logging
 import ruamel.yaml
 
-from utils.config import get_config
+from ui.utils.config import get_config
 
 logger = logging.getLogger(__name__)
 

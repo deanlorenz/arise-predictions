@@ -8,11 +8,11 @@ import pandas as pd
 import streamlit as st
 import yaml
 
-from tools.bot import get_bot
-from utils.config import get_config
-from tools.actuator import execute_command
-from tools.generate_files import generate_prediction_config_file
-from utils.ui_filters import filter_dataframe
+from ui.tools.bot import get_bot
+from ui.utils.config import get_config
+from ui.tools.actuator import execute_command
+from ui.tools.generate_files import generate_prediction_config_file
+from ui.utils.ui_filters import filter_dataframe
 from streamlit_float import *
 
 logger = logging.getLogger(__name__)
