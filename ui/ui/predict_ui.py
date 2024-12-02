@@ -121,11 +121,11 @@ class PredictUI:
             st.markdown("## Prediction result")
             st.dataframe(filter_dataframe(
                 st.session_state['all-predictions.csv'])
-                .style.apply(style_columns,
-                             axis=None,
-                             _columns_to_grayout=st.session_state['all-predictions.csv.columns_to_grayout'],
-                             _columns_to_highlight=st.session_state['all-predictions.csv.columns_to_highlight']))
-
+                         .style.apply(style_columns,
+                                      axis=None,
+                                      _columns_to_grayout=st.session_state['all-predictions.csv.columns_to_grayout'],
+                                      _columns_to_highlight=st.session_state[
+                                          'all-predictions.csv.columns_to_highlight']))
 
         if 'predictions-with-ground-truth.csv' in st.session_state:
             st.markdown("## Ground-truth result")
@@ -178,7 +178,8 @@ class PredictUI:
 
                 st.divider()
 
-                st.form_submit_button("Predict", icon=":material/double_arrow:", type="primary", on_click=self.on_predict)
+                st.form_submit_button("Predict", icon=":material/double_arrow:", type="primary",
+                                      on_click=self.on_predict)
 
                 st.toggle("compare with ground truth", key="compare_with_ground_truth", value=False,
                           help="Compare the results with the ground truth")
@@ -221,7 +222,11 @@ class PredictUI:
         bot_dialog_container.float(bot_dialog_css)
         with bot_dialog_container:
             col0, col1, col2 = st.columns([0.5, 6, 0.5], vertical_alignment="bottom")
-            col1.text_area("Response", height=150, key="bot_text_area")
+            if "bot_response" not in st.session_state:
+                st.session_state.bot_response = "Response"
+            col1.markdown('<div style="height : 20vh; overflow-y:scroll; width : 100%;">' +
+                          st.session_state.bot_response, unsafe_allow_html=True)
+            col1.markdown('</div>', unsafe_allow_html=True)
             col0, col1, col2 = st.columns([0.5, 5, 1], vertical_alignment="bottom")
             col1.text_input("Ask anything:", key="bot_input", placeholder="?", on_change=self.on_bot_text_input_change)
             col2.button(":material/send:", on_click=self.on_bot_send)
@@ -248,7 +253,7 @@ class PredictUI:
                                               self.config_input_fields_details,
                                               self.config_output_fields)
         response = f"{response}"
-        st.session_state.bot_text_area = response
+        st.session_state.bot_response = response
 
     def get_session_state_path(self):
         """ returns session state path using temp dir if needed"""
@@ -308,7 +313,8 @@ class PredictUI:
         # set the output fields
         for config_output_field in self.config_output_fields:
             try:
-                if config_output_field not in st.session_state and dic_to_load["config_output_field"][config_output_field]:
+                if config_output_field not in st.session_state and dic_to_load["config_output_field"][
+                    config_output_field]:
                     st.session_state[config_output_field] = dic_to_load["config_output_field"][config_output_field]
             except KeyError:
                 pass
