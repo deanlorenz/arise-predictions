@@ -1,4 +1,5 @@
 from setuptools import setup, find_packages
+from glob import glob
 import arise
 
 setup(
@@ -22,5 +23,6 @@ setup(
         'xgboost==2.1.1',
         'catboost',
     ],
+    data_files=[('examples', glob('examples/**/*', recursive=True))],
     include_package_data=True,
 )
