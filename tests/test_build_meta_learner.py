@@ -8,7 +8,7 @@ import pandas as pd
 from arise.utils import utils, constants
 from tests.utils.logger_redirector import LoggerRedirector
 
-from arise import (
+from arise.auto_model.build_models import (
     get_estimators_config,
     _init_estimators,
     _search_models,
@@ -19,7 +19,7 @@ from arise import (
     _persist_and_test_meta_estimator
 )
 
-from arise.cmd import parse_args
+from arise.cmd.cmd import parse_args
 
 """
 Tests for building of meta-learner (for improved extrapolation performance).

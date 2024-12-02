@@ -51,7 +51,7 @@ pip install -r requirements.txt
 From the project root directory:
 
 ```bash
-PYTHONPATH=src/ python -m unittest -v
+python -m unittest -v
 ```
 
 To see the log messages for failing tests, use the buffer command (and use
@@ -59,13 +59,13 @@ To see the log messages for failing tests, use the buffer command (and use
 as an example.
 
 ```bash
-PYTHONPATH=src/ python -m unittest -v --buffer
+python -m unittest -v --buffer
 ```
 
 Running the tests on a single test case:
 
 ```bash
-PYTHONPATH=src/:tests/ python -m unittest -v --buffer tests/test_build_models.py
+python -m unittest -v --buffer tests/test_build_models.py
 ```
 
 ### Running the CLI on sample data

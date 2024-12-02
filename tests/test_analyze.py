@@ -5,15 +5,16 @@ import sys
 import logging
 import shutil
 
-from arise.job_statistics import (_init_args,
-                                  _prepare_data,
-                                  _compute_missing_data,
-                                  _summarize_data,
-                                  _correlate_data,
-                                  _summarize_categorical_data,
-                                  _plot_histograms,
-                                  _plot_box_whiskers,
-                                  _plot_correlations)
+from arise.job_statistics.analyze_jobs import \
+    (_init_args,
+     _prepare_data,
+     _compute_missing_data,
+     _summarize_data,
+     _correlate_data,
+     _summarize_categorical_data,
+     _plot_histograms,
+     _plot_box_whiskers,
+     _plot_correlations)
 from arise.utils import constants
 from tests.utils.logger_redirector import LoggerRedirector
 

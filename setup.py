@@ -5,7 +5,7 @@ setup(
     name='arise',
     version=arise.__version__,
     packages=find_packages(),
-    license='Apache 2.0 License',
+    license='Apache License 2.0',
     description='ML-based performance prediction for AI workloads configuration management',
     install_requires=[
         'pandas~=2.1.3',

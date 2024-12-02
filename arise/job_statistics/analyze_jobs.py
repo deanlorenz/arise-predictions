@@ -17,8 +17,8 @@ numeric and diagramatic form.
 """
 
 
-def init_args(job_id_column=None, custom_job_name=None,
-              output_path=None) -> tuple[str, str]:
+def _init_args(job_id_column=None, custom_job_name=None,
+               output_path=None) -> tuple[str, str]:
     """
     :param job_id_column: Name of the column containing the job name.
     Is referred to as 'job id' in job_spec.yaml. 
@@ -363,7 +363,7 @@ def analyze_job_data(raw_data: pd.DataFrame, job_id_column: str = None,
     
     logger.info("Beginning descriptive job analysis.")
 
-    job_id_column, custom_job_name = init_args(
+    job_id_column, custom_job_name = _init_args(
         job_id_column=job_id_column, custom_job_name=custom_job_name, 
         output_path=output_path)
     prepared_data = _prepare_data(data=raw_data, job_id_column=job_id_column,
