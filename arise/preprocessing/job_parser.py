@@ -4,10 +4,9 @@ import os
 import pandas as pd
 import numpy as np
 
-from main import logger
-from utils.constants import *
-from utils import utils
-from preprocessing import custom_job_parser
+from arise.main import logger
+from arise.utils import utils, constants
+from arise.preprocessing import custom_job_parser
 import logging
 from typing import List
 
@@ -29,7 +28,7 @@ def parse_job_spec(job_spec_file):
             return None
 
     # Making sure that all required fields are available in the spec
-    for field in [JOB_INPUTS_FIELD_NAME, JOB_OUTPUTS_FIELD_NAME]:
+    for field in [constants.JOB_INPUTS_FIELD_NAME, constants.JOB_OUTPUTS_FIELD_NAME]:
         if not field in loaded_spec:
             logger.error("Missing key: {}".format(field))
             return None
@@ -37,7 +36,7 @@ def parse_job_spec(job_spec_file):
     job_inputs = set()
     job_identifiers = set()
 
-    for key, value in dict(loaded_spec[JOB_INPUTS_FIELD_NAME]).items():
+    for key, value in dict(loaded_spec[constants.JOB_INPUTS_FIELD_NAME]).items():
 
         if value == 1:
             job_identifiers.add(key)
@@ -49,37 +48,37 @@ def parse_job_spec(job_spec_file):
             "No job identifier provided, using entire history for each job")
 
     # Reading start and end time field names, using defaults if not provided
-    if JOB_START_TIME_FIELD_NAME in loaded_spec:
-        start_time_field_name = loaded_spec[JOB_START_TIME_FIELD_NAME]
+    if constants.JOB_START_TIME_FIELD_NAME in loaded_spec:
+        start_time_field_name = loaded_spec[constants.JOB_START_TIME_FIELD_NAME]
     else:
-        start_time_field_name = JOB_START_TIME_DEFAULT_FIELD_NAME
+        start_time_field_name = constants.JOB_START_TIME_DEFAULT_FIELD_NAME
 
-    if JOB_END_TIME_FIELD_NAME in loaded_spec:
-        end_time_field_name = loaded_spec[JOB_END_TIME_FIELD_NAME]
+    if constants.JOB_END_TIME_FIELD_NAME in loaded_spec:
+        end_time_field_name = loaded_spec[constants.JOB_END_TIME_FIELD_NAME]
     else:
-        end_time_field_name = JOB_END_TIME_DEFAULT_FIELD_NAME
+        end_time_field_name = constants.JOB_END_TIME_DEFAULT_FIELD_NAME
 
-    if JOB_PARSER_CLASS_NAME_FIELD in loaded_spec:
-        job_parser_class_name = loaded_spec[JOB_PARSER_CLASS_NAME_FIELD]
+    if constants.JOB_PARSER_CLASS_NAME_FIELD in loaded_spec:
+        job_parser_class_name = loaded_spec[constants.JOB_PARSER_CLASS_NAME_FIELD]
     else:
         job_parser_class_name = None
 
-    if JOB_ENTRY_FILTER_FIELD in loaded_spec:
-        job_entry_filter = loaded_spec[JOB_ENTRY_FILTER_FIELD]
+    if constants.JOB_ENTRY_FILTER_FIELD in loaded_spec:
+        job_entry_filter = loaded_spec[constants.JOB_ENTRY_FILTER_FIELD]
     else:
         job_entry_filter = dict()
 
-    if JOB_INPUTS_FEATURE_ENGINEERING in loaded_spec:
-        job_input_feature_engineering = loaded_spec[JOB_INPUTS_FEATURE_ENGINEERING]
+    if constants.JOB_INPUTS_FEATURE_ENGINEERING in loaded_spec:
+        job_input_feature_engineering = loaded_spec[constants.JOB_INPUTS_FEATURE_ENGINEERING]
     else:
         job_input_feature_engineering = dict()
 
-    if METADATA_PARSER_CLASS_NAME_FIELD in loaded_spec:
-        metadata_parser_class_name = loaded_spec[METADATA_PARSER_CLASS_NAME_FIELD]
+    if constants.METADATA_PARSER_CLASS_NAME_FIELD in loaded_spec:
+        metadata_parser_class_name = loaded_spec[constants.METADATA_PARSER_CLASS_NAME_FIELD]
     else:
         metadata_parser_class_name = None
 
-    return (job_inputs, set(loaded_spec[JOB_OUTPUTS_FIELD_NAME]), job_identifiers, start_time_field_name,
+    return (job_inputs, set(loaded_spec[constants.JOB_OUTPUTS_FIELD_NAME]), job_identifiers, start_time_field_name,
             end_time_field_name, job_parser_class_name, job_entry_filter, job_input_feature_engineering,
             metadata_parser_class_name)
 
@@ -204,7 +203,7 @@ def collect_jobs_history(data_dir, output_path, job_inputs, job_outputs, start_t
     if feature_engineering is not None:
         df = utils.add_feature_engineering(metadata_path, df, feature_engineering, metadata_parser_class_name)
 
-    output_file = os.path.join(output_path, JOB_HISTORY_FILE_NAME + ".csv")
+    output_file = os.path.join(output_path, constants.JOB_HISTORY_FILE_NAME + ".csv")
 
     df.to_csv(output_file, index=False)
     return df, output_file
@@ -233,7 +232,7 @@ def collect_and_persist_data_metadata(df: pd.DataFrame, inputs: List[str], outpu
 
         data_metadata[job_input] = input_metadata
 
-    output_file = os.path.join(output_path, JOB_METADATA_FILE_NAME + ".yaml")
+    output_file = os.path.join(output_path, constants.JOB_METADATA_FILE_NAME + ".yaml")
 
     with open(output_file, 'w') as out:
         yaml.dump(data_metadata, out)

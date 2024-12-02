@@ -78,13 +78,13 @@ subdirectory called `job-analysis`. The data should be provided in a folder
 called `data` in the given `input-path`.
 
 ```bash
-python src/main.py analyze-jobs --input-path examples/MLCommons
+python -m arise.main analyze-jobs --input-path examples/MLCommons
 ```
 
 It is also possible to specify the job spec file and metadata input explicitly:
 
 ```bash
-python src/main.py analyze-jobs --input-path examples/MLCommons --reread-history --job-spec-file-name job_spec.yaml --input-file inference_data_tokens.csv --custom-job-name inference-thpt
+python -m arise.main.py analyze-jobs --input-path examples/MLCommons --reread-history --job-spec-file-name job_spec.yaml --input-file inference_data_tokens.csv --custom-job-name inference-thpt
 ```
 
 In the above example, we also specify a custom job name. In this example data
@@ -102,7 +102,7 @@ the output of the descriptive job analysis  (e.g., labels in plots).
 Example:
 
 ```bash
-python src/main.py auto-build-models --input-path examples/MLCommons --reread-history
+python -m arise.main auto-build-models --input-path examples/MLCommons --reread-history
 ```
 
 The output models, their relative ranking, and the cross validation results are all stored in a folder named 
@@ -115,14 +115,14 @@ defines a much smaller parameter search space and hence completes in a shorter
 time. You can make use of it like this:
 
 ```bash
-python src/main.py auto-build-models --input-path examples/MLCommons --reread-history --config-file config/small-auto-model-search-config.yaml
+python -m arise.main auto-build-models --input-path examples/MLCommons --reread-history --config-file config/small-auto-model-search-config.yaml
 ```
 
 If you are running on your local machine, it is advised to limit the number of processors used. However, this will result
 in a much longer run. To build models using 2 processors only, use this command: 
 
 ```bash
-python src/main.py --num-jobs 2 auto-build-models --input-path examples/MLCommons --reread-history --config-file config/small-auto-model-search-config.yaml
+python -m arise.main --num-jobs 2 auto-build-models --input-path examples/MLCommons --reread-history --config-file config/small-auto-model-search-config.yaml
 ```
 
 By default, `auto-build-models` performs 10-fold cross validation. If you want to perform instead `leave-one-group-out (logo)`
@@ -133,7 +133,7 @@ For example, the following command will build models using logo cross validation
 That is, in each iteration it will use a specific LLM as the test set, and all other data as the training set. 
 
 ```bash
-python src/main.py auto-build-models --input-path examples/MLCommons --leave-one-out-cv "Model MLC"
+python -m arise.main auto-build-models --input-path examples/MLCommons --leave-one-out-cv "Model MLC"
 ```
 
 In addition to the above, we can also let `auto-build-models` search for models that are tuned for
@@ -152,7 +152,7 @@ training data, so that ARISE can define regions used for training and for
 testing the extrapolation performance of the resulting models. For example: 
 
 ```bash
-python src/main.py auto-build-models --input-path examples/MLCommons --reread-history --feature-column "# of Accelerators" --high-threshold 8
+python -m arise.main auto-build-models --input-path examples/MLCommons --reread-history --feature-column "# of Accelerators" --high-threshold 8
 ```
 
 3. `predict` generates estimated values for metadata outputs given metadata input values. It should 
@@ -170,7 +170,7 @@ provided, ARISE automatically uses the top-ranked model file according to the `a
 be located in the provided model path, next to the persisted model files.
 
 ```bash
-python src/main.py predict --input-path examples/MLCommons --config-file
+python -m arise.main predict --input-path examples/MLCommons --config-file
 config/example-demo-mlcommons-config.yaml --model-path examples/MLCommons/ARISE-auto-models
 ```
 
@@ -186,7 +186,7 @@ stored in a folder named `ARISE-predictions` which is created in the given input
     Other parameters are taken from the configuration file.
 
 ```bash
-python src/main.py demo-predict --input-path examples/MLCommons --config-file
+python -m arise.main demo-predict --input-path examples/MLCommons --config-file
 config/example-demo-mlcommons-config.yaml --model-path examples/MLCommons/ARISE-auto-models
 ```
 
@@ -202,7 +202,7 @@ The default log level is `DEBUG`. You can change by specifying a different log
 level as in the following example:
 
 ```bash
-python src/main.py --loglevel info analyze-jobs
+python -m arise.main --loglevel info analyze-jobs
 ```
 
 ## Running ARISE from the UI
@@ -237,7 +237,7 @@ once the workload completes (e.g., items 6-9 above). The inputs and outputs spec
 `job_spec.yaml` file. See [this example](examples/MLCommons/job_spec.yaml) of a job spec.
 
 If the format of your data requires special parsing to transform into a dataframe (i.e., beyond a simple csv file), you 
-can implement your own parser in [this class](src/preprocessing/custom_job_parser.py). For example, the sentiment 
+can implement your own parser in [this class](arise/preprocessing/custom_job_parser.py). For example, the sentiment 
 analysis example ([here](examples/sentiment_analysis/data)) uses `SAJsonJobParser` as its parser, since its original 
 data consists of a json file per workload execution. The name of your parser should be provided in the 
 `job-parser-class-name` optional field in `job_spec.yaml`, see [here](examples/sentiment_analysis/job_spec.yaml).

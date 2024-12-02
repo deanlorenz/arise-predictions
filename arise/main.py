@@ -1,14 +1,12 @@
 import pandas as pd
 import os
-from cmd.cmd import parse_args, get_args
-from job_statistics.analyze_jobs import analyze_job_data
-from auto_model.build_models import auto_build_models, get_estimators_config
-from perform_predict.predict import demo_predict, get_predict_config
-from utils import constants
-from preprocessing import job_parser
-from utils import utils
+from arise.cmd.cmd import parse_args, get_args
+from arise.job_statistics.analyze_jobs import analyze_job_data
+from arise.auto_model.build_models import auto_build_models, get_estimators_config
+from arise.perform_predict.predict import demo_predict, get_predict_config
+from arise.utils import constants, utils
+from arise.preprocessing import job_parser
 import logging
-import yaml
 
 logger = logging.getLogger(__name__)
 
@@ -63,7 +61,7 @@ def execute_analyze_jobs():
             job_id_column = identifiers[0]
         analyze_job_data(raw_data=history_data, job_id_column=job_id_column,
                          custom_job_name=get_args().custom_job_name,
-                         output_path=os.path.join(get_args().input_path, 
+                         output_path=os.path.join(get_args().input_path,
                                                   constants.JOB_ANALYSIS_PATH),
                          target_variables=outputs)
 
@@ -80,13 +78,13 @@ def execute_auto_build_models():
                        " location {}").format(get_args().input_path))
     else:
         logging.info("Invoking auto model search and build")
-        auto_build_models(raw_data=history_data, 
+        auto_build_models(raw_data=history_data,
                           config=get_estimators_config(config_file=get_args().config_file,
                                                        num_jobs=get_args().num_jobs),
-                          target_variables=outputs, 
+                          target_variables=outputs,
                           output_path=os.path.join(
                               get_args().input_path, 
-                              constants.AM_OUTPUT_PATH_SUFFIX), 
+                              constants.AM_OUTPUT_PATH_SUFFIX),
                           leave_one_out_cv=get_args().leave_one_out_cv,
                           feature_col=get_args().feature_column,
                           low_threshold=get_args().low_threshold,
@@ -176,7 +174,7 @@ def main():
         logger.info(
             'For development purpose we will execute the get-stats command')
         logger.info('This will be removed in production')
-        from cmd.cmd import cmd_args
+        from arise.cmd.cmd import cmd_args
         cmd_args.command = "get-stats"
         cmd_args.input_path = "examples/MLCommons"
         cmd_args.reread_history = False
