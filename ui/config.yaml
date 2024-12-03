@@ -17,7 +17,7 @@ actuation_templates:
     '
 job:
   data_execution_metadata_file: '#job.input_path/data_execution_metadata.yaml'
-  executable: arise.main
+  executable: arise_predictions.main
   input_path: ../examples/MLCommons
   job_spec_file: '#job.input_path/job_spec.yaml'
   model_path: '#job.input_path/ARISE-auto-models'

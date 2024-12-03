@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
 import pandas as pd
 import json
-from arise.utils import constants, utils
-from arise.preprocessing import job_parser
+from arise_predictions.utils import constants, utils
+from arise_predictions.preprocessing import job_parser
 
 
 class JsonJobParser(ABC):

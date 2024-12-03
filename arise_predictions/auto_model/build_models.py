@@ -12,8 +12,8 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.pipeline import Pipeline
 from sklearn.ensemble import StackingRegressor
 
-from arise.utils import constants, utils
-from arise.metrics import metrics
+from arise_predictions.utils import constants, utils
+from arise_predictions.metrics import metrics
 import shutil
 
 logger = logging.getLogger(__name__)

@@ -1,10 +1,10 @@
 from setuptools import setup, find_packages
 from glob import glob
-import arise
+import arise_predictions
 
 setup(
-    name='arise',
-    version=arise.__version__,
+    name='arise_predictions',
+    version=arise_predictions.__version__,
     packages=find_packages(),
     license='Apache License 2.0',
     description='ML-based performance prediction for AI workloads configuration management',

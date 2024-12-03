@@ -1,11 +1,11 @@
 import pandas as pd
 import os
-from arise.cmd.cmd import parse_args, get_args
-from arise.job_statistics.analyze_jobs import analyze_job_data
-from arise.auto_model.build_models import auto_build_models, get_estimators_config
-from arise.perform_predict.predict import demo_predict, get_predict_config
-from arise.utils import constants, utils
-from arise.preprocessing import job_parser
+from arise_predictions.cmd.cmd import parse_args, get_args
+from arise_predictions.job_statistics.analyze_jobs import analyze_job_data
+from arise_predictions.auto_model.build_models import auto_build_models, get_estimators_config
+from arise_predictions.perform_predict.predict import demo_predict, get_predict_config
+from arise_predictions.utils import constants, utils
+from arise_predictions.preprocessing import job_parser
 import logging
 
 logger = logging.getLogger(__name__)
@@ -174,7 +174,7 @@ def main():
         logger.info(
             'For development purpose we will execute the get-stats command')
         logger.info('This will be removed in production')
-        from arise.cmd.cmd import cmd_args
+        from arise_predictions.cmd.cmd import cmd_args
         cmd_args.command = "get-stats"
         cmd_args.input_path = "examples/MLCommons"
         cmd_args.reread_history = False

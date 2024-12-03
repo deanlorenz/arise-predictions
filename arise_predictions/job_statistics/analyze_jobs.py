@@ -7,7 +7,7 @@ from matplotlib import pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 import numpy as np
 
-from arise.utils import constants, utils
+from arise_predictions.utils import constants, utils
 
 logger = logging.getLogger(__name__)
 

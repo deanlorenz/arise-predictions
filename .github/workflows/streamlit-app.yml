@@ -1,4 +1,4 @@
-name: arise ui
+name: arise_predictions ui
 
 on:
   push:

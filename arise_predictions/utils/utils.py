@@ -2,7 +2,7 @@ import time
 from datetime import datetime
 import pandas as pd
 
-from arise.utils import constants
+from arise_predictions.utils import constants
 import os
 import joblib
 import errno
