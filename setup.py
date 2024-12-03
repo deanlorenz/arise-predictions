@@ -23,6 +23,5 @@ setup(
         'xgboost==2.1.1',
         'catboost',
     ],
-    data_files=[('examples', glob('examples/**/*', recursive=True))],
-    include_package_data=True,
+    data_files=[('tests', glob('tests/**/*', recursive=True))],
 )
