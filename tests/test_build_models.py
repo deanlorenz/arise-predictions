@@ -6,15 +6,15 @@ import joblib
 
 import pandas as pd
 
-from arise.utils import utils, constants
+from arise_predictions.utils import utils, constants
 from tests.utils.logger_redirector import LoggerRedirector
-from arise.auto_model.build_models import (get_estimators_config,
+from arise_predictions.auto_model.build_models import (get_estimators_config,
                                            _init_estimators,
                                            _search_models,
                                            _rank_estimators,
                                            _select_best_estimators)
 
-from arise.cmd.cmd import parse_args
+from arise_predictions.cmd.cmd import parse_args
 
 """
 Tests for auto model building functionality.

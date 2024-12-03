@@ -6,8 +6,8 @@ import os
 import pandas as pd
 
 from tests.utils.logger_redirector import LoggerRedirector
-from arise.utils import constants
-from arise.perform_predict.predict import (_create_input_space, _run_predictions, get_predict_config)
+from arise_predictions.utils import constants
+from arise_predictions.perform_predict.predict import (_create_input_space, _run_predictions, get_predict_config)
 
 """
 Tests for perform_predict.predict.
