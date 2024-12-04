@@ -10,7 +10,8 @@ def execute_command(original_commands):
     result = ""
     for command in commands:
         try:
-            command_result = subprocess.run(command, shell=True, check=True, text=True, capture_output=True)
+            #command_result = subprocess.run(command, shell=True, check=True, text=True, capture_output=True)
+            command_result = subprocess.run(command, cwd="../", shell=True, check=True, text=True, capture_output=True)
             result += (f"Command succeeded: {command}  \n"
                        f"Output:\n{command_result.stdout.strip()}  \n")
             logger.info(result)
