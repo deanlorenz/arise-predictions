@@ -1,23 +1,23 @@
 actuation_templates:
-  analyze-jobs: 'pip install -q -r ../requirements.txt; $python $executable analyze-jobs
-    --input-path $input_path  --job-spec-file-name job_spec.yaml
+  analyze-jobs: 'pip install -q -r requirements.txt; $python -m $executable analyze-jobs
+    --input-path ui/$input_path  --job-spec-file-name job_spec.yaml
 
     '
-  auto-build-models: 'pip install -q -r ../requirements.txt; $python $executable auto-build-models
-    --input-path $input_path  --config-file ../config/small-auto-model-search-config.yaml
+  auto-build-models: 'pip install -q -r requirements.txt; $python -m $executable auto-build-models
+    --input-path ui/$input_path  --config-file config/small-auto-model-search-config.yaml
 
     '
-  demo-predict: 'pip install -q -r ../requirements.txt; $python $executable demo-predict
-    --input-path $input_path  --model-path $model_path  --config-file $prediction_config_file
+  demo-predict: 'install -q -r requirements.txt; $python -m $executable demo-predict
+    --input-path ui/$input_path  --model-path ui/$model_path  --config-file ui/$prediction_config_file
 
     '
-  predict: 'pip install -q -r ../requirements.txt; $python $executable predict --input-path
-    $input_path  --model-path $model_path  --config-file $prediction_config_file
+  predict: 'pip install -q -r requirements.txt; $python -m $executable predict --input-path
+    ui/$input_path  --model-path ui/$model_path  --config-file ui/$prediction_config_file
 
     '
 job:
   data_execution_metadata_file: '#job.input_path/data_execution_metadata.yaml'
-  executable: ../src/main.py
+  executable: arise_predictions.main
   input_path: ../examples/MLCommons
   job_spec_file: '#job.input_path/job_spec.yaml'
   model_path: '#job.input_path/ARISE-auto-models'

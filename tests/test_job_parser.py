@@ -3,7 +3,7 @@ import logging
 import sys
 
 from tests.utils.logger_redirector import LoggerRedirector
-from preprocessing import job_parser
+from arise_predictions.preprocessing import job_parser
 
 """
 Tests for job parser.

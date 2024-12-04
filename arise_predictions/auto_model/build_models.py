@@ -12,8 +12,8 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.pipeline import Pipeline
 from sklearn.ensemble import StackingRegressor
 
-from utils import constants, utils
-from metrics import metrics
+from arise_predictions.utils import constants, utils
+from arise_predictions.metrics import metrics
 import shutil
 
 logger = logging.getLogger(__name__)
@@ -501,14 +501,18 @@ def _select_best_estimators(
     for target_var in target_variables:
         best_estimators = []
         best_linear_estimator_for_target_var = rankings[
-            (rankings[constants.AM_COL_TARGET] == target_var) & 
-            (rankings[constants.AM_COL_LINEAR] == True)].loc[lambda filtered: filtered[constants.AM_COL_RANK_MAPE] == filtered[constants.AM_COL_RANK_MAPE].min()][constants.AM_COL_ESTIMATOR].values[0]
+            (rankings[constants.AM_COL_TARGET] == target_var) &
+            (rankings[constants.AM_COL_LINEAR] == True)].loc[
+            lambda filtered: filtered[constants.AM_COL_RANK_MAPE] == filtered[constants.AM_COL_RANK_MAPE].min()][
+            constants.AM_COL_ESTIMATOR].values[0]
         logger.info((f"Best linear estimator for target variable {target_var}" 
                      f" is {best_linear_estimator_for_target_var}"))
         
         best_nonlinear_estimator_for_target_var = rankings[
-            (rankings[constants.AM_COL_TARGET] == target_var) & 
-            (rankings[constants.AM_COL_LINEAR] == False)].loc[lambda filtered: filtered[constants.AM_COL_RANK_MAPE] == filtered[constants.AM_COL_RANK_MAPE].min()][constants.AM_COL_ESTIMATOR].values[0]
+            (rankings[constants.AM_COL_TARGET] == target_var) &
+            (rankings[constants.AM_COL_LINEAR] == False)].loc[
+            lambda filtered: filtered[constants.AM_COL_RANK_MAPE] == filtered[constants.AM_COL_RANK_MAPE].min()][
+            constants.AM_COL_ESTIMATOR].values[0]
         logger.info((f"Best non-linear estimator for target variable {target_var}" 
                      f" is {best_nonlinear_estimator_for_target_var}"))
 
@@ -1004,7 +1008,7 @@ def auto_build_models(raw_data: pd.DataFrame, config: EstimatorsConfig,
         low_threshold=low_threshold,
         high_threshold=high_threshold)
 
-    rankings_df = _rank_estimators(summary_stats=stats_df, 
+    rankings_df = _rank_estimators(summary_stats=stats_df,
                                    output_path=output_path,
                                    output_file=constants.AM_RANKINGS_FILE)
 

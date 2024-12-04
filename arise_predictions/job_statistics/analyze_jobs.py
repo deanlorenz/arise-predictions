@@ -7,7 +7,7 @@ from matplotlib import pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 import numpy as np
 
-from utils import constants, utils
+from arise_predictions.utils import constants, utils
 
 logger = logging.getLogger(__name__)
 
@@ -17,7 +17,7 @@ numeric and diagramatic form.
 """
 
 
-def _init_args(job_id_column=None, custom_job_name=None, 
+def _init_args(job_id_column=None, custom_job_name=None,
                output_path=None) -> tuple[str, str]:
     """
     :param job_id_column: Name of the column containing the job name.

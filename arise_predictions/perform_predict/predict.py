@@ -13,7 +13,7 @@ import pandas as pd
 
 from sklearn.metrics import mean_absolute_percentage_error
 
-from utils import utils, constants
+from arise_predictions.utils import utils, constants
 
 logger = logging.getLogger(__name__)
 

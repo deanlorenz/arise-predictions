@@ -1,21 +1,20 @@
 import unittest
 import logging
 import sys
-import shutil
 import os
 import joblib
 
 import pandas as pd
 
-from utils import constants, utils
+from arise_predictions.utils import utils, constants
 from tests.utils.logger_redirector import LoggerRedirector
-from auto_model.build_models import (get_estimators_config,
-                                     _init_estimators,
-                                     _search_models,
-                                     _rank_estimators,
-                                     _select_best_estimators)
+from arise_predictions.auto_model.build_models import (get_estimators_config,
+                                           _init_estimators,
+                                           _search_models,
+                                           _rank_estimators,
+                                           _select_best_estimators)
 
-from cmd.cmd import parse_args
+from arise_predictions.cmd.cmd import parse_args
 
 """
 Tests for auto model building functionality.
