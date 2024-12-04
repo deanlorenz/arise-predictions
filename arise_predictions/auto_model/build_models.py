@@ -329,7 +329,7 @@ def _search_models(data: pd.DataFrame, estimators: list[tuple[str, Any]],
                                 sparse_output=False,
                                 feature_name_combiner="concat"),
                                 [] if estimator_class.__class__.__name__ in
-                                      constants.AM_ESTIMATORS_CATBOOST else categorical_variables)
+                                constants.AM_ESTIMATORS_CATBOOST else categorical_variables)
                         ],
                         remainder="passthrough")
 
@@ -502,15 +502,17 @@ def _select_best_estimators(
         best_estimators = []
         best_linear_estimator_for_target_var = rankings[
             (rankings[constants.AM_COL_TARGET] == target_var) &
-            (rankings[constants.AM_COL_LINEAR] == True)].loc[lambda filtered: filtered[constants.AM_COL_RANK_MAPE] == filtered[
-            constants.AM_COL_RANK_MAPE].min()][constants.AM_COL_ESTIMATOR].values[0]
+            (rankings[constants.AM_COL_LINEAR] == True)].loc[
+            lambda filtered: filtered[constants.AM_COL_RANK_MAPE] == filtered[constants.AM_COL_RANK_MAPE].min()][
+            constants.AM_COL_ESTIMATOR].values[0]
         logger.info((f"Best linear estimator for target variable {target_var}" 
                      f" is {best_linear_estimator_for_target_var}"))
         
         best_nonlinear_estimator_for_target_var = rankings[
             (rankings[constants.AM_COL_TARGET] == target_var) &
-            (rankings[constants.AM_COL_LINEAR] == False)].loc[lambda filtered: filtered[constants.AM_COL_RANK_MAPE] == filtered[
-            constants.AM_COL_RANK_MAPE].min()][constants.AM_COL_ESTIMATOR].values[0]
+            (rankings[constants.AM_COL_LINEAR] == False)].loc[
+            lambda filtered: filtered[constants.AM_COL_RANK_MAPE] == filtered[constants.AM_COL_RANK_MAPE].min()][
+            constants.AM_COL_ESTIMATOR].values[0]
         logger.info((f"Best non-linear estimator for target variable {target_var}" 
                      f" is {best_nonlinear_estimator_for_target_var}"))
 
