@@ -24,5 +24,5 @@ setup(
         'xgboost==2.1.1',
         'catboost',
     ],
-    data_files=[('tests', glob('tests/**/*.py', recursive=True))],
+    data_files=[('tests', glob('tests/**/*.*', recursive=True))],
 )
