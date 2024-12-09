@@ -8,6 +8,7 @@ setup(
     packages=find_packages(),
     license='Apache License 2.0',
     description='ML-based performance prediction for AI workloads configuration management',
+    long_description='ML-based performance prediction for AI workloads configuration management',
     python_requires='>=3.9',
     install_requires=[
         'pandas~=2.1.3',
@@ -24,5 +25,5 @@ setup(
         'xgboost==2.1.1',
         'catboost',
     ],
-    data_files=[('tests', glob('tests/**/*', recursive=True))],
+    data_files=[('tests', glob('tests/**/*.*', recursive=True))],
 )
