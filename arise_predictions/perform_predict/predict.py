@@ -124,7 +124,7 @@ def _get_highest_ranked_estimator(estimator_path: str, target_variable: str) -> 
     ranking_df_var = ranking_df.loc[ranking_df[constants.AM_COL_TARGET] == target_variable]
     ranking_df_var['combined_rank'] = ranking_df_var[constants.AM_COL_RANK_MAPE] + \
                                       ranking_df_var[constants.AM_COL_RANK_NRMSE_MAXMIN]
-    best_row = ranking_df_var[ranking_df_var['combined_rank'].idxmin():]
+    best_row = ranking_df_var.loc[[ranking_df_var['combined_rank'].idxmin()]]
     estimator_type = "linear" if best_row[constants.AM_COL_LINEAR].values[0] else "nonlinear"
     return utils.get_estimator_file_name(estimator_type, best_row[constants.AM_COL_ESTIMATOR].values[0],
                                          target_variable)
