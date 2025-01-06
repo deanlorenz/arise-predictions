@@ -60,7 +60,12 @@ def parse_args(argv: Sequence[str] = None):
         '--input-file', help='input data file name, in case only one of the files in input path should be used',
         nargs='?', type=str)
     parser_analyze_jobs.add_argument(
-        '--custom-job-name', help='job name be used in job id column in case none is specified in data and job spec',
+        '--job-id-column', help='column name representing job id column. If not given, custom job name will be used '
+                                'instead.',
+        required=False, type=str)
+    parser_analyze_jobs.add_argument(
+        '--custom-job-name', help='job name to be used in job id column in case none is specified in job id column. '
+                                  'If not given, default job name will be used.',
         required=False, type=str)
     parser_analyze_jobs.add_argument(
         '--ignore-metadata', help='ignore metadata if exists', action='store_true')

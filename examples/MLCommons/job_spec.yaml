@@ -1,11 +1,11 @@
 job-metadata-inputs:
-  "# of Nodes": 0
-  Processor: 0
-  Accelerator: 0
-  "# of Accelerators": 0
-  "Model MLC": 0
-  Scenario: 0
-  "Host Processor Core Count": 0
+  - "# of Nodes"
+  - Processor
+  - Accelerator
+  - "# of Accelerators"
+  - "Model MLC"
+  - Scenario
+  - "Host Processor Core Count"
 
 job-metadata-outputs:
   - tokens_per_second

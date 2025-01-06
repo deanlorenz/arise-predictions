@@ -29,23 +29,9 @@ def parse_job_spec(job_spec_file):
 
     # Making sure that all required fields are available in the spec
     for field in [constants.JOB_INPUTS_FIELD_NAME, constants.JOB_OUTPUTS_FIELD_NAME]:
-        if not field in loaded_spec:
+        if field not in loaded_spec:
             logger.error("Missing key: {}".format(field))
             return None
-
-    job_inputs = set()
-    job_identifiers = set()
-
-    for key, value in dict(loaded_spec[constants.JOB_INPUTS_FIELD_NAME]).items():
-
-        if value == 1:
-            job_identifiers.add(key)
-        else:
-            job_inputs.add(key)
-
-    if not len(job_identifiers):
-        logger.warning(
-            "No job identifier provided, using entire history for each job")
 
     # Reading start and end time field names, using defaults if not provided
     if constants.JOB_START_TIME_FIELD_NAME in loaded_spec:
@@ -78,9 +64,9 @@ def parse_job_spec(job_spec_file):
     else:
         metadata_parser_class_name = None
 
-    return (job_inputs, set(loaded_spec[constants.JOB_OUTPUTS_FIELD_NAME]), job_identifiers, start_time_field_name,
-            end_time_field_name, job_parser_class_name, job_entry_filter, job_input_feature_engineering,
-            metadata_parser_class_name)
+    return (set(loaded_spec[constants.JOB_INPUTS_FIELD_NAME]), set(loaded_spec[constants.JOB_OUTPUTS_FIELD_NAME]),
+            start_time_field_name, end_time_field_name, job_parser_class_name, job_entry_filter,
+            job_input_feature_engineering, metadata_parser_class_name)
 
 # This function computes duration fo the job based on start and end time
 # It needs to work on each job row separately, because unfortunately different rows report time in different formats

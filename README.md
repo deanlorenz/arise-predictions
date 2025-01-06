@@ -88,9 +88,9 @@ python -m arise_predictions.main.py analyze-jobs --input-path examples/MLCommons
 ```
 
 In the above example, we also specify a custom job name. In this example data
-set there is no job id column. With `--custom-job-name, we instruct the code to
-insert such a column with the given job name as values.  This tends to improve
-the output of the descriptive job analysis  (e.g., labels in plots).
+set there is no column capturing the job id. If there were, we could provide it in the `--job-id-column` argument. With 
+`--custom-job-name`, we instruct the code to insert such a column with the given job name as values.  
+This tends to improve the output of the descriptive job analysis  (e.g., labels in plots).
 
 2. `auto-build-models` performs a hyperparameter search over the models and
    parameter space specified in a configuration file (cf.,
