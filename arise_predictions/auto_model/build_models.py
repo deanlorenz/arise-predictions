@@ -11,10 +11,13 @@ from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.pipeline import Pipeline
 from sklearn.ensemble import StackingRegressor
+from sklearn.inspection import permutation_importance
 
 from arise_predictions.utils import constants, utils
 from arise_predictions.metrics import metrics
 import shutil
+
+from matplotlib import pyplot as plt
 
 logger = logging.getLogger(__name__)
 
@@ -687,12 +690,22 @@ def _predict_on_test(estimator_name: str, estimator_class: Any,
     # compute performance metrics
     mape_mean_test, mape_std_test, nrmse_mean_test, r2_mean_test = metrics.compute_test_metrics(y_true=y_test, y_pred=y_pred)
 
-    logger.info((f"Perfomance of estimator: {estimator_name}"
+    logger.info((f"Performance of estimator: {estimator_name}"
                  f" for target variable: {target_variable}"
                  f" on test data: {input_file}:"))
     logger.info(f"MAPE mean (extrapolation test): {mape_mean_test:.3f}")
     logger.info(f"NRMSE (minmax) mean (extrapolation test): {nrmse_mean_test:.3f}")
     logger.info(f"R2 mean (extrapolation test): {r2_mean_test:.3f}")
+
+    # compute feature importance
+    current_backend = plt.get_backend()
+    plt.switch_backend('Agg') # to avoid showing the bar chart
+    perm_importance = permutation_importance(estimator_class, X_test, y_test, n_repeats=10, random_state=0)
+    sorted_idx = perm_importance.importances_mean.argsort()
+    plt.barh(X_test.columns[sorted_idx], perm_importance.importances_mean[sorted_idx])
+    plt.xlabel("Permutation Importance")
+    plt.savefig(os.path.join(output_path, f"perm-importance-{estimator_name}-{target_variable}.png"))
+    plt.switch_backend(current_backend)
 
     # persist predictions
     df_X_test = pd.DataFrame(data=X_test)
