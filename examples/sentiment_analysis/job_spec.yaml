@@ -1,6 +1,6 @@
 job-metadata-inputs:
-  task_name: 0
-  input_size_bytes.max: 0
+  - task_name
+  - input_size_bytes.max
  
 job-metadata-outputs:
   - duration

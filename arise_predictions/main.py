@@ -26,25 +26,23 @@ def execute_preprocess(job_spec):
 
     inputs = sorted(list(job_spec[0]))
     outputs = sorted(list(job_spec[1]))
-    identifiers = sorted(list(job_spec[2]))
-    start_time_field_name = job_spec[3]
-    end_time_field_name = job_spec[4]
-    job_parser_class_name = job_spec[5]
-    job_entry_filter = job_spec[6]
-    feature_engineering = job_spec[7] if len(job_spec) > 7 else None
-    metadata_parser_class_name = job_spec[8] if len(job_spec) > 8 else None
+    start_time_field_name = job_spec[2]
+    end_time_field_name = job_spec[3]
+    job_parser_class_name = job_spec[4]
+    job_entry_filter = job_spec[5]
+    feature_engineering = job_spec[6] if len(job_spec) > 6 else None
+    metadata_parser_class_name = job_spec[7] if len(job_spec) > 7 else None
 
     # processing history ( if not done in the past )
     analyzed_history_file = os.path.join(
         get_args().input_path, constants.JOB_HISTORY_FILE_NAME + ".csv")
-    return get_history(analyzed_history_file, identifiers+inputs, outputs, start_time_field_name, end_time_field_name,
+    return get_history(analyzed_history_file, inputs, outputs, start_time_field_name, end_time_field_name,
                        job_parser_class_name, job_entry_filter, feature_engineering, metadata_parser_class_name)
 
 
 def execute_analyze_jobs():
     loaded_job_spec = load_spec(get_args().job_spec_file_name)
-    outputs = sorted(list(loaded_job_spec[1])) 
-    identifiers = sorted(list(loaded_job_spec[2]))
+    outputs = sorted(list(loaded_job_spec[1]))
 
     # processing history ( if not done in the past )
     history_data, history_file = execute_preprocess(loaded_job_spec)
@@ -54,12 +52,7 @@ def execute_analyze_jobs():
                        " location {}").format(get_args().input_path))
     else:
         logging.info("Invoking job analysis")
-        # Note that this assumes a single job id column is specified
-        # (identifiers[0])
-        job_id_column = None
-        if identifiers:
-            job_id_column = identifiers[0]
-        analyze_job_data(raw_data=history_data, job_id_column=job_id_column,
+        analyze_job_data(raw_data=history_data, job_id_column=get_args().job_id_column,
                          custom_job_name=get_args().custom_job_name,
                          output_path=os.path.join(get_args().input_path,
                                                   constants.JOB_ANALYSIS_PATH),
@@ -107,8 +100,8 @@ def execute_demo_predict():
             original_data=history_data,
             config=get_predict_config(get_args().config_file),
             estimator_path=get_args().model_path,
-            feature_engineering=None if get_args().ignore_metadata else loaded_job_spec[7],
-            metadata_parser_class_name=loaded_job_spec[8],
+            feature_engineering=None if get_args().ignore_metadata else loaded_job_spec[6],
+            metadata_parser_class_name=loaded_job_spec[7],
             metadata_path=get_args().input_path,
             output_path=os.path.join(get_args().input_path, constants.PRED_OUTPUT_PATH_SUFFIX))
 
@@ -121,8 +114,8 @@ def execute_predict():
         original_data=None,
         config=get_predict_config(get_args().config_file),
         estimator_path=get_args().model_path,
-        feature_engineering=None if get_args().ignore_metadata else loaded_job_spec[7],
-        metadata_parser_class_name=loaded_job_spec[8],
+        feature_engineering=None if get_args().ignore_metadata else loaded_job_spec[6],
+        metadata_parser_class_name=loaded_job_spec[7],
         metadata_path=get_args().input_path,
         output_path=os.path.join(get_args().input_path, constants.PRED_OUTPUT_PATH_SUFFIX))
 
