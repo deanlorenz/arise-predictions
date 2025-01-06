@@ -703,7 +703,7 @@ def _predict_on_test(estimator_name: str, estimator_class: Any,
     perm_importance = permutation_importance(estimator_class, X_test, y_test, n_repeats=10, random_state=0)
     sorted_idx = perm_importance.importances_mean.argsort()
     plt.barh(X_test.columns[sorted_idx], perm_importance.importances_mean[sorted_idx])
-    plt.xlabel("Permutation Importance")
+    plt.xlabel(f"Permutation Importance for {target_variable}")
     plt.savefig(os.path.join(output_path, f"perm-importance-{estimator_name}-{target_variable}.png"))
     plt.switch_backend(current_backend)
 
