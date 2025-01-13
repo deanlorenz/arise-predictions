@@ -127,7 +127,7 @@ def _get_data_range_missing_values(original_data: pd.DataFrame, var_name: str) -
 
 
 def _get_data_range_values(original_data: pd.DataFrame, var_name: str, var_info: Dict[Any, Any]) -> list[str]:
-    values = original_data[var_name].unique().tolist() if \
+    values = original_data[var_name].dropna().unique().tolist() if \
         var_info[constants.PRED_CONFIG_DATA_VALUES] == constants.PRED_CONFIG_DATA_ALL else \
         list(range(original_data[var_name].min(), original_data[var_name].max()+1))
     return values if constants.PRED_CONFIG_DATA_EXCLUDE not in var_info.keys() else \

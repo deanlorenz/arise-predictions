@@ -200,9 +200,9 @@ Note that [a different configuration file](config/example-demo-mlcommons-demo-pr
 `demo-predict` than the one used for `predict`. It includes a `from_data_values` list. Rather than explicitly listing
 the values to be predicted as in the `predict` configuration file, the values for `Accelerator` are instructed to be 
 taken from the data, the values for `# of Accelerators` are instructed to spread from the minimal to maximal value 
-appearing in the data (this is of course possible for numeric inputs only), and the cases of `Accelerator = N/A`,  
-`# of Accelerators = 0` are excluded from the prediction space. If the same input appears also in the variable values 
-list, e.g., for `# of Accelerators`, the values explicitly specified are added to the values derived from the data.
+appearing in the data (this is of course possible for numeric inputs only), and the case `# of Accelerators = 0` is 
+excluded from the prediction space. If the same input appears also in the `variable_values` list, as in the case of 
+`# of Accelerators`, the values explicitly specified (`9` in our example) are added to the values derived from the data.
 
 To use all the above commands, you need to provide in your input path a `job_spec.yaml` file indicating the 
 metadata inputs and outputs of your data. See [this example](examples/MLCommons/job_spec.yaml) of a job

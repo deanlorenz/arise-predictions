@@ -21,7 +21,6 @@ fixed_values:
 from_data_values:
   - input_variable: "Accelerator"
     values: "all"
-    exclude: ["N/A"]
   - input_variable: "# of Accelerators"
     values: "min_max"
     exclude: [0]
