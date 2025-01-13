@@ -29,6 +29,7 @@ demo purposes.
 class PredictionInputSpace:
 
     fixed_values: list[Dict[str, Any]]
+    data_values: list[Dict[Any, Any]]
     variable_values: list[Dict[str, Any]]
     interpolation_values: list[str]
     estimators: list[Dict[str, Any]]
@@ -44,6 +45,7 @@ def get_predict_config(config_file: str) -> PredictionInputSpace:
     except yaml.YAMLError as e:
         raise ValueError(f"Error parsing configuration file: {e}")
     return PredictionInputSpace(config_dict[constants.PRED_CONFIG_FIXED],
+                                config_dict[constants.PRED_CONFIG_DATA],
                                 config_dict[constants.PRED_CONFIG_VARIABLE],
                                 config_dict.get(constants.PRED_CONFIG_INTERPOLATION, []),
                                 config_dict[constants.PRED_CONFIG_ESTIMATORS])
@@ -75,16 +77,25 @@ def _create_input_space(input_config: PredictionInputSpace,
     """
     logger.info(f"Creating input feature space")
     fixed_values = {k: v for d in input_config.fixed_values for k, v in d.items()}
+    data_values = {k[constants.PRED_CONFIG_DATA_INPUT]: _get_data_range_values(original_data, k[constants.PRED_CONFIG_DATA_INPUT], k)
+                   for k in input_config.data_values} if original_data is not None and not original_data.empty else {}
     variable_values = {k: v for d in input_config.variable_values for k, v in d.items()}
     interpolation_values = {k: _get_data_range_missing_values(original_data, k) for k in
                             input_config.interpolation_values} if original_data is not None and not \
-                                                                  original_data.empty else {}
+        original_data.empty else {}
+
+    if variable_values.keys() & fixed_values.keys():
+        logger.error("Cannot specify same variable name as variable values and fixed value")
+        raise Exception
 
     if variable_values.keys() & interpolation_values.keys():
         logger.error("Cannot specify same variable name as variable values and interpolation values")
         raise Exception
 
-    variable_dict = variable_values | interpolation_values
+    non_fixed_values = dict(data_values)
+    for k, v in variable_values.items():
+        non_fixed_values[k] = non_fixed_values[k] + v if k in data_values.keys() else v
+    variable_dict = non_fixed_values | interpolation_values
 
     # create Cartesian product of variable values (much nicer than nested loops)
     combinations = list(product(*(variable_dict.values())))
@@ -113,6 +124,14 @@ def _create_input_space(input_config: PredictionInputSpace,
 def _get_data_range_missing_values(original_data: pd.DataFrame, var_name: str) -> list[str]:
     values = range(original_data[var_name].min() + 1, original_data[var_name].max())
     return [val for val in values if val not in original_data[var_name].tolist()]
+
+
+def _get_data_range_values(original_data: pd.DataFrame, var_name: str, var_info: Dict[Any, Any]) -> list[str]:
+    values = original_data[var_name].unique().tolist() if \
+        var_info[constants.PRED_CONFIG_DATA_VALUES] == constants.PRED_CONFIG_DATA_ALL else \
+        list(range(original_data[var_name].min(), original_data[var_name].max()+1))
+    return values if constants.PRED_CONFIG_DATA_EXCLUDE not in var_info.keys() else \
+        [val for val in values if val not in var_info[constants.PRED_CONFIG_DATA_EXCLUDE]]
 
 
 def _get_highest_ranked_estimator(estimator_path: str, target_variable: str) -> str:
