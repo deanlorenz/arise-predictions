@@ -158,7 +158,7 @@ def main():
 
     # According to the selected command, call the appropriate function
     if get_args().command == 'preprocess':
-        execute_preprocess(load_spec())
+        execute_preprocess(load_spec(get_args().input_path))
     elif get_args().command == 'analyze-jobs':
         execute_analyze_jobs()
     elif get_args().command == 'auto-build-models':
