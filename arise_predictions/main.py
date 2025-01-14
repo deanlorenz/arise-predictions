@@ -63,7 +63,8 @@ def execute_analyze_jobs():
 
 def execute_auto_build_models():
     loaded_job_spec = load_spec(get_args().input_path)
-    outputs = sorted(list(loaded_job_spec[1])) 
+    outputs = sorted(list(loaded_job_spec[1]))
+    feature_engineering = loaded_job_spec[6] if len(loaded_job_spec) > 6 else None
 
     # processing history ( if not done in the past )
     history_data, history_file = execute_preprocess(loaded_job_spec)
@@ -72,11 +73,16 @@ def execute_auto_build_models():
         logging.error(("No historical data could be retrieved from given" 
                        " location {}").format(get_args().input_path))
     else:
-        # First copy job spec file to output path, so it is available later for prediction.
-        # This is done before building the models, because afterwards output folder may be zipped and deleted
+        # First copy job spec file and metadata dir (if exists) to output path,
+        # so they are available later for prediction. This is done before building the models,
+        # because afterwards output folder may be zipped and deleted.
         output_path = os.path.join(get_args().input_path, constants.AM_OUTPUT_PATH_SUFFIX)
         utils.mkdirs(output_path)
         shutil.copy(os.path.join(get_args().input_path, constants.JOB_SPEC_FILE_NAME), output_path)
+        if feature_engineering is not None and not get_args().ignore_metadata:
+            shutil.copytree(os.path.join(get_args().input_path, constants.JOB_METADATA_DIR),
+                            os.path.join(output_path, constants.JOB_METADATA_DIR),
+                            dirs_exist_ok=True)
         logging.info("Invoking auto model search and build")
         auto_build_models(raw_data=history_data,
                           config=get_estimators_config(config_file=get_args().config_file,
@@ -107,7 +113,7 @@ def execute_demo_predict():
             estimator_path=get_args().model_path,
             feature_engineering=None if get_args().ignore_metadata else loaded_job_spec[6],
             metadata_parser_class_name=loaded_job_spec[7],
-            metadata_path=get_args().input_path,
+            metadata_path=get_args().model_path,
             output_path=os.path.join(get_args().input_path, constants.PRED_OUTPUT_PATH_SUFFIX))
 
 
@@ -121,7 +127,7 @@ def execute_predict():
         estimator_path=get_args().model_path,
         feature_engineering=None if get_args().ignore_metadata else loaded_job_spec[6],
         metadata_parser_class_name=loaded_job_spec[7],
-        metadata_path=get_args().input_path,
+        metadata_path=get_args().model_path,
         output_path=os.path.join(get_args().input_path, constants.PRED_OUTPUT_PATH_SUFFIX))
 
 
@@ -136,7 +142,7 @@ def get_history(history_file, inputs, outputs, start_time_field_name, end_time_f
     else:
         logging.info("processing historical jobs")
         history_data, history_file = job_parser.collect_jobs_history(
-            get_args().input_path + "/" + constants.JOB_DATA_DIR, get_args().input_path, inputs, outputs,
+            os.path.join(get_args().input_path, constants.JOB_DATA_DIR), get_args().input_path, inputs, outputs,
             start_time_field_name, end_time_field_name, get_args().input_file, job_parser_class_name, job_entry_filter,
             None if get_args().ignore_metadata else feature_engineering, metadata_parser_class_name,
             get_args().input_path)
