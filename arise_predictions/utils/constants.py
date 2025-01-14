@@ -16,6 +16,7 @@ DUMMY_VARS_PREFIX = 'dummy_input_'
 JOB_INPUTS_FEATURE_ENGINEERING = 'job-metadata-fe'
 JOB_DATA_DIR = "data"
 JOB_METADATA_DIR = "metadata"
+JOB_SPEC_FILE_NAME = "job_spec.yaml"
 
 
 # job data analysis

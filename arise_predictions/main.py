@@ -1,3 +1,5 @@
+import shutil
+
 import pandas as pd
 import os
 from arise_predictions.cmd.cmd import parse_args, get_args
@@ -11,9 +13,9 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def load_spec(spec_file_name):
+def load_spec(spec_path):
     # analyzing job spec file
-    job_spec_file = os.path.join(get_args().input_path, spec_file_name)
+    job_spec_file = os.path.join(spec_path, constants.JOB_SPEC_FILE_NAME)
     logger.info('Analyzing job spec file: %s', job_spec_file)
     loaded_job_spec = job_parser.parse_job_spec(job_spec_file)
     if not loaded_job_spec:
@@ -41,7 +43,7 @@ def execute_preprocess(job_spec):
 
 
 def execute_analyze_jobs():
-    loaded_job_spec = load_spec(get_args().job_spec_file_name)
+    loaded_job_spec = load_spec(get_args().input_path)
     outputs = sorted(list(loaded_job_spec[1]))
 
     # processing history ( if not done in the past )
@@ -60,7 +62,7 @@ def execute_analyze_jobs():
 
 
 def execute_auto_build_models():
-    loaded_job_spec = load_spec(get_args().job_spec_file_name)
+    loaded_job_spec = load_spec(get_args().input_path)
     outputs = sorted(list(loaded_job_spec[1])) 
 
     # processing history ( if not done in the past )
@@ -70,14 +72,17 @@ def execute_auto_build_models():
         logging.error(("No historical data could be retrieved from given" 
                        " location {}").format(get_args().input_path))
     else:
+        # First copy job spec file to output path, so it is available later for prediction.
+        # This is done before building the models, because afterwards output folder may be zipped and deleted
+        output_path = os.path.join(get_args().input_path, constants.AM_OUTPUT_PATH_SUFFIX)
+        utils.mkdirs(output_path)
+        shutil.copy(os.path.join(get_args().input_path, constants.JOB_SPEC_FILE_NAME), output_path)
         logging.info("Invoking auto model search and build")
         auto_build_models(raw_data=history_data,
                           config=get_estimators_config(config_file=get_args().config_file,
                                                        num_jobs=get_args().num_jobs),
                           target_variables=outputs,
-                          output_path=os.path.join(
-                              get_args().input_path, 
-                              constants.AM_OUTPUT_PATH_SUFFIX),
+                          output_path=output_path,
                           leave_one_out_cv=get_args().leave_one_out_cv,
                           feature_col=get_args().feature_column,
                           low_threshold=get_args().low_threshold,
@@ -86,7 +91,7 @@ def execute_auto_build_models():
 
 
 def execute_demo_predict():
-    loaded_job_spec = load_spec(get_args().job_spec_file_name)
+    loaded_job_spec = load_spec(get_args().model_path)
 
     # processing history ( if not done in the past )
     history_data, history_file = execute_preprocess(loaded_job_spec)
@@ -107,7 +112,7 @@ def execute_demo_predict():
 
 
 def execute_predict():
-    loaded_job_spec = load_spec(get_args().job_spec_file_name)
+    loaded_job_spec = load_spec(get_args().model_path)
 
     logging.info("Invoking predict")
     demo_predict(
@@ -153,7 +158,7 @@ def main():
 
     # According to the selected command, call the appropriate function
     if get_args().command == 'preprocess':
-        execute_preprocess(load_spec(get_args().job_spec_file_name))
+        execute_preprocess(load_spec())
     elif get_args().command == 'analyze-jobs':
         execute_analyze_jobs()
     elif get_args().command == 'auto-build-models':
