@@ -18,7 +18,7 @@ fixed_values:
   - Scenario: "Offline"
 
 # variable configuration based on data
-from_data_values:
+data_values:
   - input_variable: "Accelerator"
     values: "all"
   - input_variable: "# of Accelerators"

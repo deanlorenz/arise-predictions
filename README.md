@@ -197,7 +197,7 @@ In addition to the outputs described for the `predict` command, `demo-predict` w
 for any input combination in the defined input space that appears also in the given ground truth data. 
 
 Note that [a different configuration file](config/example-demo-mlcommons-demo-predict-config.yaml) was used for 
-`demo-predict` than the one used for `predict`. It includes a `from_data_values` list. Rather than explicitly listing
+`demo-predict` than the one used for `predict`. It includes a `data_values` list. Rather than explicitly listing
 the values to be predicted as in the `predict` configuration file, the values for `Accelerator` are instructed to be 
 taken from the data, the values for `# of Accelerators` are instructed to spread from the minimal to maximal value 
 appearing in the data (this is of course possible for numeric inputs only), and the case `# of Accelerators = 0` is 
