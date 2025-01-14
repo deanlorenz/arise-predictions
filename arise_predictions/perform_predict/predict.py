@@ -44,9 +44,9 @@ def get_predict_config(config_file: str) -> PredictionInputSpace:
         raise ValueError(f"Configuration file not found: {config_file}")
     except yaml.YAMLError as e:
         raise ValueError(f"Error parsing configuration file: {e}")
-    return PredictionInputSpace(config_dict.get([constants.PRED_CONFIG_FIXED], []),
-                                config_dict.get([constants.PRED_CONFIG_DATA], []),
-                                config_dict.get([constants.PRED_CONFIG_VARIABLE], []),
+    return PredictionInputSpace(config_dict.get(constants.PRED_CONFIG_FIXED, []),
+                                config_dict.get(constants.PRED_CONFIG_DATA, []),
+                                config_dict.get(constants.PRED_CONFIG_VARIABLE, []),
                                 config_dict.get(constants.PRED_CONFIG_INTERPOLATION, []),
                                 config_dict[constants.PRED_CONFIG_ESTIMATORS])
 
