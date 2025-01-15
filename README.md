@@ -202,7 +202,10 @@ for any input combination in the defined input space that appears also in the gi
 
 Note that [a different configuration file](config/example-demo-mlcommons-demo-predict-config.yaml) was used for 
 `demo-predict` than the one used for `predict`. It includes a `data_values` list. Rather than explicitly listing
-the values to be predicted as in the `predict` configuration file, the values for `Accelerator` are instructed to be 
+the values to be predicted as in the `predict` configuration file, the values are taken from the given data. 
+The `values` key can be either `all` for taking all values from the data, or `min_max` for taking the entire range 
+from minimal to maximal value appearing in the data (the latter is applicable to numeric inputs only). You can also 
+specify a list of values to exclude from prediction. In our example, the values for `Accelerator` are instructed to be 
 taken from the data, the values for `# of Accelerators` are instructed to spread from the minimal to maximal value 
 appearing in the data (this is of course possible for numeric inputs only), and the case `# of Accelerators = 0` is 
 excluded from the prediction space. If the same input appears also in the `variable_values` list, as in the case of 

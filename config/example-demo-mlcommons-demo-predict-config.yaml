@@ -1,9 +1,6 @@
-                     # Demo 2 Scenario 1 on Inference Latency Data
-# Given a fixed configuration and variable configuration, predict throughput and
-# latency for each combination. Use this to find optimal trade-offs.
-
-# Assisted by WCA@IBM
-# Latest GenAI contribution: ibm/granite-20b-code-instruct-v2
+                     # Demo Scenario 2 on Inference Throughput Data
+# Given a fixed configuration, data configuration and a variable configuration, predict throughput
+# for each combination. Use this to find optimal trade-offs.
 
 estimators:
   - target_variable: "tokens_per_second"
@@ -18,6 +15,10 @@ fixed_values:
   - Scenario: "Offline"
 
 # variable configuration based on data
+# `values` key can be either "all" for taking all values from the data,
+# or "min_max" for taking the entire range from minimal to maximal value
+# appearing in the data (the latter is applicable to numeric inputs only).
+# You can also specify a list of values to exclude from prediction.
 data_values:
   - input_variable: "Accelerator"
     values: "all"
@@ -26,6 +27,8 @@ data_values:
     exclude: [0]
 
 # variable configuration
+# If an input appears both here and in data values, the values specified here are
+# added to the values taken from the data.
 variable_values:
   - "Host Processor Core Count":
     - 32
