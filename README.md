@@ -179,6 +179,8 @@ stored in a folder named `ARISE-predictions` which is created in the given input
 
 4. `demo-predict` is a version of predict that facilitates demos by ranking
     predictions and comparing predictions with ground truth where available. 
+    It also enables obtaining prediction values from the given data instead of specifying them explicitly.
+
 
     The `--input-path` should point historic or benchmark input data so `demo-predict` could compare predictions with available
     ground truth (as far as is possible). The script needs to have the path to
@@ -187,12 +189,23 @@ stored in a folder named `ARISE-predictions` which is created in the given input
 
 ```bash
 python -m arise_predictions.main demo-predict --input-path examples/MLCommons --config-file
-config/example-demo-mlcommons-config.yaml --model-path examples/MLCommons/ARISE-auto-models
+config/example-demo-mlcommons-demo-predict-config.yaml --model-path examples/MLCommons/ARISE-auto-models
 ```
 
 In addition to the outputs described for the `predict` command, `demo-predict` will also create a file named 
 `predictions-with-ground-truth.csv`, containing the predicted versus ground truth values and the resulting MAPE error, 
 for any input combination in the defined input space that appears also in the given ground truth data. 
+
+Note that [a different configuration file](config/example-demo-mlcommons-demo-predict-config.yaml) was used for 
+`demo-predict` than the one used for `predict`. It includes a `data_values` list. Rather than explicitly listing
+the values to be predicted as in the `predict` configuration file, the values are taken from the given data. 
+The `values` key can be either `all` for taking all values from the data, or `min_max` for taking the entire range 
+from minimal to maximal value appearing in the data (the latter is applicable to numeric inputs only). You can also 
+specify a list of values to exclude from prediction. In our example, the values for `Accelerator` are instructed to be 
+taken from the data, the values for `# of Accelerators` are instructed to spread from the minimal to maximal value 
+appearing in the data (this is of course possible for numeric inputs only), and the case `# of Accelerators = 0` is 
+excluded from the prediction space. If the same input appears also in the `variable_values` list, as in the case of 
+`# of Accelerators`, the values explicitly specified (`9` in our example) are added to the values derived from the data.
 
 To use all the above commands, you need to provide in your input path a `job_spec.yaml` file indicating the 
 metadata inputs and outputs of your data. See [this example](examples/MLCommons/job_spec.yaml) of a job

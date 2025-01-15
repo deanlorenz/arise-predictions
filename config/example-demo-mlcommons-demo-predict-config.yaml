@@ -1,0 +1,40 @@
+                     # Demo Scenario 2 on Inference Throughput Data
+# Given a fixed configuration, data configuration and a variable configuration, predict throughput
+# for each combination. Use this to find optimal trade-offs.
+
+estimators:
+  - target_variable: "tokens_per_second"
+    estimator_file: estimator-nonlinear-XGBoost-Regressor-tokens_per_second.pkl
+    greater_is_better: True
+
+# fixed configuration
+fixed_values:
+  - "Model MLC": "gptj-99"
+  - "# of Nodes": 1
+  - Processor: "AMD EPYC 9654"
+  - Scenario: "Offline"
+
+# variable configuration based on data
+# `values` key can be either "all" for taking all values from the data,
+# or "min_max" for taking the entire range from minimal to maximal value
+# appearing in the data (the latter is applicable to numeric inputs only).
+# You can also specify a list of values to exclude from prediction.
+data_values:
+  - input_variable: "Accelerator"
+    values: "all"
+  - input_variable: "# of Accelerators"
+    values: "min_max"
+    exclude: [0]
+
+# variable configuration
+# If an input appears both here and in data values, the values specified here are
+# added to the values taken from the data.
+variable_values:
+  - "Host Processor Core Count":
+    - 32
+    - 48
+    - 64
+    - 96
+    - 120
+  - "# of Accelerators":
+    - 9
