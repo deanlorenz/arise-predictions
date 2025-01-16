@@ -155,7 +155,7 @@ def add_feature_engineering(metadata_path: str, raw_data: pd.DataFrame, feature_
         if fe_name not in raw_data:
             logger.warning(f'Could not engineer feature {fe_name}. Not such feature.')
             continue
-        fe_path = metadata_path + "/" + constants.JOB_METADATA_DIR + "/" + fe_file
+        fe_path = os.path.join(metadata_path, constants.JOB_METADATA_DIR, fe_file)
         if class_inst:
             fe_data = getattr(class_inst, "get_metadata_df")(fe_path)
         else:

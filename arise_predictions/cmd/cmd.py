@@ -38,8 +38,6 @@ def parse_args(argv: Sequence[str] = None):
     parser_preprocess.add_argument(
         '--job-file', help='new job file full path for relevant history', nargs='?', type=str)
     parser_preprocess.add_argument(
-        '--job-spec-file-name', default='job_spec.yaml', help='job spec file name', nargs='?', type=str)
-    parser_preprocess.add_argument(
         '--input-file', help='input data file name, in case only one of the files in input path should be used',
         nargs='?', type=str)
     parser_preprocess.add_argument(
@@ -54,8 +52,6 @@ def parse_args(argv: Sequence[str] = None):
         '--reread-history', help='reread history', action='store_true')
     parser_analyze_jobs.add_argument(
         '--job-file', help='new job file full path for relevant history', nargs='?', type=str)
-    parser_analyze_jobs.add_argument(
-        '--job-spec-file-name', default='job_spec.yaml', help='job spec file name', nargs='?', type=str)
     parser_analyze_jobs.add_argument(
         '--input-file', help='input data file name, in case only one of the files in input path should be used',
         nargs='?', type=str)
@@ -79,8 +75,6 @@ def parse_args(argv: Sequence[str] = None):
         '--reread-history', help='reread history', action='store_true')
     parser_auto_build_models.add_argument(
         '--job-file', help='new job file full path for relevant history', nargs='?', type=str)
-    parser_auto_build_models.add_argument(
-        '--job-spec-file-name', default='job_spec.yaml', help='job spec file name', nargs='?', type=str)
     parser_auto_build_models.add_argument(
         '--input-file', help='input data file name, in case only one of the files in input path should be used',
         nargs='?', type=str)
@@ -113,8 +107,6 @@ def parse_args(argv: Sequence[str] = None):
     parser_demo_predict.add_argument(
         '--reread-history', help='reread history', action='store_true')
     parser_demo_predict.add_argument(
-        '--job-spec-file-name', default='job_spec.yaml', help='job spec file name', nargs='?', type=str)
-    parser_demo_predict.add_argument(
         '--input-file', help='input data file name, in case only one of the files in input path should be used',
         nargs='?', type=str)
     parser_demo_predict.add_argument(
@@ -131,8 +123,6 @@ def parse_args(argv: Sequence[str] = None):
     parser_predict = subparsers.add_parser('predict', help='predict help')
     parser_predict.add_argument(
         '--input-path', default='', help='input path', nargs='?', type=str)
-    parser_predict.add_argument(
-        '--job-spec-file-name', default='job_spec.yaml', help='job spec file name', nargs='?', type=str)
     parser_predict.add_argument(
         '--config-file', default='config/example-demo-mlcommons-config.yaml',
         help="path to config file defining estimators, target variables, and input search space",

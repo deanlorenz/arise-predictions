@@ -75,16 +75,17 @@ There are four supported commands:
 1. `analyze-jobs` provides descriptive statistics on the metadata inputs (workload
 measurements) and generates a number of spreadsheets and plots in a
 subdirectory called `job-analysis`. The data should be provided in a folder
-called `data` in the given `input-path`.
+called `data` in the given `input-path`. To use this command, you need to provide in your input path 
+a `job_spec.yaml` file indicating the metadata inputs and outputs of your data. See [this example](examples/MLCommons/job_spec.yaml) of a job spec.
 
 ```bash
 python -m arise_predictions.main analyze-jobs --input-path examples/MLCommons
 ```
 
-It is also possible to specify the job spec file and metadata input explicitly:
+It is also possible to specify the metadata input explicitly:
 
 ```bash
-python -m arise_predictions.main.py analyze-jobs --input-path examples/MLCommons --reread-history --job-spec-file-name job_spec.yaml --input-file inference_data_tokens.csv --custom-job-name inference-thpt
+python -m arise_predictions.main.py analyze-jobs --input-path examples/MLCommons --reread-history --input-file inference_data_tokens.csv --custom-job-name inference-thpt
 ```
 
 In the above example, we also specify a custom job name. In this example data
@@ -97,7 +98,9 @@ This tends to improve the output of the descriptive job analysis  (e.g., labels 
    `config/default-auto-model-search-config.yaml`) and finds the best model and
    its hyperparameter settings for each target variable in the data. It attempts
    to build one best model per target variable in the metadata outputs based on
-   the metadata inputs. 
+   the metadata inputs. To use this command, you need to provide in your input path 
+   a `job_spec.yaml` file indicating the metadata inputs and outputs of your data. 
+   See [this example](examples/MLCommons/job_spec.yaml) of a job spec.
 
 Example:
 
@@ -130,7 +133,7 @@ cross validation, add the cflag `--leave-one-out-cv`, which takes as an argument
 group py, separated by commas.
 
 For example, the following command will build models using logo cross validation on values of LLM name.
-That is, in each iteration it will use a specific LLM as the test set, and all other data as the training set. 
+That is, in each iteration it will use a specific LLM as the test set, and all other data as the training set.
 
 ```bash
 python -m arise_predictions.main auto-build-models --input-path examples/MLCommons --leave-one-out-cv "Model MLC"
@@ -157,7 +160,7 @@ python -m arise_predictions.main auto-build-models --input-path examples/MLCommo
 
 3. `predict` generates estimated values for metadata outputs given metadata input values. It should 
 be run after `auto-build-models` command and uses its output. The `--model-path` flag is where the models created by `auto-build-models` are located.
-The `job_spec.yaml` file should be under the `--input-path`. Predict requires to specify a model name and input space configuration.
+Predict requires to specify a model name and input space configuration.
 It generates the space of input features according to the configuration and uses models previously built with `auto-build-models` to run predictions on this
 input space for the target variables indicated in the same configuration file.
 
@@ -179,11 +182,12 @@ stored in a folder named `ARISE-predictions` which is created in the given input
 
 4. `demo-predict` is a version of predict that facilitates demos by ranking
     predictions and comparing predictions with ground truth where available. 
-    It also enables obtaining prediction values from the given data instead of specifying them explicitly.
+    It also enables obtaining prediction values from the given data instead 
+    of specifying them explicitly.
 
 
-    The `--input-path` should point historic or benchmark input data so `demo-predict` could compare predictions with available
-    ground truth (as far as is possible). The script needs to have the path to
+    The `--input-path` should point to historic or benchmark input data so `demo-predict` could 
+    compare predictions with available ground truth (as far as is possible). The script needs to have the path to
     the directory containing the serialized models built by `auto-build-models`.
     Other parameters are taken from the configuration file.
 
@@ -206,10 +210,6 @@ taken from the data, the values for `# of Accelerators` are instructed to spread
 appearing in the data (this is of course possible for numeric inputs only), and the case `# of Accelerators = 0` is 
 excluded from the prediction space. If the same input appears also in the `variable_values` list, as in the case of 
 `# of Accelerators`, the values explicitly specified (`9` in our example) are added to the values derived from the data.
-
-To use all the above commands, you need to provide in your input path a `job_spec.yaml` file indicating the 
-metadata inputs and outputs of your data. See [this example](examples/MLCommons/job_spec.yaml) of a job
-spec.
 
 The default log level is `DEBUG`. You can change by specifying a different log
 level as in the following example:
