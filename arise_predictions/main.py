@@ -24,7 +24,9 @@ def load_spec(spec_path):
     return loaded_job_spec
 
 
-def execute_preprocess(job_spec):
+def execute_preprocess(spec_path):
+
+    job_spec = load_spec(spec_path)
 
     inputs = sorted(list(job_spec[0]))
     outputs = sorted(list(job_spec[1]))
@@ -43,16 +45,16 @@ def execute_preprocess(job_spec):
 
 
 def execute_analyze_jobs():
-    loaded_job_spec = load_spec(get_args().input_path)
-    outputs = sorted(list(loaded_job_spec[1]))
 
     # processing history ( if not done in the past )
-    history_data, history_file = execute_preprocess(loaded_job_spec)
+    history_data, history_file = execute_preprocess(get_args().input_path)
 
     if history_data is None or history_data.empty:
         logging.error(("No historical data could be retrieved from given" 
                        " location {}").format(get_args().input_path))
     else:
+        loaded_job_spec = load_spec(get_args().input_path)
+        outputs = sorted(list(loaded_job_spec[1]))
         logging.info("Invoking job analysis")
         analyze_job_data(raw_data=history_data, job_id_column=get_args().job_id_column,
                          custom_job_name=get_args().custom_job_name,
@@ -62,12 +64,9 @@ def execute_analyze_jobs():
 
 
 def execute_auto_build_models():
-    loaded_job_spec = load_spec(get_args().input_path)
-    outputs = sorted(list(loaded_job_spec[1]))
-    feature_engineering = loaded_job_spec[6] if len(loaded_job_spec) > 6 else None
 
     # processing history ( if not done in the past )
-    history_data, history_file = execute_preprocess(loaded_job_spec)
+    history_data, history_file = execute_preprocess(get_args().input_path)
 
     if history_data is None or history_data.empty:
         logging.error(("No historical data could be retrieved from given" 
@@ -79,6 +78,9 @@ def execute_auto_build_models():
         output_path = os.path.join(get_args().input_path, constants.AM_OUTPUT_PATH_SUFFIX)
         utils.mkdirs(output_path)
         shutil.copy(os.path.join(get_args().input_path, constants.JOB_SPEC_FILE_NAME), output_path)
+        loaded_job_spec = load_spec(get_args().input_path)
+        outputs = sorted(list(loaded_job_spec[1]))
+        feature_engineering = loaded_job_spec[6] if len(loaded_job_spec) > 6 else None
         if feature_engineering is not None and not get_args().ignore_metadata:
             shutil.copytree(os.path.join(get_args().input_path, constants.JOB_METADATA_DIR),
                             os.path.join(output_path, constants.JOB_METADATA_DIR),
@@ -97,15 +99,15 @@ def execute_auto_build_models():
 
 
 def execute_demo_predict():
-    loaded_job_spec = load_spec(get_args().model_path)
 
     # processing history ( if not done in the past )
-    history_data, history_file = execute_preprocess(loaded_job_spec)
+    history_data, history_file = execute_preprocess(get_args().model_path)
 
     if history_data is None or history_data.empty:
         logging.error(("No historical data could be retrieved from given" 
                        " location {}").format(get_args().input_path))
     else:
+        loaded_job_spec = load_spec(get_args().model_path)
         logging.info("Invoking demo predict")
         demo_predict(
             original_data=history_data,
@@ -164,7 +166,7 @@ def main():
 
     # According to the selected command, call the appropriate function
     if get_args().command == 'preprocess':
-        execute_preprocess(load_spec(get_args().input_path))
+        execute_preprocess(get_args().input_path)
     elif get_args().command == 'analyze-jobs':
         execute_analyze_jobs()
     elif get_args().command == 'auto-build-models':
