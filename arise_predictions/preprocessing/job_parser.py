@@ -186,7 +186,7 @@ def collect_jobs_history(data_dir, output_path, job_inputs, job_outputs, start_t
 
     collect_and_persist_data_metadata(df, job_inputs, job_outputs, output_path)
 
-    if feature_engineering is not None:
+    if feature_engineering:
         df = utils.add_feature_engineering(metadata_path, df, feature_engineering, metadata_parser_class_name)
 
     output_file = os.path.join(output_path, constants.JOB_HISTORY_FILE_NAME + ".csv")
