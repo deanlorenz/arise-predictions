@@ -107,7 +107,7 @@ def _create_input_space(input_config: PredictionInputSpace,
     for var_name, val in fixed_values.items():
         input_space_df[var_name] = val
 
-    if feature_engineering is not None:
+    if feature_engineering:
         input_space_df = utils.add_feature_engineering(metadata_path, input_space_df, feature_engineering,
                                                        metadata_parser_class_name)
 
