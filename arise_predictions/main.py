@@ -81,7 +81,7 @@ def execute_auto_build_models():
         loaded_job_spec = load_spec(get_args().input_path)
         outputs = sorted(list(loaded_job_spec[1]))
         feature_engineering = loaded_job_spec[6] if len(loaded_job_spec) > 6 else None
-        if feature_engineering is not None and not get_args().ignore_metadata:
+        if feature_engineering and not get_args().ignore_metadata:
             shutil.copytree(os.path.join(get_args().input_path, constants.JOB_METADATA_DIR),
                             os.path.join(output_path, constants.JOB_METADATA_DIR),
                             dirs_exist_ok=True)
