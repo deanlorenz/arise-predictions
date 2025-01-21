@@ -67,10 +67,14 @@ def get_estimators_config(config_file: str, num_jobs: int = -1) -> EstimatorsCon
     except yaml.YAMLError as e:
         raise ValueError(f"Error parsing configuration file: {e}")
 
+    return get_estimators_config_from_dict(config_dict=config_dict, num_jobs=num_jobs)
+
+
+def get_estimators_config_from_dict(config_dict: [str, any], num_jobs: int = -1) -> EstimatorsConfig:
     estimator_configurations = config_dict[constants.AM_CONFIG_ESTIMATORS]
     if not estimator_configurations:
-        raise ValueError(f"No estimator configurations found in configuration file: {config_file}")
-    
+        raise ValueError("No estimator configurations found in given configuration")
+
     return EstimatorsConfig([EstimatorConfig(entry[constants.AM_CONFIG_NAME], entry[constants.AM_CONFIG_CLASS_NAME],
                                              entry[constants.AM_CONFIG_LINEAR], entry[constants.AM_CONFIG_PARAMETERS])
                              for entry in estimator_configurations], num_jobs)
