@@ -44,7 +44,7 @@ AM_OUTPUT_PATH_SUFFIX = "ARISE-auto-models"
 AM_NUM_JOBS = "num_jobs"
 AM_RANKINGS_FILE = "all-star-rankings.csv"
 AM_META_LEARNER_PREFIX = "meta-learner-"
-AM_N_ITER_RANDOM_HPO = 20
+AM_N_ITER_RANDOM_HPO = 50
 
 # auto model column headers
 AM_COL_ESTIMATOR = "estimator"
