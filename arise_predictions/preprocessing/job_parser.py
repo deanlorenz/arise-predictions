@@ -132,10 +132,6 @@ def collect_jobs_history(data_dir, output_path, job_inputs, job_outputs, start_t
     columns_with_derived = utils.adjust_columns_with_duration(job_inputs + job_outputs, start_time_field_name,
                                                               end_time_field_name)
 
-    # add columns to be filtered by (to be removed at the end of processing)
-    filter_columns = list(job_entry_filter.keys())
-    columns_with_derived = columns_with_derived + filter_columns
-
     df = pd.DataFrame(columns=columns_with_derived)
 
     if not os.path.exists(data_dir):
@@ -179,9 +175,10 @@ def collect_jobs_history(data_dir, output_path, job_inputs, job_outputs, start_t
         return None, None
     else:
         if job_entry_filter:
-            for key, value in job_entry_filter.items():
-                df = df[df[key] != value]
-                df = df.drop(key, axis=1)
+            for entry in job_entry_filter:
+                df = df[~df[entry[constants.JOB_ENTRY_FILTER_NAME_COL]].isin(entry[constants.JOB_ENTRY_FILTER_VALUES_COL])]
+                if not entry[constants.JOB_ENTRY_FILTER_KEEP_COL]:
+                    df = df.drop(entry[constants.JOB_ENTRY_FILTER_NAME_COL], axis=1)
         logger.info("Found {:d} executions in history".format(len(df)))
 
     collect_and_persist_data_metadata(df, job_inputs, job_outputs, output_path)
