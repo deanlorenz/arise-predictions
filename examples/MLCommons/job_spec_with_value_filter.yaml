@@ -1,0 +1,17 @@
+job-metadata-inputs:
+  - "# of Nodes"
+  - Processor
+  - Accelerator
+  - "# of Accelerators"
+  - "Model MLC"
+  - Scenario
+  - "Host Processor Core Count"
+
+job-metadata-outputs:
+  - tokens_per_second
+
+job-entry-filter:
+  - name: Processor
+    excluded_values: ["2xAMD EPYC 9374F"]
+    keep_input: True
+

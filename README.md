@@ -249,6 +249,12 @@ The data is divided into `job-metadata-inputs`: the properties of the workload t
 once the workload completes (e.g., items 6-9 above). The inputs and outputs specification is provided in the 
 `job_spec.yaml` file. See [this example](examples/MLCommons/job_spec.yaml) of a job spec.
 
+In your job spec, you can use the `job-entry-filter` key to filter out entries from the original data according to 
+specific input values. In [this example](examples/MLCommons/job_spec_with_value_filter.yaml), we filter out all entries 
+where the Processor is`2xAMD EPYC 9374F`, but we keep Processor as a data input. The semantics between the different 
+entries specified in `job-entry-filter` is OR. That is, an entry matching any of the values specified will be 
+filtered out.
+
 If the format of your data requires special parsing to transform into a dataframe (i.e., beyond a simple csv file), you 
 can implement your own parser in [this class](arise_predictions/preprocessing/custom_job_parser.py). For example, the sentiment 
 analysis example ([here](examples/sentiment_analysis/data)) uses `SAJsonJobParser` as its parser, since its original 
