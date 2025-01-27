@@ -131,7 +131,10 @@ def collect_jobs_history(data_dir, output_path, job_inputs, job_outputs, start_t
 
     columns_with_derived = utils.adjust_columns_with_duration(job_inputs + job_outputs, start_time_field_name,
                                                               end_time_field_name)
-
+    filter_columns = [] if not job_entry_filter else [entry[constants.JOB_ENTRY_FILTER_NAME_COL] for
+                                                      entry in job_entry_filter if not
+                                                      entry[constants.JOB_ENTRY_FILTER_KEEP_COL]]
+    columns_with_derived = columns_with_derived + filter_columns
     df = pd.DataFrame(columns=columns_with_derived)
 
     if not os.path.exists(data_dir):
