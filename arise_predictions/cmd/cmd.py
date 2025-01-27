@@ -86,6 +86,11 @@ def parse_args(argv: Sequence[str] = None):
         '--leave-one-out-cv', help='leave one group out cross validation. Provide list of feature names separated'
                                    ' by commas', required=False, type=str)
     parser_auto_build_models.add_argument(
+        '--randomized-hpo', help='Use random sampling hyperparameter optimization', action='store_true')
+    parser_auto_build_models.add_argument(
+        '--random-iterations', help='Number of sampling iterations to perform for each model hyper-parameter space',
+        required=False, type=int)
+    parser_auto_build_models.add_argument(
         '--feature-column', help='Name of the feature to extrapolate on',
         required=False, type=str)
     parser_auto_build_models.add_argument(

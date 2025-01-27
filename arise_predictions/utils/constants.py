@@ -12,6 +12,9 @@ KS_TEST_SIGNIFICANCE_LEVEL = 0.05
 JOB_PARSER_CLASS_NAME_FIELD = 'job-parser-class-name'
 METADATA_PARSER_CLASS_NAME_FIELD = 'metadata-parser-class-name'
 JOB_ENTRY_FILTER_FIELD = 'job-entry-filter'
+JOB_ENTRY_FILTER_NAME_COL = 'name'
+JOB_ENTRY_FILTER_VALUES_COL = 'excluded_values'
+JOB_ENTRY_FILTER_KEEP_COL = 'keep_input'
 DUMMY_VARS_PREFIX = 'dummy_input_'
 JOB_INPUTS_FEATURE_ENGINEERING = 'job-metadata-fe'
 JOB_DATA_DIR = "data"
@@ -44,6 +47,7 @@ AM_OUTPUT_PATH_SUFFIX = "ARISE-auto-models"
 AM_NUM_JOBS = "num_jobs"
 AM_RANKINGS_FILE = "all-star-rankings.csv"
 AM_META_LEARNER_PREFIX = "meta-learner-"
+AM_DEFAULT_N_ITER_RANDOM_HPO = 50
 
 # auto model column headers
 AM_COL_ESTIMATOR = "estimator"
