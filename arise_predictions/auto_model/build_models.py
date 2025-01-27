@@ -530,7 +530,7 @@ def _select_best_estimators(
             if estimator["estimator_name"] == best_linear_estimator_for_target_var or estimator["estimator_name"] == best_nonlinear_estimator_for_target_var:
                 best_estimators.append(estimator)
             
-                test_performance_summary, extrapolation_performance_summary = _persist_and_test_estimator(
+                test_performance_summary, extrapolation_performance_summary = _test_and_persist_estimator(
                     estimator=estimator,
                     target_variables=target_variables,
                     target_variable=target_var,
@@ -560,13 +560,14 @@ def _select_best_estimators(
     return best_estimators_for_target_variables
 
 
-def _persist_and_test_estimator(
+def _test_and_persist_estimator(
         estimator: Dict[str, Any],
         target_variables: List[str], 
         target_variable: str,
         output_path: str) -> Tuple[Dict[str, str], Dict[str, str]]:
     """
-    Persist the given estimator and performs tests to measure its performance.
+    Performs tests to measure a given estimator performance. Then train on all data
+    (CV + test) and persists it.
 
     :param estimator: Dictionary with information about the estimator
     :type estimator: Dict[str, Any]
@@ -580,14 +581,6 @@ def _persist_and_test_estimator(
     :returns: Dictionaries with performance summary for test sets.
     :rtype: Tuple[Dict[str], Dict[str]] 
     """
-    _persist_estimator(
-            estimator_name=estimator["estimator_name"],
-            estimator_class=estimator["estimator_class"],
-            estimator_linear=estimator["linear"],
-            best_params=estimator["best_parameters"],
-            target_variable=target_variable,
-            output_path=output_path
-        )
 
     # Test on test set (samples held out during training)
     test_file = f"test-data-{target_variable}.csv"
@@ -630,9 +623,47 @@ def _persist_and_test_estimator(
                         f" target variable: {target_variable}"
                         f" using test data: {test_file}"
                         " is empty"))
+
+    new_estimator_class = _train_on_all_data(estimator_class=estimator["estimator_class"],
+                                             best_params=estimator["best_parameters"],
+                                             target_variable=target_variable,
+                                             target_variables=target_variables,
+                                             output_path=output_path)
+
+    _persist_estimator(
+        estimator_name=estimator["estimator_name"],
+        estimator_class=new_estimator_class,
+        estimator_linear=estimator["linear"],
+        best_params=estimator["best_parameters"],
+        target_variable=target_variable,
+        output_path=output_path
+    )
     
     return test_performance_summary, extrapolation_performance_summary
-        
+
+
+def _train_on_all_data(estimator_class: Any, best_params: Dict[str, str], target_variable: str,
+                       target_variables: list[str], output_path: str):
+
+    train_data = _get_data(f"train-data-{target_variable}.csv", output_path)
+    test_data = _get_data(f"test-data-{target_variable}.csv", output_path)
+
+    data = pd.concat([train_data, test_data], ignore_index=True)
+
+    Y_train = data[target_variable]
+    X_train = data.drop(target_variables, axis=1, errors="ignore")
+
+    return estimator_class.fit(X_train, Y_train, **best_params)
+
+
+def _get_data(input_file_name: str, output_path: str) -> Any:
+    input_file = os.path.join(output_path, input_file_name)
+
+    if not os.path.exists(input_file):
+        raise ValueError(f"No file {input_file} found for data set")
+
+    return pd.read_csv(input_file)
+
 
 def _persist_estimator(estimator_name: str, estimator_class: Any, 
                        estimator_linear: bool,
@@ -961,7 +992,7 @@ def _persist_and_test_meta_estimator(
 
     for target_var, meta_estimators in meta_learner_per_target_variable.items():
         meta_estimator = meta_estimators[0]  # Only 1 in list for meta-learner
-        test_performance_summary, extrapolation_performance_summary = _persist_and_test_estimator(
+        test_performance_summary, extrapolation_performance_summary = _test_and_persist_estimator(
             estimator=meta_estimator,
             target_variables=target_variables,
             target_variable=target_var,
