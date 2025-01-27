@@ -96,7 +96,8 @@ def execute_auto_build_models():
                           low_threshold=get_args().low_threshold,
                           high_threshold=get_args().high_threshold,
                           single_output_file=get_args().single_output_file,
-                          randomized_hpo=get_args().randomized_hpo)
+                          randomized_hpo=get_args().randomized_hpo,
+                          n_random_iter=get_args().random_iterations)
 
 
 def execute_demo_predict():

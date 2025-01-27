@@ -218,7 +218,8 @@ def _search_models(data: pd.DataFrame, estimators: list[tuple[str, Any]],
                    target_variables: List[str], 
                    output_path: str, leave_one_out_cv: str = None,
                    feature_col: str = None, low_threshold: int = None, 
-                   high_threshold: int = None, randomized_hpo: bool = False) -> Tuple[pd.DataFrame, Dict]:
+                   high_threshold: int = None, randomized_hpo: bool = False,
+                   n_random_iter: int = constants.AM_DEFAULT_N_ITER_RANDOM_HPO) -> Tuple[pd.DataFrame, Dict]:
     """
     Run parameter search for each target variable using the estimators and 
     their parameter search spaces from configuration.
@@ -247,9 +248,11 @@ def _search_models(data: pd.DataFrame, estimators: list[tuple[str, Any]],
     :type high_threshold: int
     :param randomized_hpo: Use randomized sampling instead of exhaustive search for HPO
     :type randomized_hpo: bool
-    :returns: Tuple consisting of data frame of best parameters per
+    :param n_random_iter: Number of sampling iterations for each model HP space
+    :type n_random_iter: int
+    :returns: Tuple consisting of data frame of the best parameters per
     estimator for each target variable and dictionary to enable retrieval of
-    best estimator and parameters per target variable upon ranking.
+    the best estimator and parameters per target variable upon ranking.
     :rtype: Tuple[pd.DataFrame, Dict]
     """
     logger.info(("Beginning parameter search for target variables"
@@ -351,7 +354,8 @@ def _search_models(data: pd.DataFrame, estimators: list[tuple[str, Any]],
                             param_distributions=params,
                             scoring=scoring,
                             n_jobs=num_jobs,
-                            n_iter=constants.AM_N_ITER_RANDOM_HPO,
+                            n_iter=n_random_iter if n_random_iter is not None else
+                            constants.AM_DEFAULT_N_ITER_RANDOM_HPO,
                             refit=constants.AM_DEFAULT_METRIC,
                             cv=cv_generator,
                             verbose=1)
@@ -1006,7 +1010,8 @@ def auto_build_models(raw_data: pd.DataFrame, config: EstimatorsConfig,
                       target_variables: list[str], output_path: str = None, 
                       leave_one_out_cv: str = None, feature_col: str = None,
                       low_threshold: int = None, high_threshold: int = None,
-                      single_output_file: bool = False, randomized_hpo: bool = False):
+                      single_output_file: bool = False, randomized_hpo: bool = False,
+                      n_random_iter: int = constants.AM_DEFAULT_N_ITER_RANDOM_HPO):
     logging.basicConfig(
         stream=sys.stdout,
         level=logging.INFO,
@@ -1037,7 +1042,8 @@ def auto_build_models(raw_data: pd.DataFrame, config: EstimatorsConfig,
         feature_col=feature_col,
         low_threshold=low_threshold,
         high_threshold=high_threshold,
-        randomized_hpo=randomized_hpo)
+        randomized_hpo=randomized_hpo,
+        n_random_iter=n_random_iter)
 
     rankings_df = _rank_estimators(summary_stats=stats_df,
                                    output_path=output_path,
