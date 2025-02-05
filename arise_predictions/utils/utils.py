@@ -8,6 +8,7 @@ import joblib
 import errno
 from typing import Any
 import logging
+import shutil, zipfile
 
 logger = logging.getLogger(__name__)
 
@@ -181,3 +182,12 @@ def add_feature_engineering(metadata_path: str, raw_data: pd.DataFrame, feature_
 
         logger.info(f'** Done feature engineering for {fe_name} using:\n{fe_data}')
     return data
+
+def get_unpacked_path(input_path):
+    if zipfile.is_zipfile(input_path):
+        input_folder = os.path.join(os.path.dirname(input_path), os.path.splitext(os.path.basename(
+            input_path))[0])
+        shutil.unpack_archive(input_path, input_folder)
+        return input_folder
+    else:
+        return input_path

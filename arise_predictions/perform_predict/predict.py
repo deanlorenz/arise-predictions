@@ -167,12 +167,7 @@ def _run_predictions(original_data: pd.DataFrame,
     logger.info("Running predictions")
     target_variables = []
 
-    if zipfile.is_zipfile(estimator_path):
-        estimator_folder = os.path.join(os.path.dirname(estimator_path), os.path.splitext(os.path.basename(
-            estimator_path))[0])
-        shutil.unpack_archive(estimator_path, estimator_folder)
-    else:
-        estimator_folder = estimator_path
+    estimator_folder = utils.get_unpacked_path(estimator_path)
 
     # run predictions
     for entry in estimators_config:

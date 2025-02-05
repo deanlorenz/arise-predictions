@@ -15,7 +15,10 @@ logger = logging.getLogger(__name__)
 
 def load_spec(spec_path):
     # analyzing job spec file
-    job_spec_file = os.path.join(spec_path, constants.JOB_SPEC_FILE_NAME)
+
+    spec_folder = utils.get_unpacked_path(spec_path)
+
+    job_spec_file = os.path.join(spec_folder, constants.JOB_SPEC_FILE_NAME)
     logger.info('Analyzing job spec file: %s', job_spec_file)
     loaded_job_spec = job_parser.parse_job_spec(job_spec_file)
     if not loaded_job_spec:
