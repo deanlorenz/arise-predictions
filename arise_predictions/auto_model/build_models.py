@@ -334,19 +334,8 @@ def _search_models(data: pd.DataFrame, estimators: list[tuple[str, Any]],
                 if estimator.name == estimator_name:
                     params = estimator.parameters
 
-                    preprocessor = ColumnTransformer(
-                        transformers=[
-                            ("cat", OneHotEncoder(
-                                handle_unknown="ignore",
-                                sparse_output=False,
-                                feature_name_combiner="concat"),
-                                [] if estimator_class.__class__.__name__ in
-                                constants.AM_ESTIMATORS_CATBOOST else categorical_variables)
-                        ],
-                        remainder="passthrough")
-
-                    pipeline = Pipeline(steps=[("preprocessor", preprocessor),
-                                               ("estimator", estimator_class)])
+                    pipeline = _get_pipeline(inputs=X.columns.tolist(), categorical_variables=categorical_variables,
+                                             estimator_class=estimator_class)
 
                     if randomized_hpo:
                         search = RandomizedSearchCV(
@@ -504,7 +493,8 @@ def _select_best_estimators(
         estimators_per_target_variable: Dict[str, Dict[str, Any]],
         output_path: str,
         num_jobs: int,
-        leave_one_out_cv: str) -> Dict[str, List[Dict[str, Any]]]:
+        leave_one_out_cv: str,
+        categorical_variables: list[str]) -> Dict[str, List[Dict[str, Any]]]:
     """
     Determine the best estimator per target variable from the ranking of
     estimators (in this iteration using the default performance metric MAPE),
@@ -556,7 +546,8 @@ def _select_best_estimators(
                     target_variable=target_var,
                     output_path=output_path,
                     num_jobs=num_jobs,
-                    leave_one_out_cv=leave_one_out_cv)
+                    leave_one_out_cv=leave_one_out_cv,
+                    categorical_variables=categorical_variables)
                 test_result_rows.append(test_performance_summary)
                 extrapolation_test_results_rows.append(extrapolation_performance_summary)
 
@@ -588,7 +579,8 @@ def _test_and_persist_estimator(
         target_variable: str,
         output_path: str,
         num_jobs: int,
-        leave_one_out_cv: str) -> Tuple[Dict[str, str], Dict[str, str]]:
+        leave_one_out_cv: str,
+        categorical_variables: list[str]) -> Tuple[Dict[str, str], Dict[str, str]]:
     """
     Performs tests to measure a given estimator performance. Then train on all data
     (CV + test) and persists it.
@@ -650,7 +642,7 @@ def _test_and_persist_estimator(
 
     _fit_on_all_data(estimator=estimator, target_variable=target_variable, target_variables=target_variables,
                      output_path=output_path, num_jobs=num_jobs,
-                     leave_one_out_cv=leave_one_out_cv)
+                     leave_one_out_cv=leave_one_out_cv, categorical_variables=categorical_variables)
 
     _persist_estimator(
         estimator_name=estimator["estimator_name"],
@@ -665,7 +657,7 @@ def _test_and_persist_estimator(
 
 
 def _fit_on_all_data(estimator: Any, target_variable: str, target_variables: list[str], output_path: str,
-                     num_jobs: int, leave_one_out_cv: str):
+                     num_jobs: int, leave_one_out_cv: str, categorical_variables: list[str]):
 
     train_data = _get_data(f"train-data-{target_variable}.csv", output_path)
     test_data = _get_data(f"test-data-{target_variable}.csv", output_path)
@@ -677,7 +669,8 @@ def _fit_on_all_data(estimator: Any, target_variable: str, target_variables: lis
 
     estimator_class = estimator["estimator_class"]
 
-    pipeline = Pipeline(steps=[("estimator", estimator_class)])
+    pipeline = _get_pipeline(inputs=X_train.columns.tolist(), categorical_variables=categorical_variables,
+                             estimator_class=estimator_class)
 
     if leave_one_out_cv:
         groups = X_train.groupby(leave_one_out_cv.split(',')).ngroup()
@@ -699,6 +692,20 @@ def _fit_on_all_data(estimator: Any, target_variable: str, target_variables: lis
         search.fit(X_train, y_train, groups=groups)
     else:
         search.fit(X_train, y_train)
+
+
+def _get_pipeline(inputs: list[str], categorical_variables: list[str], estimator_class: Any) -> Any:
+    preprocessor = ColumnTransformer(
+        transformers=[
+            ("cat", OneHotEncoder(
+                handle_unknown="ignore",
+                sparse_output=False,
+                feature_name_combiner="concat"),
+             [] if estimator_class.__class__.__name__ in constants.AM_ESTIMATORS_CATBOOST else
+             [inputs.index(i) for i in categorical_variables])
+        ], remainder="passthrough")
+
+    return Pipeline(steps=[("preprocessor", preprocessor), ("estimator", estimator_class)])
 
 
 def _get_data(input_file_name: str, output_path: str) -> Any:
@@ -1025,7 +1032,8 @@ def _persist_and_test_meta_estimator(
         meta_learner_per_target_variable: Dict[str, Any],
         output_path: str,
         num_jobs: int,
-        leave_one_out_cv: str) -> None:
+        leave_one_out_cv: str,
+        categorical_variables: list[str]) -> None:
     """
     Persist the meta-estimator for each target variable and evaluate it against
     corresponding test sets and extrapolation test set.
@@ -1045,7 +1053,8 @@ def _persist_and_test_meta_estimator(
             target_variable=target_var,
             output_path=output_path,
             num_jobs=num_jobs,
-            leave_one_out_cv=leave_one_out_cv)
+            leave_one_out_cv=leave_one_out_cv,
+            categorical_variables=categorical_variables)
         test_result_rows.append(test_performance_summary)
         extrapolation_test_result_rows.append(extrapolation_performance_summary)
 
@@ -1118,7 +1127,8 @@ def auto_build_models(raw_data: pd.DataFrame, config: EstimatorsConfig,
         estimators_per_target_variable=estimators_per_target_variable,
         output_path=output_path,
         num_jobs=config.num_jobs,
-        leave_one_out_cv=leave_one_out_cv)
+        leave_one_out_cv=leave_one_out_cv,
+        categorical_variables=categorical_variables)
     
     if feature_col:
         logger.info(("Beginning auto-model meta-learner search and build"
