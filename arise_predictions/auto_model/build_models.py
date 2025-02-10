@@ -334,17 +334,6 @@ def _search_models(data: pd.DataFrame, estimators: list[tuple[str, Any]],
                 if estimator.name == estimator_name:
                     params = estimator.parameters
 
-                    preprocessor = ColumnTransformer(
-                        transformers=[
-                            ("cat", OneHotEncoder(
-                                handle_unknown="ignore",
-                                sparse_output=False,
-                                feature_name_combiner="concat"),
-                                [] if estimator_class.__class__.__name__ in
-                                constants.AM_ESTIMATORS_CATBOOST else categorical_variables)
-                        ],
-                        remainder="passthrough")
-
                     pipeline = _get_pipeline(inputs=X.columns.tolist(), categorical_variables=categorical_variables,
                                              estimator_class=estimator_class)
 
