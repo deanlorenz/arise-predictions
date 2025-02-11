@@ -19,13 +19,24 @@ into CSV format based on the given spec. All spec fields are assumed to be numer
 
 
 def parse_job_spec(job_spec_file):
-    # Reading the job spec file
-    with open(job_spec_file, "r") as file:
-        try:
-            loaded_spec = dict(yaml.safe_load(file))
-        except yaml.YAMLError as exc:
-            logger.error(exc)
-            return None
+    """ Parse job_spec_file.
+    If this variable is a string, assume it is a file name. Then, open and load spec from file.
+    Else, consider this as the job spec dict.
+    """
+
+    if isinstance(job_spec_file, dict):
+        loaded_spec = job_spec_file
+    elif isinstance(job_spec_file, str):
+        # Reading the job spec file
+        with open(job_spec_file, "r") as file:
+            try:
+                loaded_spec = dict(yaml.safe_load(file))
+            except yaml.YAMLError as exc:
+                logger.error(exc)
+                return None
+    else:
+        logger.error("job_spec_file is neither a dictionary nor a filename string")
+        return None
 
     # Making sure that all required fields are available in the spec
     for field in [constants.JOB_INPUTS_FIELD_NAME, constants.JOB_OUTPUTS_FIELD_NAME]:
