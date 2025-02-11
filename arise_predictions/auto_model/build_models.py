@@ -170,8 +170,6 @@ def _instantiate_estimator(fqcn: str, linear: bool, linear_tree: str, config: Es
     logger.info(f"Instantiated estimator {estimator_class}.")
 
     if linear_tree is not None:
-        if not linear:
-            logger.error(f'cannot use {linear_tree} with nonlinear base estimator')
 
         base_estimator = estimator
         num_jobs = config.num_jobs
