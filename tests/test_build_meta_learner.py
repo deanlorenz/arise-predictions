@@ -204,7 +204,7 @@ class TestBuildMetaLearner(unittest.TestCase):
             self.output_path,
             self.results_meta_learner_en
         )))
-        self.assertEquals(
+        self.assertEqual(
             len(best_meta_learner_per_target_variable[self.target_variables[0]]),
             1, 
             "1 meta-learner per target variable"
