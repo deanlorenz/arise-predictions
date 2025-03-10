@@ -12,7 +12,6 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.pipeline import Pipeline
 from sklearn.ensemble import StackingRegressor
 from sklearn.inspection import permutation_importance
-from lineartree import LinearTreeRegressor, LinearForestRegressor, LinearBoostRegressor
 
 from arise_predictions.utils import constants, utils
 from arise_predictions.metrics import metrics
@@ -171,30 +170,21 @@ def _instantiate_estimator(fqcn: str, linear: bool, linear_tree: str, config: Es
 
     if linear_tree is not None:
 
-        base_estimator = estimator
-        num_jobs = config.num_jobs
+        tree_model_module = importlib.import_module("lineartree")
+        tree_estimator_class = getattr(tree_model_module, linear_tree)
+        tree_estimator_params = dict(base_estimator=estimator)
+
         # TODO: joining the oi weis mir -- there's probably a better way
-        match linear_tree:
-            case 'LinearTreeRegressor':
-                estimator = LinearTreeRegressor(
-                    base_estimator=base_estimator,
-                    categorical_features=cat_indices,
-                    n_jobs=num_jobs)
+        if not linear_tree in constants.AM_ESTIMATORS_NO_SEED:
+            tree_estimator_params["random_state"] = constants.SEED +1
+        if linear_tree in constants.AM_ESTIMATORS_NEED_CAT:
+            tree_estimator_params["categorical_features"] = cat_indices
+        if linear_tree in constants.AM_ESTIMATORS_NEED_NJOBS:
+            tree_estimator_params["n_jobs"] = config.num_jobs
+        if linear_tree in constants.AM_ESTIMATORS_MAX_FEATURES:
+            tree_estimator_params["max_features"] = None
 
-            case 'LinearForestRegressor':
-                estimator = LinearForestRegressor(
-                    base_estimator=base_estimator,
-                    random_state=constants.SEED,
-                    max_features=None)
-
-            case 'LinearBoostRegressor':
-                estimator = LinearBoostRegressor(
-                    base_estimator=base_estimator,
-                    random_state=constants.SEED)
-
-            case _:
-                logger.error(f'unknown linear-tree regressor {linear_tree}')
-        logger.info(f"Instantiated linear tree estimator {linear_tree}/{estimator_class}.")
+        estimator = tree_estimator_class(**tree_estimator_params)
 
     return estimator
 
