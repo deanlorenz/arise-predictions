@@ -144,13 +144,11 @@ def _get_highest_ranked_estimator(estimator_path: str, target_variable: str) -> 
         logger.error("Failed to locate model ranking file")
         raise Exception
     ranking_df = pd.read_csv(ranking_file)
-    ranking_df_var = ranking_df.loc[ranking_df[constants.AM_COL_TARGET] == target_variable]
-    ranking_df_var['combined_rank'] = ranking_df_var[constants.AM_COL_RANK_MAPE] + \
-                                      ranking_df_var[constants.AM_COL_RANK_NRMSE_MAXMIN]
-    best_row = ranking_df_var.loc[[ranking_df_var['combined_rank'].idxmin()]]
-    estimator_type = "linear" if best_row[constants.AM_COL_LINEAR].values[0] else "nonlinear"
-    return utils.get_estimator_file_name(estimator_type, best_row[constants.AM_COL_ESTIMATOR].values[0],
-                                         target_variable)
+    best_estimator, best_estimator_is_linear = utils.get_best_estimators(rankings=ranking_df,
+                                                                         target_var=target_variable,
+                                                                         linear_filter=False)
+    estimator_type = "linear" if best_estimator_is_linear else "nonlinear"
+    return utils.get_estimator_file_name(estimator_type, best_estimator, target_variable)
 
 
 def _run_predictions(original_data: pd.DataFrame,

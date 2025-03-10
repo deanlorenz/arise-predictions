@@ -572,19 +572,10 @@ def _select_best_estimators(
 
     for target_var in target_variables:
         best_estimators = []
-        best_linear_estimator_for_target_var = rankings[
-            (rankings[constants.AM_COL_TARGET] == target_var) &
-            (rankings[constants.AM_COL_LINEAR] == True)].loc[
-            lambda filtered: filtered[constants.AM_COL_RANK_MAPE] == filtered[constants.AM_COL_RANK_MAPE].min()][
-            constants.AM_COL_ESTIMATOR].values[0]
+        best_linear_estimator_for_target_var, best_nonlinear_estimator_for_target_var = utils.get_best_estimators(
+            rankings=rankings, target_var=target_var)
         logger.info((f"Best linear estimator for target variable {target_var}" 
                      f" is {best_linear_estimator_for_target_var}"))
-        
-        best_nonlinear_estimator_for_target_var = rankings[
-            (rankings[constants.AM_COL_TARGET] == target_var) &
-            (rankings[constants.AM_COL_LINEAR] == False)].loc[
-            lambda filtered: filtered[constants.AM_COL_RANK_MAPE] == filtered[constants.AM_COL_RANK_MAPE].min()][
-            constants.AM_COL_ESTIMATOR].values[0]
         logger.info((f"Best non-linear estimator for target variable {target_var}" 
                      f" is {best_nonlinear_estimator_for_target_var}"))
 

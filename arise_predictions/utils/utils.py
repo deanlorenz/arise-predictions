@@ -183,6 +183,7 @@ def add_feature_engineering(metadata_path: str, raw_data: pd.DataFrame, feature_
         logger.info(f'** Done feature engineering for {fe_name} using:\n{fe_data}')
     return data
 
+
 def get_unpacked_path(input_path):
     if zipfile.is_zipfile(input_path):
         input_folder = os.path.join(os.path.dirname(input_path), os.path.splitext(os.path.basename(
@@ -191,3 +192,25 @@ def get_unpacked_path(input_path):
         return input_folder
     else:
         return input_path
+
+
+def get_best_estimators(rankings: pd.DataFrame, target_var: str, linear_filter: bool = True):
+
+    if not linear_filter:
+        best_row = rankings[rankings[constants.AM_COL_TARGET] == target_var].loc[
+            lambda filtered: filtered[constants.AM_COL_RANK_MAPE] == filtered[constants.AM_COL_RANK_MAPE].min()]
+        return best_row[constants.AM_COL_ESTIMATOR].values[0], best_row[constants.AM_COL_LINEAR].values[0]
+
+    best_linear_estimator_for_target_var = rankings[
+        (rankings[constants.AM_COL_TARGET] == target_var) &
+        (rankings[constants.AM_COL_LINEAR] == True)].loc[
+        lambda filtered: filtered[constants.AM_COL_RANK_MAPE] == filtered[constants.AM_COL_RANK_MAPE].min()][
+        constants.AM_COL_ESTIMATOR].values[0]
+
+    best_nonlinear_estimator_for_target_var = rankings[
+        (rankings[constants.AM_COL_TARGET] == target_var) &
+        (rankings[constants.AM_COL_LINEAR] == False)].loc[
+        lambda filtered: filtered[constants.AM_COL_RANK_MAPE] == filtered[constants.AM_COL_RANK_MAPE].min()][
+        constants.AM_COL_ESTIMATOR].values[0]
+
+    return best_linear_estimator_for_target_var, best_nonlinear_estimator_for_target_var
