@@ -1,5 +1,5 @@
 import logging
-from typing import Dict, Any, Tuple, List
+from typing import Dict, Any, Tuple, List, Optional
 from dataclasses import dataclass
 import yaml
 import os
@@ -29,6 +29,25 @@ the winning parameter settings, test data, and predictions are all saved as
 output of this script.
 In this iteration, we build one model per target variable. 
 """
+def _clean_params(parameters_config: dict[str, list]) -> Optional[dict[str, list]]:
+    """
+    Convert 'None' strings to None values.
+    Adds default parameter search
+    TODO convert strings to numbers/dates
+    """
+    if not parameters_config:
+        return {"estimator__fit_intercept": [True]}
+
+    for param,v in parameters_config.items():
+        if isinstance(v, list):
+            # TODO is anything but list actually allowed?
+            new_v = [None if x=="None" else x for x in v]
+        elif isinstance(v, str):
+            new_v = None if v=="None" else v
+        else:
+            new_v = v
+        parameters_config[param] = new_v
+    return parameters_config
 
 
 @dataclass
@@ -37,7 +56,11 @@ class EstimatorConfig:
     name: str
     class_name: str
     linear: bool
-    parameters: list[Dict[str, Any]]
+    parameters: Optional[dict[str, list]] = None
+    linear_tree: Optional[str] = None
+
+    def __post_init__(self):
+        self.parameters = _clean_params(self.parameters)
 
 
 @dataclass
@@ -75,13 +98,16 @@ def get_estimators_config_from_dict(config_dict: [str, any], num_jobs: int = -1)
     if not estimator_configurations:
         raise ValueError("No estimator configurations found in given configuration")
 
-    return EstimatorsConfig([EstimatorConfig(entry[constants.AM_CONFIG_NAME], entry[constants.AM_CONFIG_CLASS_NAME],
-                                             entry[constants.AM_CONFIG_LINEAR], entry[constants.AM_CONFIG_PARAMETERS])
+    return EstimatorsConfig([EstimatorConfig(entry[constants.AM_CONFIG_NAME],
+                                             entry[constants.AM_CONFIG_CLASS_NAME],
+                                             entry[constants.AM_CONFIG_LINEAR],
+                                             _clean_params(entry[constants.AM_CONFIG_PARAMETERS]),
+                                             entry.get(constants.AM_CONFIG_LINEARTREE, None))
                              for entry in estimator_configurations], num_jobs)
 
 
 def _init_estimators(
-        config: EstimatorsConfig, cat_indices: list[str]) -> list[tuple[str, Any, str]]:
+        config: EstimatorsConfig, cat_indices: list[str]) -> list[tuple[str, Any, bool, str]]:
     """
     Instantiate estimators listed in configuration.
 
@@ -105,14 +131,15 @@ def _init_estimators(
         name = estimator_config.name
         fqcn = estimator_config.class_name
         linear = estimator_config.linear
-        estimator = _instantiate_estimator(fqcn, cat_indices=cat_indices)
-        estimators.append((name, estimator, linear))
+        linear_tree = estimator_config.linear_tree
+        estimator = _instantiate_estimator(fqcn, linear, linear_tree, config, cat_indices=cat_indices)
+        estimators.append((name, estimator, linear, linear_tree))
     
     logger.info(f"Instantiated {len(estimators)} estimators.")
     return estimators
 
 
-def _instantiate_estimator(fqcn: str, cat_indices: list[str]) -> Any:
+def _instantiate_estimator(fqcn: str, linear: bool, linear_tree: str, config: EstimatorsConfig, cat_indices: list[str]) -> Any:
     """
     Instantiate estimator from fully-qualified domain name. Fixes random seed.
 
@@ -140,6 +167,25 @@ def _instantiate_estimator(fqcn: str, cat_indices: list[str]) -> Any:
     else:
         estimator = estimator_class(random_state=constants.SEED)
     logger.info(f"Instantiated estimator {estimator_class}.")
+
+    if linear_tree is not None:
+
+        tree_model_module = importlib.import_module("lineartree")
+        tree_estimator_class = getattr(tree_model_module, linear_tree)
+        tree_estimator_params = dict(base_estimator=estimator)
+
+        # TODO: joining the oi weis mir -- there's probably a better way
+        if not linear_tree in constants.AM_ESTIMATORS_NO_SEED:
+            tree_estimator_params["random_state"] = constants.SEED +1
+        if linear_tree in constants.AM_ESTIMATORS_NEED_CAT:
+            tree_estimator_params["categorical_features"] = cat_indices
+        if linear_tree in constants.AM_ESTIMATORS_NEED_NJOBS:
+            tree_estimator_params["n_jobs"] = config.num_jobs
+        if linear_tree in constants.AM_ESTIMATORS_MAX_FEATURES:
+            tree_estimator_params["max_features"] = None
+
+        estimator = tree_estimator_class(**tree_estimator_params)
+
     return estimator
 
 
@@ -163,8 +209,8 @@ def _split_data_by_extrapolation_feature(
     :param high_threshold: Exclude samples with feature values greater than or
         equal to this.
     :type high_threshold: int
-    :returns: Tuple consiting of interpolation and extrapolation data frames. If
-        both tresholds are not set, returns only original data frame.
+    :returns: Tuple consisting of interpolation and extrapolation data frames. If
+        both thresholds are not set, returns only original data frame.
     :rtype: Tuple[pd.DataFrame, pd.DataFrame], where second element can be None.
     """
     # TODO Can probably get rid of several if-statements using bitmasks, but 
@@ -329,7 +375,7 @@ def _search_models(data: pd.DataFrame, estimators: list[tuple[str, Any]],
         
         logger.info("Setting up hyperparameter search")
 
-        for estimator_name, estimator_class, linear in estimators:
+        for estimator_name, estimator_class, linear, _ in estimators:
             for estimator in config.estimators:
                 if estimator.name == estimator_name:
                     params = estimator.parameters
@@ -453,7 +499,7 @@ def _rank_estimators(summary_stats: pd.DataFrame,
     :param output_file: File name.
     :type output_file: str
     :returns: Data frame with ranking of estimators per target variable along
-        several performance metrics (a subset we understand, will ad more in
+        several performance metrics (a subset we understand, will add more in
         future). 
     :rtype: pd.DataFrame
     """

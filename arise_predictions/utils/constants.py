@@ -39,9 +39,13 @@ AM_CONFIG_NAME = "name"
 AM_CONFIG_CLASS_NAME = "class_name"
 AM_CONFIG_LINEAR = "linear"
 AM_CONFIG_PARAMETERS = "parameters"
+AM_CONFIG_LINEARTREE = "lineartree"
 AM_ESTIMATORS_NO_SEED = ["LinearRegression", "SVR", "DecisionTreeRegressor",
-                         "KNeighborsRegressor"]
+                         "KNeighborsRegressor", "LinearTreeRegressor"]
 AM_ESTIMATORS_CATBOOST = ["CatBoostRegressor"]
+AM_ESTIMATORS_NEED_CAT = ["LinearTreeRegressor"]  # categorical_features=cat_indices
+AM_ESTIMATORS_NEED_NJOBS = ["LinearTreeRegressor", "LinearForestRegressor"]
+AM_ESTIMATORS_MAX_FEATURES = ["LinearForestRegressor"]
 AM_DEFAULT_METRIC = "neg_mean_absolute_percentage_error"
 AM_OUTPUT_PATH_SUFFIX = "ARISE-auto-models"
 AM_NUM_JOBS = "num_jobs"
