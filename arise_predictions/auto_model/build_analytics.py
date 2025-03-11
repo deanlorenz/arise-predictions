@@ -1,5 +1,6 @@
 import logging
-import os.path
+import os
+import sys
 import pickle
 from itertools import product
 
@@ -13,11 +14,6 @@ from xgboost import XGBRegressor
 from arise_predictions.utils import constants, utils
 
 logger = logging.getLogger(__name__)
-
-
-# Updated Exponential Function (Only 3 Parameters)
-def thpt_generalized_exponential(bb, a, b, c):
-    return c - a * np.exp(-b * bb)
 
 
 class AnalyticalModel:
@@ -64,7 +60,7 @@ class AnalyticalModel:
                     initial_guess = [1.0, 0.001, 0.0]
 
                 popt, _ = curve_fit(
-                    thpt_generalized_exponential,
+                    utils.thpt_generalized_exponential,
                     bb_values,
                     thpt_values,
                     p0=initial_guess,
@@ -117,6 +113,11 @@ class AnalyticalModel:
 
     # Function to build and save models for all parameter combinations
     def train_and_save_models(self, file_path: str,  output_path: str):
+
+        logging.basicConfig(
+            stream=sys.stdout,
+            level=logging.INFO,
+            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
         expected_features = [self.batch_feature, self.input_feature, self.output_feature, self.latency_feature,
                              self.throughput_feature]

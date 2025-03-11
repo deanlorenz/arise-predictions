@@ -1,6 +1,7 @@
 import time
 from datetime import datetime
 import pandas as pd
+import numpy as np
 
 from arise_predictions.utils import constants
 import os
@@ -214,3 +215,8 @@ def get_best_estimators(rankings: pd.DataFrame, target_var: str, linear_filter: 
         constants.AM_COL_ESTIMATOR].values[0]
 
     return best_linear_estimator_for_target_var, best_nonlinear_estimator_for_target_var
+
+
+# Updated Exponential Function (Only 3 Parameters)
+def thpt_generalized_exponential(bb, a, b, c):
+    return c - a * np.exp(-b * bb)

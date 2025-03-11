@@ -159,7 +159,7 @@ def execute_auto_build_analytics():
     model = AnalyticalModel(config_file=get_args().config_file)
 
     model.train_and_save_models(file_path=get_args().input_file, output_path=os.path.join(
-                              os.path.dirname(get_args().input_file), constants.ANALYTICS_OUTPUT_PATH_SUFFIX))
+                              os.path.dirname(get_args().input_file), constants.ANALYTICS_OUTPUT_MODEL_PATH_SUFFIX))
 
 
 def get_history(history_file, inputs, outputs, start_time_field_name, end_time_field_name, job_parser_class_name,
