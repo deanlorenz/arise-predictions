@@ -8,7 +8,7 @@ import yaml
 from typing import Tuple
 
 from arise_predictions.utils import utils, constants
-from predict import PredictionInputSpace, _create_input_space
+from arise_predictions.perform_predict.predict import PredictionInputSpace, _create_input_space
 
 logger = logging.getLogger(__name__)
 
@@ -25,7 +25,7 @@ def load_precomputed_models(param_db_file, xgb_model_file):
         return None, None
 
 
-class AnalyticalPredict:
+class AnalyticalPredictor:
     def __init__(self, config_file: str = None):
 
         if config_file:
@@ -73,7 +73,7 @@ class AnalyticalPredict:
 
         filter_values_list = [(feature_name, row_to_predict[feature_name][0]) for feature_name
                               in row_to_predict.columns.values.tolist()
-                              if row_to_predict not in [self.input_feature, self.output_feature, self.batch_feature]]
+                              if feature_name not in [self.input_feature, self.output_feature, self.batch_feature]]
 
         filter_values = dict(filter_values_list)
 
@@ -81,15 +81,15 @@ class AnalyticalPredict:
         param_db_filename = model_filename.replace(constants.ANALYTICS_MODEL_FILE_PREFIX,
                                                    constants.ANALYTICS_PARAMS_FILE_PREFIX).replace(".pkl", ".csv")
 
-        ii = row_to_predict[self.input_feature]
-        oo = row_to_predict[self.output_feature]
-        bb = row_to_predict[self.batch_feature]
+        ii = row_to_predict[self.input_feature][0]
+        oo = row_to_predict[self.output_feature][0]
+        bb = row_to_predict[self.batch_feature][0]
 
         try:
             # Load model and parameter database
             with open(os.path.join(estimator_path, model_filename), 'rb') as model_file:
                 model = pickle.load(model_file)
-            param_db = pd.read_csv(os.path.join(param_db_filename))
+            param_db = pd.read_csv(os.path.join(estimator_path, param_db_filename))
         except FileNotFoundError:
             logger.warning(f"Model file {model_filename} not found. Ensure models are pre-trained.")
             return -1, -1
@@ -103,15 +103,17 @@ class AnalyticalPredict:
         return predictions[0] if predictions.size > 0 else -1, (oo * bb) / predictions[0] \
             if predictions.size > 0 else -1
 
-    def _run_predictions(self, data_to_predict: pd.DataFrame, estimator_path: str) -> Tuple[str, pd.DataFram]:
+    def _run_predictions(self, data_to_predict: pd.DataFrame, estimator_path: str) -> Tuple[str, pd.DataFrame]:
 
         predictions_columns = data_to_predict.columns.values.tolist() + [self.throughput_feature, self.latency_feature]
 
         predictions = pd.DataFrame(columns=predictions_columns)
         for index, row in data_to_predict.iterrows():
-            thpt, latency = self.xgb_analytical_combo(row_to_predict=row, estimator_path=estimator_path)
+            thpt, latency = self.xgb_analytical_combo(
+                row_to_predict=pd.DataFrame([row.values], columns=data_to_predict.columns.values.tolist()),
+                estimator_path=estimator_path)
             if thpt > -1:
-                new_row = pd.DataFrame([row.values+[thpt, latency]], columns=predictions_columns)
+                new_row = pd.DataFrame([row.values.tolist()+[thpt, latency]], columns=predictions_columns)
                 if predictions.empty:
                     predictions = new_row
                 else:
@@ -120,7 +122,7 @@ class AnalyticalPredict:
 
         return predictions
 
-    def predict(self, predictions_space: PredictionInputSpace, estimator_path: str, output_path: str = None) -> \
+    def predict(self, predictions_config: PredictionInputSpace, estimator_path: str, output_path: str = None) -> \
             Tuple[str, pd.DataFrame]:
         logging.basicConfig(
             stream=sys.stdout,
@@ -129,7 +131,7 @@ class AnalyticalPredict:
 
         logger.info("Beginning analytic predict")
         _, input_space_df = _create_input_space(
-            input_config=predictions_space,
+            input_config=predictions_config,
             original_data=None,
             output_path=output_path
         )
