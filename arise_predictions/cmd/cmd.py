@@ -163,7 +163,7 @@ def parse_args(argv: Sequence[str] = None):
         nargs='?', type=str)
     parser_build_analytical_models.add_argument(
         '--config-file',
-        help="path to config file defining required feature names",
+        help="path to config file defining required feature names, in case they are different from defaults",
         required=False, type=str)
 
     # parser for predict analytics command
@@ -171,13 +171,13 @@ def parse_args(argv: Sequence[str] = None):
     parser_predict_analytical = subparsers.add_parser(
         'predict-analytics', help='predict analytical models help')
     parser_predict_analytical.add_argument(
-        '--input-path', default='', help='input path', nargs='?', type=str)
-    parser_predict_analytical.add_argument(
         '--predict-space-config-file', help='path to config file defining prediction space', required=True, type=str)
     parser_predict_analytical.add_argument(
         '--model-path', help="path to serialized estimators", required=True, type=str)
     parser_predict_analytical.add_argument(
-        '--features-config-file', help="path to config file defining required feature names", required=False, type=str)
+        '--features-config-file',
+        help="path to config file defining required feature names, in case they are different from defaults",
+        required=False, type=str)
 
     # Parse the command line arguments
     global cmd_args

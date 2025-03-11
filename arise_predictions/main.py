@@ -165,8 +165,8 @@ def execute_auto_build_analytics():
 def execute_predict_analytics():
     predictor = AnalyticalPredictor(config_file=get_args().features_config_file)
     predictor.predict(predictions_config=get_predict_config(get_args().predict_space_config_file),
-                      estimator_path=os.path.join(get_args().input_path, constants.ANALYTICS_OUTPUT_MODEL_PATH_SUFFIX),
-                      output_path=os.path.join(get_args().input_path,
+                      estimator_path=os.path.join(get_args().model_path, constants.ANALYTICS_OUTPUT_MODEL_PATH_SUFFIX),
+                      output_path=os.path.join(get_args().model_path,
                                                constants.ANALYTICS_OUTPUT_PREDICTIONS_PATH_SUFFIX))
 
 
