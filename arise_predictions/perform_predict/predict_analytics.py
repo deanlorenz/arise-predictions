@@ -105,12 +105,18 @@ class AnalyticalPredict:
 
     def _run_predictions(self, data_to_predict: pd.DataFrame, estimator_path: str) -> Tuple[str, pd.DataFram]:
 
-        predictions = pd.DataFrame(columns=data_to_predict.columns.values.tolist() +
-                                           [self.throughput_feature, self.latency_feature])
+        predictions_columns = data_to_predict.columns.values.tolist() + [self.throughput_feature, self.latency_feature]
+
+        predictions = pd.DataFrame(columns=predictions_columns)
         for index, row in data_to_predict.iterrows():
             thpt, latency = self.xgb_analytical_combo(row_to_predict=row, estimator_path=estimator_path)
             if thpt > -1:
-                predictions.append()
+                new_row = pd.DataFrame([row.values+[thpt, latency]], columns=predictions_columns)
+                if predictions.empty:
+                    predictions = new_row
+                else:
+                    predictions.reset_index(drop=True, inplace=True)
+                    predictions = pd.concat([predictions, new_row])
 
         return predictions
 
