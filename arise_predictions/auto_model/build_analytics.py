@@ -24,16 +24,16 @@ class AnalyticalModel:
             with open(config_file, "r") as f:
                 config = yaml.safe_load(f)
 
-        self.input_tokens_feature = constants.ANALYTICS_DEFAULT_INPUT_FEATURE if config_file is None else \
-            config.get(constants.ANALYTICS_INPUT_FEATURE_NAME, constants.ANALYTICS_DEFAULT_INPUT_FEATURE)
-        self.output_tokens_feature = constants.ANALYTICS_DEFAULT_OUTPUT_FEATURE if config_file is None else \
-            config.get(constants.ANALYTICS_OUTPUT_FEATURE_NAME, constants.ANALYTICS_DEFAULT_OUTPUT_FEATURE)
-        self.batch_feature = constants.ANALYTICS_DEFAULT_BATCH_FEATURE if config_file is None else \
-            config.get(constants.ANALYTICS_BATCH_FEATURE_NAME, constants.ANALYTICS_DEFAULT_BATCH_FEATURE)
-        self.latency_feature = constants.ANALYTICS_DEFAULT_LATENCY_FEATURE if config_file is None else \
-            config.get(constants.ANALYTICS_LATENCY_FEATURE_NAME, constants.ANALYTICS_DEFAULT_LATENCY_FEATURE)
-        self.throughput_feature = constants.ANALYTICS_DEFAULT_THROUGHPUT_FEATURE if config_file is None else \
-            config.get(constants.ANALYTICS_THROUGHPUT_FEATURE_NAME, constants.ANALYTICS_DEFAULT_THROUGHPUT_FEATURE)
+        self.input_tokens_feature = constants.AL_DEFAULT_INPUT_FEATURE if config_file is None else \
+            config.get(constants.AL_INPUT_FEATURE_NAME, constants.AL_DEFAULT_INPUT_FEATURE)
+        self.output_tokens_feature = constants.AL_DEFAULT_OUTPUT_FEATURE if config_file is None else \
+            config.get(constants.AL_OUTPUT_FEATURE_NAME, constants.AL_DEFAULT_OUTPUT_FEATURE)
+        self.batch_feature = constants.AL_DEFAULT_BATCH_FEATURE if config_file is None else \
+            config.get(constants.AL_BATCH_FEATURE_NAME, constants.AL_DEFAULT_BATCH_FEATURE)
+        self.latency_feature = constants.AL_DEFAULT_LATENCY_FEATURE if config_file is None else \
+            config.get(constants.AL_LATENCY_FEATURE_NAME, constants.AL_DEFAULT_LATENCY_FEATURE)
+        self.throughput_feature = constants.AL_DEFAULT_THROUGHPUT_FEATURE if config_file is None else \
+            config.get(constants.AL_THROUGHPUT_FEATURE_NAME, constants.AL_DEFAULT_THROUGHPUT_FEATURE)
 
     # Building Exponential Database
     def build_exponential_database(self, training_df):
@@ -171,9 +171,9 @@ class AnalyticalModel:
             model = self.train_xgboost(training_params_df)
 
             # Save model and database
-            model_filename = f"{constants.ANALYTICS_MODEL_FILE_PREFIX}_{'_'.join([f'{k}_{v}' for k, v in filter_values.items() if pd.notna(v)])}.pkl"
-            param_db_filename = model_filename.replace(constants.ANALYTICS_MODEL_FILE_PREFIX,
-                                                       constants.ANALYTICS_PARAMS_FILE_PREFIX).replace(".pkl", ".csv")
+            model_filename = f"{constants.AL_MODEL_FILE_PREFIX}_{'_'.join([f'{k}_{v}' for k, v in filter_values.items() if pd.notna(v)])}.pkl"
+            param_db_filename = model_filename.replace(constants.AL_MODEL_FILE_PREFIX,
+                                                       constants.AL_PARAMS_FILE_PREFIX).replace(".pkl", ".csv")
 
             utils.mkdirs(output_path)
 

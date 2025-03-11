@@ -159,15 +159,15 @@ def execute_data_predict():
 def execute_auto_build_analytics():
     model = AnalyticalModel(config_file=get_args().config_file)
     model.train_and_save_models(file_path=get_args().input_file, output_path=os.path.join(
-                              os.path.dirname(get_args().input_file), constants.ANALYTICS_OUTPUT_MODEL_PATH_SUFFIX))
+                              os.path.dirname(get_args().input_file), constants.AL_OUTPUT_MODEL_PATH_SUFFIX))
 
 
 def execute_predict_analytics():
     predictor = AnalyticalPredictor(config_file=get_args().features_config_file)
     predictor.predict(predictions_config=get_predict_config(get_args().predict_space_config_file),
-                      estimator_path=os.path.join(get_args().model_path, constants.ANALYTICS_OUTPUT_MODEL_PATH_SUFFIX),
+                      estimator_path=os.path.join(get_args().model_path, constants.AL_OUTPUT_MODEL_PATH_SUFFIX),
                       output_path=os.path.join(get_args().model_path,
-                                               constants.ANALYTICS_OUTPUT_PREDICTIONS_PATH_SUFFIX))
+                                               constants.AL_OUTPUT_PREDICTIONS_PATH_SUFFIX))
 
 
 def get_history(history_file, inputs, outputs, start_time_field_name, end_time_field_name, job_parser_class_name,
