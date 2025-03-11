@@ -24,9 +24,9 @@ class AnalyticalModel:
             with open(config_file, "r") as f:
                 config = yaml.safe_load(f)
 
-        self.input_feature = constants.ANALYTICS_DEFAULT_INPUT_FEATURE if config_file is None else \
+        self.input_tokens_feature = constants.ANALYTICS_DEFAULT_INPUT_FEATURE if config_file is None else \
             config.get(constants.ANALYTICS_INPUT_FEATURE_NAME, constants.ANALYTICS_DEFAULT_INPUT_FEATURE)
-        self.output_feature = constants.ANALYTICS_DEFAULT_OUTPUT_FEATURE if config_file is None else \
+        self.output_tokens_feature = constants.ANALYTICS_DEFAULT_OUTPUT_FEATURE if config_file is None else \
             config.get(constants.ANALYTICS_OUTPUT_FEATURE_NAME, constants.ANALYTICS_DEFAULT_OUTPUT_FEATURE)
         self.batch_feature = constants.ANALYTICS_DEFAULT_BATCH_FEATURE if config_file is None else \
             config.get(constants.ANALYTICS_BATCH_FEATURE_NAME, constants.ANALYTICS_DEFAULT_BATCH_FEATURE)
@@ -40,7 +40,7 @@ class AnalyticalModel:
         param_db = {}
         training_params = []
 
-        for (ii, oo), group in training_df.groupby([self.input_feature, self.output_feature]):
+        for (ii, oo), group in training_df.groupby([self.input_tokens_feature, self.output_tokens_feature]):
             try:
                 bb_values = group[self.batch_feature].values
                 thpt_values = group[self.throughput_feature].values
@@ -73,7 +73,7 @@ class AnalyticalModel:
             except Exception:
                 continue
 
-        training_params_df = pd.DataFrame(training_params, columns=[self.input_feature, self.output_feature, "a", "b", "c"])
+        training_params_df = pd.DataFrame(training_params, columns=[self.input_tokens_feature, self.output_tokens_feature, "a", "b", "c"])
         return param_db, training_params_df if not training_params_df.empty else None
 
     def train_xgboost(self, training_params_df):
@@ -81,17 +81,17 @@ class AnalyticalModel:
             return None
 
         # Feature Engineering
-        training_params_df["log_ii"] = np.log1p(training_params_df[self.input_feature])
-        training_params_df["log_oo"] = np.log1p(training_params_df[self.output_feature])
-        training_params_df["log_bb"] = np.log1p(training_params_df[self.input_feature] /
-                                                training_params_df[self.output_feature])
-        training_params_df["ii_oo_ratio"] = training_params_df[self.input_feature] / \
-                                            (training_params_df[self.output_feature] + 1)
-        training_params_df["ii_ratio"] = training_params_df[self.input_feature] / \
-                                         (training_params_df[self.input_feature] + 1)
+        training_params_df["log_ii"] = np.log1p(training_params_df[self.input_tokens_feature])
+        training_params_df["log_oo"] = np.log1p(training_params_df[self.output_tokens_feature])
+        training_params_df["log_bb"] = np.log1p(training_params_df[self.input_tokens_feature] /
+                                                training_params_df[self.output_tokens_feature])
+        training_params_df["ii_oo_ratio"] = training_params_df[self.input_tokens_feature] / \
+                                            (training_params_df[self.output_tokens_feature] + 1)
+        training_params_df["ii_ratio"] = training_params_df[self.input_tokens_feature] / \
+                                         (training_params_df[self.input_tokens_feature] + 1)
 
         # Features and target variables
-        X = training_params_df[[self.input_feature, self.output_feature, "log_ii", "log_oo", "log_bb", "ii_oo_ratio",
+        X = training_params_df[[self.input_tokens_feature, self.output_tokens_feature, "log_ii", "log_oo", "log_bb", "ii_oo_ratio",
                                 "ii_ratio"]]
         y = training_params_df[["a", "b", "c"]]
 
@@ -119,7 +119,7 @@ class AnalyticalModel:
             level=logging.INFO,
             format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
-        expected_features = [self.batch_feature, self.input_feature, self.output_feature, self.latency_feature,
+        expected_features = [self.batch_feature, self.input_tokens_feature, self.output_tokens_feature, self.latency_feature,
                              self.throughput_feature]
 
         try:
@@ -152,11 +152,11 @@ class AnalyticalModel:
                 continue
 
             total_training_data = []
-            for ii_val, bb_val, oo_val in product(df[self.input_feature].unique(), df[self.batch_feature].unique(),
-                                                  df[self.output_feature].unique()):
+            for ii_val, bb_val, oo_val in product(df[self.input_tokens_feature].unique(), df[self.batch_feature].unique(),
+                                                  df[self.output_tokens_feature].unique()):
                 subset = filtered_df[
-                    (filtered_df[self.input_feature] == ii_val) & (filtered_df[self.batch_feature] == bb_val) &
-                    (filtered_df[self.output_feature] == oo_val)]
+                    (filtered_df[self.input_tokens_feature] == ii_val) & (filtered_df[self.batch_feature] == bb_val) &
+                    (filtered_df[self.output_tokens_feature] == oo_val)]
                 if not subset.empty:
                     total_training_data.append(subset.iloc[0])
 
@@ -165,7 +165,7 @@ class AnalyticalModel:
                 logger.warning(f"Skipping {filter_values}, training data is empty.")
                 continue
 
-            training_df = training_df[[self.batch_feature, self.input_feature, self.output_feature, self.throughput_feature,
+            training_df = training_df[[self.batch_feature, self.input_tokens_feature, self.output_tokens_feature, self.throughput_feature,
                                        self.latency_feature]]
             param_db, training_params_df = self.build_exponential_database(training_df)
             model = self.train_xgboost(training_params_df)

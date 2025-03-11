@@ -93,9 +93,9 @@ EXTRA_TEST_FILE = "extrapolation-test-data.csv"
 
 # analytics
 
-ANALYTICS_INPUT_FEATURE_NAME = 'input_feature_name'
+ANALYTICS_INPUT_FEATURE_NAME = 'input_tokens_feature_name'
 ANALYTICS_DEFAULT_INPUT_FEATURE = 'ii'
-ANALYTICS_OUTPUT_FEATURE_NAME = 'output_feature_name'
+ANALYTICS_OUTPUT_FEATURE_NAME = 'output_tokens_feature_name'
 ANALYTICS_DEFAULT_OUTPUT_FEATURE = 'oo'
 ANALYTICS_BATCH_FEATURE_NAME = 'batch_feature_name'
 ANALYTICS_DEFAULT_BATCH_FEATURE = 'bb'

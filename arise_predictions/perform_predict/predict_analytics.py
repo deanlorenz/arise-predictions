@@ -32,9 +32,9 @@ class AnalyticalPredictor:
             with open(config_file, "r") as f:
                 config = yaml.safe_load(f)
 
-        self.input_feature = constants.ANALYTICS_DEFAULT_INPUT_FEATURE if config_file is None else \
+        self.input_tokens_feature = constants.ANALYTICS_DEFAULT_INPUT_FEATURE if config_file is None else \
             config.get(constants.ANALYTICS_INPUT_FEATURE_NAME, constants.ANALYTICS_DEFAULT_INPUT_FEATURE)
-        self.output_feature = constants.ANALYTICS_DEFAULT_OUTPUT_FEATURE if config_file is None else \
+        self.output_tokens_feature = constants.ANALYTICS_DEFAULT_OUTPUT_FEATURE if config_file is None else \
             config.get(constants.ANALYTICS_OUTPUT_FEATURE_NAME, constants.ANALYTICS_DEFAULT_OUTPUT_FEATURE)
         self.batch_feature = constants.ANALYTICS_DEFAULT_BATCH_FEATURE if config_file is None else \
             config.get(constants.ANALYTICS_BATCH_FEATURE_NAME, constants.ANALYTICS_DEFAULT_BATCH_FEATURE)
@@ -48,7 +48,7 @@ class AnalyticalPredictor:
         predictions = []
 
         for _, row in complement_df.iterrows():
-            ii, oo, bb = row[self.input_feature], row[self.output_feature], row[self.batch_feature]
+            ii, oo, bb = row[self.input_tokens_feature], row[self.output_tokens_feature], row[self.batch_feature]
 
             # Retrieve parameters from precomputed param_db
             params = param_db.get((ii, oo))
@@ -73,7 +73,7 @@ class AnalyticalPredictor:
 
         filter_values_list = [(feature_name, row_to_predict[feature_name][0]) for feature_name
                               in row_to_predict.columns.values.tolist()
-                              if feature_name not in [self.input_feature, self.output_feature, self.batch_feature]]
+                              if feature_name not in [self.input_tokens_feature, self.output_tokens_feature, self.batch_feature]]
 
         filter_values = dict(filter_values_list)
 
@@ -81,8 +81,8 @@ class AnalyticalPredictor:
         param_db_filename = model_filename.replace(constants.ANALYTICS_MODEL_FILE_PREFIX,
                                                    constants.ANALYTICS_PARAMS_FILE_PREFIX).replace(".pkl", ".csv")
 
-        ii = row_to_predict[self.input_feature][0]
-        oo = row_to_predict[self.output_feature][0]
+        ii = row_to_predict[self.input_tokens_feature][0]
+        oo = row_to_predict[self.output_tokens_feature][0]
         bb = row_to_predict[self.batch_feature][0]
 
         try:
@@ -95,7 +95,7 @@ class AnalyticalPredictor:
             return -1, -1
 
         # Create test input
-        test_df = pd.DataFrame([[bb, ii, oo]], columns=[self.batch_feature, self.input_feature, self.output_feature])
+        test_df = pd.DataFrame([[bb, ii, oo]], columns=[self.batch_feature, self.input_tokens_feature, self.output_tokens_feature])
 
         # Predict throughput using the preloaded model
         predictions = self.predict_thpt(test_df, param_db, model)
