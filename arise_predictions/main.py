@@ -5,7 +5,9 @@ import os
 from arise_predictions.cmd.cmd import parse_args, get_args
 from arise_predictions.job_statistics.analyze_jobs import analyze_job_data
 from arise_predictions.auto_model.build_models import auto_build_models, get_estimators_config
+from arise_predictions.auto_model.build_analytics import AnalyticalModel
 from arise_predictions.perform_predict.predict import demo_predict, data_predict, get_predict_config
+from arise_predictions.perform_predict.predict_analytics import AnalyticalPredictor
 from arise_predictions.utils import constants, utils
 from arise_predictions.preprocessing import job_parser
 import logging
@@ -154,6 +156,20 @@ def execute_data_predict():
         output_path=os.path.join(input_path, constants.PRED_OUTPUT_PATH_SUFFIX))
 
 
+def execute_auto_build_analytics():
+    model = AnalyticalModel(config_file=get_args().config_file)
+    model.train_and_save_models(file_path=get_args().input_file, output_path=os.path.join(
+                              os.path.dirname(get_args().input_file), constants.AL_OUTPUT_MODEL_PATH_SUFFIX))
+
+
+def execute_predict_analytics():
+    predictor = AnalyticalPredictor(config_file=get_args().features_config_file)
+    predictor.predict(predictions_config=get_predict_config(get_args().predict_space_config_file),
+                      estimator_path=os.path.join(get_args().model_path, constants.AL_OUTPUT_MODEL_PATH_SUFFIX),
+                      output_path=os.path.join(get_args().model_path,
+                                               constants.AL_OUTPUT_PREDICTIONS_PATH_SUFFIX))
+
+
 def get_history(history_file, inputs, outputs, start_time_field_name, end_time_field_name, job_parser_class_name,
                 job_entry_filter, feature_engineering, metadata_parser_class_name):
     if os.path.exists(history_file) and not get_args().reread_history:
@@ -192,12 +208,16 @@ def main():
         execute_analyze_jobs()
     elif get_args().command == 'auto-build-models':
         execute_auto_build_models()
+    elif get_args().command == 'auto-build-analytics':
+        execute_auto_build_analytics()
     elif get_args().command == 'demo-predict':
         execute_demo_predict()
     elif get_args().command == 'predict':
         execute_predict()
     elif get_args().command == 'data-predict':
         execute_data_predict()
+    elif get_args().command == 'predict-analytics':
+        execute_predict_analytics()
     else:
         logger.error('Invalid command!')
         logger.info(

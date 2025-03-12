@@ -90,3 +90,20 @@ PRED_CONFIG_ESTIMATOR_FILE = "estimator_file"
 
 # extrapolation
 EXTRA_TEST_FILE = "extrapolation-test-data.csv"
+
+# analytics
+
+AL_INPUT_FEATURE_NAME = 'input_tokens_feature_name'
+AL_DEFAULT_INPUT_FEATURE = 'ii'
+AL_OUTPUT_FEATURE_NAME = 'output_tokens_feature_name'
+AL_DEFAULT_OUTPUT_FEATURE = 'oo'
+AL_BATCH_FEATURE_NAME = 'batch_feature_name'
+AL_DEFAULT_BATCH_FEATURE = 'bb'
+AL_LATENCY_FEATURE_NAME = 'latency_feature_name'
+AL_DEFAULT_LATENCY_FEATURE = 'med'
+AL_THROUGHPUT_FEATURE_NAME = 'throughput_feature_name'
+AL_DEFAULT_THROUGHPUT_FEATURE = 'thpt'
+AL_MODEL_FILE_PREFIX = "xgb_model"
+AL_PARAMS_FILE_PREFIX = "param_db"
+AL_OUTPUT_MODEL_PATH_SUFFIX = "ARISE-analytical-models"
+AL_OUTPUT_PREDICTIONS_PATH_SUFFIX = "ARISE-analytical-predictions"

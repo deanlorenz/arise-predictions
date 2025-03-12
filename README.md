@@ -226,6 +226,30 @@ level as in the following example:
 python -m arise_predictions.main --loglevel info analyze-jobs
 ```
 
+
+### Running predictions with the analytical approach
+
+All commands presented so far were using a general machine-learning approach for prediction. You can also run an 
+analytical approach, currently tailored specifically for inference, and assuming the input features include input and 
+output token sizes as well as batch size, and the output features are throughput and latency. Our approach assumes 
+an exponential distribution of throughput as a function of input tokens size `y=a*e^{-bx}+c` for fixed combinations of 
+the other features, and uses this assumption to train an XGBoost model to predict `a`, `b` and `c` for new combinations
+of batch and output token size values. A different model is trained for each combination of feature values, 
+excluding input and output token sizes and batch size. Latency is computed based on the predicted throughput, 
+output tokens and batch size.
+
+For training, run:
+
+```bash
+python -m arise_predictions.main auto-build-analytics --input-file <your input data> 
+```
+
+For prediction, run:
+
+```bash
+python -m arise_predictions.main predict-analytics --predict-space-config-file <your predict config> --model-path <path to your model>
+```
+
 ## Running ARISE from the UI
 
 To run ARISE from the UI, see documentation [here](ui/README.md). Note that the UI is still work in progress and missing

@@ -52,7 +52,7 @@ def get_predict_config_from_dict(config_dict: dict[str, list[dict[Any, Any]]]) -
                                 config_dict.get(constants.PRED_CONFIG_DATA, []),
                                 config_dict.get(constants.PRED_CONFIG_VARIABLE, []),
                                 config_dict.get(constants.PRED_CONFIG_INTERPOLATION, []),
-                                config_dict[constants.PRED_CONFIG_ESTIMATORS])
+                                config_dict.get(constants.PRED_CONFIG_ESTIMATORS, []))
 
 
 def _create_input_space(input_config: PredictionInputSpace,

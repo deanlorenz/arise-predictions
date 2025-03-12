@@ -154,6 +154,31 @@ def parse_args(argv: Sequence[str] = None):
     parser_data_predict.add_argument(
         '--model-path', help="path to serialized estimators", required=True, type=str)
 
+    # parser for build analytics command
+
+    parser_build_analytical_models = subparsers.add_parser(
+        'auto-build-analytics', help='auto build analytical models help')
+    parser_build_analytical_models.add_argument(
+        '--input-file', help='input data file name',
+        nargs='?', type=str)
+    parser_build_analytical_models.add_argument(
+        '--config-file',
+        help="path to config file defining required feature names, in case they are different from defaults",
+        required=False, type=str)
+
+    # parser for predict analytics command
+
+    parser_predict_analytical = subparsers.add_parser(
+        'predict-analytics', help='predict analytical models help')
+    parser_predict_analytical.add_argument(
+        '--predict-space-config-file', help='path to config file defining prediction space', required=True, type=str)
+    parser_predict_analytical.add_argument(
+        '--model-path', help="path to serialized estimators", required=True, type=str)
+    parser_predict_analytical.add_argument(
+        '--features-config-file',
+        help="path to config file defining required feature names, in case they are different from defaults",
+        required=False, type=str)
+
     # Parse the command line arguments
     global cmd_args
     if argv: 
